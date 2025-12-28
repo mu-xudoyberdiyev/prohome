@@ -1,13 +1,12 @@
 import { Navigate } from "react-router-dom";
 import { useAppStore } from "../lib/zustand";
 
-export default function Home() {
+export default function SalesManager() {
   const { user } = useAppStore();
-
   if (user) {
     return (
       <section>
-        <h2 className="mb-5 font-bold text-3xl">Bosh sahifa</h2>
+        <h2 className="mb-5 font-bold text-3xl">Sotuv operatorlari</h2>
       </section>
     );
   } else {

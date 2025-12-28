@@ -129,4 +129,8 @@
   #root {
     @apply h-full;
   }
+
+  button {
+    @apply cursor-pointer;
+  }
 }

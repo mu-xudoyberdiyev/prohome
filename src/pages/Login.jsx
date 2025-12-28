@@ -1,9 +1,7 @@
 import { Navigate } from "react-router-dom";
 import { useAppStore } from "../lib/zustand";
-import { Globe } from "../components/ui/globe";
 import {
   Card,
-  CardAction,
   CardContent,
   CardDescription,
   CardFooter,
@@ -112,7 +110,14 @@ export default function Login() {
             <CardFooter className="flex-col gap-2">
               <Button disabled={loading} type="submit" className="w-full">
                 <>
-                  {loading ? <RefreshCw className="animate-spin" /> : "Kirish"}
+                  {loading ? (
+                    <>
+                      <RefreshCw className="animate-spin" />
+                      Kirilmoqda...
+                    </>
+                  ) : (
+                    "Kirish"
+                  )}
                 </>
               </Button>
             </CardFooter>

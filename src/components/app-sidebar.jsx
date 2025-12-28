@@ -1,0 +1,81 @@
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarHeader,
+  SidebarRail,
+} from "@/components/ui/sidebar";
+import { Link } from "react-router-dom";
+import { useAppStore } from "../lib/zustand";
+import { Button, buttonVariants } from "./ui/button";
+import { BoltIcon, HomeIcon, LogOut, User } from "lucide-react";
+import { toast } from "sonner";
+
+const routes = {
+  SUPERADMIN: [
+    { url: "/", text: "Bosh sahifa", icon: <HomeIcon /> },
+    { url: "/admin", text: "Adminlar", icon: <User /> },
+    { url: "/rop", text: "Boshqaruvchilar", icon: <User /> },
+    { url: "/salesmanager", text: "Sotuv operatorlari", icon: <User /> },
+  ],
+  ADMIN: [
+    { url: "/", text: "Bosh sahifa", icon: <HomeIcon /> },
+    { url: "/rop", text: "Boshqaruvchilar", icon: <User /> },
+    { url: "/salesmanager", text: "Sotuv operatorlari", icon: <User /> },
+  ],
+  ROP: [
+    { url: "/", text: "Bosh sahifa", icon: <HomeIcon /> },
+    { url: "/salesmanager", text: "Sotuv operatorlari", icon: <User /> },
+  ],
+  SALESMANAGER: [{ url: "/", text: "Bosh sahifa", icon: <HomeIcon /> }],
+};
+
+export function AppSidebar({ ...props }) {
+  const { user, setUser } = useAppStore();
+
+  function handleLogout() {
+    setUser(null);
+    toast.info("Tizimdan chiqdingiz!");
+  }
+
+  return (
+    <Sidebar {...props}>
+      <SidebarHeader>
+        <Link className="inline-flex items-center gap-3" to={"/"}>
+          <img
+            className="w-10 h-10 object-center object-cover inline-flex rounded shadow"
+            src="/logo.png"
+            alt="Logo"
+          />
+          <strong className="font-medium">{user?.role}</strong>
+        </Link>
+      </SidebarHeader>
+      <SidebarContent>
+        <div className="h-full p-2 flex flex-col">
+          {user &&
+            routes[user.role].map(({ url, text, icon }, index) => {
+              return (
+                <Link
+                  className={`${buttonVariants({
+                    variant: "ghost",
+                  })} justify-start`}
+                  key={index}
+                  to={url}
+                >
+                  {icon}
+                  {text}
+                </Link>
+              );
+            })}
+          <Button
+            onClick={handleLogout}
+            className="w-full mt-auto"
+            variant="outline"
+          >
+            <LogOut /> Chiqish
+          </Button>
+        </div>
+      </SidebarContent>
+      <SidebarRail />
+    </Sidebar>
+  );
+}
