@@ -7,6 +7,7 @@ export default function SalesManager() {
     return (
       <section>
         <h2 className="mb-5 font-bold text-3xl">Sotuv operatorlari</h2>
+        <p>Tez orada...</p>
       </section>
     );
   } else {
