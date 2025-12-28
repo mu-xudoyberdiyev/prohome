@@ -6,6 +6,7 @@ import Rop from "../pages/Rop";
 import SalesManager from "../pages/SalesManager";
 import MainLayout from "../MainLayout";
 import Settings from "../pages/Settings";
+import Company from "../pages/Company";
 
 export default createBrowserRouter([
   {
@@ -32,6 +33,10 @@ export default createBrowserRouter([
       {
         path: "/settings",
         element: <Settings />,
+      },
+      {
+        path: "/company",
+        element: <Company />,
       },
     ],
   },

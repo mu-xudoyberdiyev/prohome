@@ -24,7 +24,7 @@ export default function Settings() {
 
   if (user) {
     return (
-      <section>
+      <section className="h-full animate-fade-in">
         <h2 className="mb-5 font-bold text-3xl">Sozlamalar</h2>
         <div>
           <div className="flex items-center space-x-2">

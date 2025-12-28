@@ -22,6 +22,11 @@ import { getFormData } from "../lib/utils";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { Skeleton } from "../components/ui/skeleton";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipTrigger,
+} from "../components/ui/tooltip";
 
 export default function Admin() {
   const { user } = useAppStore();
@@ -243,12 +248,15 @@ export default function Admin() {
   if (user) {
     if (getLoading) {
       return (
-        <div className="flex flex-col w-full gap-4">
-          {Array.from({ length: 8 })
-            .fill(0)
-            .map((_, index) => {
-              return <Skeleton className={"h-12.5 rounded"} key={index} />;
-            })}
+        <div className="w-full h-full flex items-center justify-center">
+          <div className="flex gap-4 items-center animate-pulse">
+            <img
+              className="w-20 h-20 rounded shadow"
+              src="/logo.png"
+              aria-hidden={true}
+            />
+            <p className="text-xl">prohome.uz</p>
+          </div>
         </div>
       );
     }
@@ -256,7 +264,7 @@ export default function Admin() {
     return (
       <>
         {admins.length > 0 ? (
-          <section>
+          <section className="h-full animate-fade-in">
             <div className="flex items-center justify-between mb-10">
               <h2 className="font-bold text-3xl">Adminlar</h2>
 
@@ -266,7 +274,7 @@ export default function Admin() {
               </Button>
             </div>
 
-            <div className="flex flex-col w-full gap-4">
+            <div className="flex flex-col w-full gap-4 h-full max-h-75 overflow-y-auto pr-2">
               {admins.map(({ id, email }, index) => {
                 return (
                   <div
@@ -278,29 +286,44 @@ export default function Admin() {
                     </div>
                     <p className="underline">{email}</p>
                     <div className="flex gap-2 justify-end pr-2">
-                      <Button
-                        onClick={() => {
-                          handleEdit(id);
-                        }}
-                        variant="secondary"
-                        size="icon-sm"
-                      >
-                        <Edit />
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          handleDelete(id);
-                        }}
-                        disabled={deletingAdmin?.id === id && removeLoading}
-                        variant="destructive"
-                        size="icon-sm"
-                      >
-                        {deletingAdmin?.id === id && removeLoading ? (
-                          <RefreshCcw className="animate-spin" />
-                        ) : (
-                          <Trash />
-                        )}
-                      </Button>
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            onClick={() => {
+                              handleEdit(id);
+                            }}
+                            variant="secondary"
+                            size="icon-sm"
+                          >
+                            <Edit />
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>Tahrirlash</p>
+                        </TooltipContent>
+                      </Tooltip>
+
+                      <Tooltip>
+                        <TooltipTrigger asChild>
+                          <Button
+                            onClick={() => {
+                              handleDelete(id);
+                            }}
+                            disabled={deletingAdmin?.id === id && removeLoading}
+                            variant="destructive"
+                            size="icon-sm"
+                          >
+                            {deletingAdmin?.id === id && removeLoading ? (
+                              <RefreshCcw className="animate-spin" />
+                            ) : (
+                              <Trash />
+                            )}
+                          </Button>
+                        </TooltipTrigger>
+                        <TooltipContent>
+                          <p>O'chirish</p>
+                        </TooltipContent>
+                      </Tooltip>
                     </div>
                   </div>
                 );
@@ -308,7 +331,7 @@ export default function Admin() {
             </div>
           </section>
         ) : (
-          <div className="w-full h-full flex justify-center items-center">
+          <div className="w-full h-full flex justify-center items-center animate-fade-in">
             <div className="flex flex-col items-center text-center w-full max-w-sm">
               <h3 className="text-2xl mb-3 font-medium">
                 Hali admin mavjud emas!

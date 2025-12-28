@@ -7,18 +7,20 @@ import {
 import { Link } from "react-router-dom";
 import { useAppStore } from "../lib/zustand";
 import { Button, buttonVariants } from "./ui/button";
-import { BoltIcon, HomeIcon, LogOut, User } from "lucide-react";
+import { Building2, HomeIcon, LogOut, User } from "lucide-react";
 import { toast } from "sonner";
 
 const routes = {
   SUPERADMIN: [
     { url: "/", text: "Bosh sahifa", icon: <HomeIcon /> },
+    { url: "/company", text: "Kompaniyalar", icon: <Building2 /> },
     { url: "/admin", text: "Adminlar", icon: <User /> },
     { url: "/rop", text: "Boshqaruvchilar", icon: <User /> },
     { url: "/salesmanager", text: "Sotuv operatorlari", icon: <User /> },
   ],
   ADMIN: [
     { url: "/", text: "Bosh sahifa", icon: <HomeIcon /> },
+    { url: "/company", text: "Kompaniyalar", icon: <Building2 /> },
     { url: "/rop", text: "Boshqaruvchilar", icon: <User /> },
     { url: "/salesmanager", text: "Sotuv operatorlari", icon: <User /> },
   ],
@@ -33,8 +35,11 @@ export function AppSidebar({ ...props }) {
   const { user, setUser } = useAppStore();
 
   function handleLogout() {
-    setUser(null);
-    toast.info("Tizimdan chiqdingiz!");
+    const check = confirm("Tizimni tark etishni istaysiz-mi?");
+    if (check) {
+      setUser(null);
+      toast.info("Tizimdan chiqdingiz!");
+    }
   }
 
   return (
