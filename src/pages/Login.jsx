@@ -20,7 +20,38 @@ export default function Login() {
   const { user, setUser } = useAppStore();
   const [loading, setLoading] = useState(false);
 
-  async function handleSubmit(evt) {
+  async function login(userData) {
+    let req;
+    setLoading(true);
+
+    try {
+      req = await fetch(import.meta.env.VITE_BASE_URL + "/api/v1/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(userData),
+      });
+    } catch {
+      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!");
+    }
+
+    if (req) {
+      if (req.status === 201) {
+        const res = await req.json();
+        setUser(res);
+        toast.success("Tizimga xush kelibsiz!");
+      } else if (req.status === 404 || req.status === 400) {
+        toast.error("Kiritilgan email yoki parol nato'g'ri");
+      } else {
+        toast.error("Xatolik yuz berdi, qayta urunib ko'ring!");
+      }
+    }
+
+    setLoading(false);
+  }
+
+  function handleSubmit(evt) {
     evt.preventDefault();
     const userData = getFormData(evt.currentTarget);
 
@@ -31,29 +62,7 @@ export default function Login() {
       toast.info("Parol kiriting!");
       evt.currentTarget.password.focus();
     } else {
-      setLoading(true);
-      const req = await fetch(
-        import.meta.env.VITE_BASE_URL + "/api/v1/auth/login",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(userData),
-        }
-      );
-
-      if (req.status === 201) {
-        const res = await req.json();
-        setUser(res);
-        toast.success("Tizimga xush kelibsiz!");
-      } else if (req.status === 404 || req.status === 400) {
-        toast.error("Kiritilgan email yoki parol nato'g'ri");
-      } else {
-        toast.error("Xatolik yuz berdi, qayta urunib ko'ring!");
-      }
-
-      setLoading(false);
+      login(userData);
     }
   }
 

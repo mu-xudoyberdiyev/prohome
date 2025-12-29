@@ -31,165 +31,205 @@ import {
 
 export default function SalesManager() {
   const { user } = useAppStore();
+
+  // Modals
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [salesManagers, setSalesManagers] = useState([]);
 
+  // Errors
   const [error, setError] = useState(null);
 
+  // Loadings
   const [getLoading, setGetLoading] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [removeLoading, setRemoveLoading] = useState(false);
 
+  // Permanently states
   const [deletingSalesManager, setDeletingSalesManager] = useState(null);
   const [editingSalesManager, setEditingSalesManager] = useState(null);
 
-  // CRUD
+  // ======= CRUD =======
+  // Create
   async function add(data) {
+    let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
 
     setAddLoading(true);
-    const req = await fetch(
-      import.meta.env.VITE_BASE_URL + "/api/v1/user/sales-manager",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify(data),
+    try {
+      req = await fetch(
+        import.meta.env.VITE_BASE_URL + "/api/v1/user/sales-manager",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify(data),
+        }
+      );
+    } catch {
+      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!", {
+        position: "top-center",
+      });
+    }
+
+    if (req) {
+      if (req.status === 201) {
+        const { safeSalesManager } = await req.json();
+
+        setSalesManagers((prev) => {
+          return [safeSalesManager, ...prev];
+        });
+
+        handleAddModal();
+
+        toast.success(`${safeSalesManager.email} qo'shildi!`, {
+          position: "top-center",
+        });
+      } else if (req.status === 409) {
+        toast.error("Bu email bilan sotuv operatori ro'yhatdan o'tgan!", {
+          position: "top-center",
+        });
+      } else {
+        toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
+          position: "top-center",
+        });
       }
-    );
-
-    if (req.status === 201) {
-      const { safeSalesManager } = await req.json();
-
-      setSalesManagers((prev) => {
-        return [safeSalesManager, ...prev];
-      });
-
-      handleAddModal();
-
-      toast.success(`${safeSalesManager.email} qo'shildi!`, {
-        position: "top-center",
-      });
-    } else if (req.status === 409) {
-      toast.error("Bu email bilan sotuv operatori ro'yhatdan o'tgan!", {
-        position: "top-center",
-      });
-    } else {
-      toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
-        position: "top-center",
-      });
     }
 
     setAddLoading(false);
   }
 
+  // Read
+  async function get() {
+    let req;
+    const token = JSON.parse(localStorage.getItem("user")).accessToken;
+    setGetLoading(true);
+    try {
+      req = await fetch(
+        import.meta.env.VITE_BASE_URL + `/api/v1/user/all/sales-manager`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+    } catch {
+      setError("Tizimda nosozlik!");
+    }
+
+    if (req) {
+      if (req.status === 200) {
+        const { safeUsers } = await req.json();
+
+        setSalesManagers(safeUsers);
+      } else {
+        setError("Xatolik yuz berdi, qayta urunib ko'ring!");
+      }
+    }
+    setGetLoading(false);
+  }
+
+  // Update
   async function edit(data) {
+    let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
 
     setEditLoading(true);
-    const req = await fetch(
-      import.meta.env.VITE_BASE_URL +
-        `/api/v1/user/update-sales-manegar/${editingSalesManager.id}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify(data),
-      }
-    );
-
-    console.log(req.status);
-
-    if (req.status === 200) {
-      const { safeSalesManager } = await req.json();
-
-      const result = salesManagers.map((rop) => {
-        if (rop.id === editingSalesManager.id) {
-          return safeSalesManager;
-        } else {
-          return rop;
-        }
-      });
-
-      setSalesManagers(result);
-
-      handleEditModal();
-
-      toast.success(
-        `${editingSalesManager.email} dan ${safeSalesManager.email} ga yangilandi!`,
+    try {
+      req = await fetch(
+        import.meta.env.VITE_BASE_URL +
+          `/api/v1/user/update-sales-manegar/${editingSalesManager.id}`,
         {
-          position: "top-center",
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify(data),
         }
       );
-    } else if (req.status === 409) {
-      toast.error("Bu email bilan sotuv operatori ro'yhatdan o'tgan!", {
+    } catch {
+      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!", {
         position: "top-center",
       });
-    } else {
-      toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
-        position: "top-center",
-      });
+    }
+
+    if (req) {
+      if (req.status === 200) {
+        const { safeSalesManager } = await req.json();
+
+        const result = salesManagers.map((rop) => {
+          if (rop.id === editingSalesManager.id) {
+            return safeSalesManager;
+          } else {
+            return rop;
+          }
+        });
+
+        setSalesManagers(result);
+
+        handleEditModal();
+
+        toast.success(
+          `${editingSalesManager.email} dan ${safeSalesManager.email} ga yangilandi!`,
+          {
+            position: "top-center",
+          }
+        );
+      } else if (req.status === 409) {
+        toast.error("Bu email bilan sotuv operatori ro'yhatdan o'tgan!", {
+          position: "top-center",
+        });
+      } else {
+        toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
+          position: "top-center",
+        });
+      }
     }
 
     setEditLoading(false);
   }
 
-  async function get() {
-    const token = JSON.parse(localStorage.getItem("user")).accessToken;
-    setGetLoading(true);
-    const req = await fetch(
-      import.meta.env.VITE_BASE_URL + `/api/v1/user/all/sales-manager`,
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
-
-    if (req.status === 200) {
-      const { safeUsers } = await req.json();
-
-      setSalesManagers(safeUsers);
-    } else {
-      setError("Xatolik yuz berdi, qayta urunib ko'ring!");
-    }
-
-    setGetLoading(false);
-  }
-
+  // Delete
   async function remove(id) {
+    let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
     setRemoveLoading(true);
-    const req = await fetch(
-      import.meta.env.VITE_BASE_URL + `/api/v1/user/remove-sales-maneger/${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
-
-    if (req.status === 200) {
-      const result = salesManagers.filter((sm) => sm.id !== id);
-      setSalesManagers(result);
-      toast.success(`${deletingSalesManager.email} o'chirildi!`);
-    } else {
-      toast.error(
-        "Boshqaruvchini o'chirishda xatolik yuz berdi qayta urunib ko'ring!"
+    try {
+      req = await fetch(
+        import.meta.env.VITE_BASE_URL +
+          `/api/v1/user/remove-sales-maneger/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
       );
+    } catch {
+      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!");
+    }
+
+    if (req) {
+      if (req.status === 200) {
+        const result = salesManagers.filter((sm) => sm.id !== id);
+        setSalesManagers(result);
+        toast.success(`${deletingSalesManager.email} o'chirildi!`);
+      } else {
+        toast.error(
+          "Boshqaruvchini o'chirishda xatolik yuz berdi qayta urunib ko'ring!"
+        );
+      }
     }
 
     setRemoveLoading(false);
     setDeletingSalesManager(null);
   }
 
+  // ===== Funtions =====
   function handleAddSubmit(evt) {
     evt.preventDefault();
     const result = getFormData(evt.currentTarget);
@@ -259,7 +299,7 @@ export default function SalesManager() {
     get();
   }, [error]);
 
-  // Render
+  // ====== Render ======
   if (user) {
     if (getLoading) {
       return (

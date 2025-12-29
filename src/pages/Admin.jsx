@@ -30,163 +30,200 @@ import {
 
 export default function Admin() {
   const { user } = useAppStore();
+
+  // Modals
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [admins, setAdmins] = useState([]);
 
+  // Errors
   const [error, setError] = useState(null);
 
+  // Loadings
   const [getLoading, setGetLoading] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [removeLoading, setRemoveLoading] = useState(false);
 
+  // Permanently states
   const [deletingAdmin, setDeletingAdmin] = useState(null);
   const [editingAdmin, setEditingAdmin] = useState(null);
 
-  // CRUD
+  // ======= CRUD =======
+  // Create
   async function add(data) {
+    let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
 
     setAddLoading(true);
-    const req = await fetch(
-      import.meta.env.VITE_BASE_URL + "/api/v1/user/admin",
-      {
+    try {
+      req = await fetch(import.meta.env.VITE_BASE_URL + "/api/v1/user/admin", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
         },
         body: JSON.stringify(data),
+      });
+    } catch {
+      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!", {
+        position: "top-center",
+      });
+    }
+
+    if (req) {
+      if (req.status === 201) {
+        const { safeAdmin } = await req.json();
+
+        setAdmins((prev) => {
+          return [safeAdmin, ...prev];
+        });
+
+        handleAddModal();
+
+        toast.success(`${safeAdmin.email} qo'shildi!`, {
+          position: "top-center",
+        });
+      } else if (req.status === 409) {
+        toast.error("Bu email bilan admin ro'yhatdan o'tgan!", {
+          position: "top-center",
+        });
+      } else {
+        toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
+          position: "top-center",
+        });
       }
-    );
-
-    if (req.status === 201) {
-      const { safeAdmin } = await req.json();
-
-      setAdmins((prev) => {
-        return [safeAdmin, ...prev];
-      });
-
-      handleAddModal();
-
-      toast.success(`${safeAdmin.email} qo'shildi!`, {
-        position: "top-center",
-      });
-    } else if (req.status === 409) {
-      toast.error("Bu email bilan admin ro'yhatdan o'tgan!", {
-        position: "top-center",
-      });
-    } else {
-      toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
-        position: "top-center",
-      });
     }
 
     setAddLoading(false);
   }
 
-  async function edit(data) {
-    const token = JSON.parse(localStorage.getItem("user")).accessToken;
-
-    setEditLoading(true);
-    const req = await fetch(
-      import.meta.env.VITE_BASE_URL +
-        `/api/v1/user/update-admin/${editingAdmin.id}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify(data),
-      }
-    );
-
-    if (req.status === 200) {
-      const { safeAdmin } = await req.json();
-
-      const result = admins.map((adm) => {
-        if (adm.id === editingAdmin.id) {
-          return safeAdmin;
-        } else {
-          return adm;
-        }
-      });
-
-      setAdmins(result);
-
-      handleEditModal();
-
-      toast.success(
-        `${editingAdmin.email} dan ${safeAdmin.email} ga yangilandi!`,
-        {
-          position: "top-center",
-        }
-      );
-    } else if (req.status === 409) {
-      toast.error("Bu email bilan admin ro'yhatdan o'tgan!", {
-        position: "top-center",
-      });
-    } else {
-      toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
-        position: "top-center",
-      });
-    }
-
-    setEditLoading(false);
-  }
-
+  // Read
   async function get() {
+    let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
     setGetLoading(true);
-    const req = await fetch(
-      import.meta.env.VITE_BASE_URL + `/api/v1/user/all/admin`,
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
+    try {
+      req = await fetch(
+        import.meta.env.VITE_BASE_URL + `/api/v1/user/all/admin`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+    } catch {
+      setError("Tizimda nosozlik!");
+    }
+
+    if (req) {
+      if (req.status === 200) {
+        const { safeUsers } = await req.json();
+
+        setAdmins(safeUsers);
+      } else {
+        setError("Xatolik yuz berdi qayta urunib ko'ring!");
       }
-    );
-
-    if (req.status === 200) {
-      const { safeUsers } = await req.json();
-
-      setAdmins(safeUsers);
-    } else {
-      setError("Xatolik yuz berdi qayta urunib ko'ring!");
     }
 
     setGetLoading(false);
   }
 
+  // Update
+  async function edit(data) {
+    let req;
+    const token = JSON.parse(localStorage.getItem("user")).accessToken;
+
+    setEditLoading(true);
+    try {
+      req = await fetch(
+        import.meta.env.VITE_BASE_URL +
+          `/api/v1/user/update-admin/${editingAdmin.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify(data),
+        }
+      );
+    } catch {
+      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!", {
+        position: "top-center",
+      });
+    }
+
+    if (req) {
+      if (req.status === 200) {
+        const { safeAdmin } = await req.json();
+
+        const result = admins.map((adm) => {
+          if (adm.id === editingAdmin.id) {
+            return safeAdmin;
+          } else {
+            return adm;
+          }
+        });
+
+        setAdmins(result);
+
+        handleEditModal();
+
+        toast.success(
+          `${editingAdmin.email} dan ${safeAdmin.email} ga yangilandi!`,
+          {
+            position: "top-center",
+          }
+        );
+      } else if (req.status === 409) {
+        toast.error("Bu email bilan admin ro'yhatdan o'tgan!", {
+          position: "top-center",
+        });
+      } else {
+        toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
+          position: "top-center",
+        });
+      }
+    }
+
+    setEditLoading(false);
+  }
+
+  // Delete
   async function remove(id) {
+    let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
     setRemoveLoading(true);
-    const req = await fetch(
-      import.meta.env.VITE_BASE_URL + `/api/v1/user/${id}`,
-      {
+
+    try {
+      req = await fetch(import.meta.env.VITE_BASE_URL + `/api/v1/user/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: "Bearer " + token,
         },
-      }
-    );
+      });
+    } catch {
+      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!");
+    }
 
-    if (req.status === 200) {
-      const result = admins.filter((adm) => adm.id !== id);
-      setAdmins(result);
-      toast.success(`${deletingAdmin.email} o'chirildi!`);
-    } else {
-      toast.error(
-        "Adminni o'chirishda xatolik yuz berdi qayta urunib ko'ring!"
-      );
+    if (req) {
+      if (req.status === 200) {
+        const result = admins.filter((adm) => adm.id !== id);
+        setAdmins(result);
+        toast.success(`${deletingAdmin.email} o'chirildi!`);
+      } else {
+        toast.error(
+          "Adminni o'chirishda xatolik yuz berdi qayta urunib ko'ring!"
+        );
+      }
     }
 
     setRemoveLoading(false);
     setDeletingAdmin(null);
   }
 
+  // ===== Funtions =====
   function handleAddSubmit(evt) {
     evt.preventDefault();
     const result = getFormData(evt.currentTarget);
@@ -256,7 +293,7 @@ export default function Admin() {
     get();
   }, [error]);
 
-  // Render
+  // ====== Render ======
   if (user) {
     if (getLoading) {
       return (

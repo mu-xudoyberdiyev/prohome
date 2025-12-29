@@ -22,7 +22,6 @@ import { Input } from "../components/ui/input";
 import { getFormData } from "../lib/utils";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
-import { Skeleton } from "../components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
@@ -31,160 +30,202 @@ import {
 
 export default function Rop() {
   const { user } = useAppStore();
+
+  // Modals
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [rops, setRops] = useState([]);
 
+  // Errors
   const [error, setError] = useState(null);
 
+  // Loadings
   const [getLoading, setGetLoading] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [removeLoading, setRemoveLoading] = useState(false);
 
+  // Permanently states
   const [deletingRop, setDeletingRop] = useState(null);
   const [editingRop, setEditingRop] = useState(null);
 
-  // CRUD
+  // ======= CRUD =======
+  // Create
   async function add(data) {
+    let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
 
     setAddLoading(true);
-    const req = await fetch(
-      import.meta.env.VITE_BASE_URL + "/api/v1/user/rop",
-      {
+    try {
+      req = await fetch(import.meta.env.VITE_BASE_URL + "/api/v1/user/rop", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: "Bearer " + token,
         },
         body: JSON.stringify(data),
+      });
+    } catch {
+      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!", {
+        position: "top-center",
+      });
+    }
+
+    if (req) {
+      if (req.status === 201) {
+        const { safeRop } = await req.json();
+
+        setRops((prev) => {
+          return [safeRop, ...prev];
+        });
+
+        handleAddModal();
+
+        toast.success(`${safeRop.email} qo'shildi!`, {
+          position: "top-center",
+        });
+      } else if (req.status === 409) {
+        toast.error("Bu email bilan boshqaruvchi ro'yhatdan o'tgan!", {
+          position: "top-center",
+        });
+      } else {
+        toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
+          position: "top-center",
+        });
       }
-    );
-
-    if (req.status === 201) {
-      const { safeRop } = await req.json();
-
-      setRops((prev) => {
-        return [safeRop, ...prev];
-      });
-
-      handleAddModal();
-
-      toast.success(`${safeRop.email} qo'shildi!`, {
-        position: "top-center",
-      });
-    } else if (req.status === 409) {
-      toast.error("Bu email bilan boshqaruvchi ro'yhatdan o'tgan!", {
-        position: "top-center",
-      });
-    } else {
-      toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
-        position: "top-center",
-      });
     }
 
     setAddLoading(false);
   }
 
-  async function edit(data) {
-    const token = JSON.parse(localStorage.getItem("user")).accessToken;
-
-    setEditLoading(true);
-    const req = await fetch(
-      import.meta.env.VITE_BASE_URL +
-        `/api/v1/user/update-rop/${editingRop.id}`,
-      {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify(data),
-      }
-    );
-
-    if (req.status === 200) {
-      const { safeRop } = await req.json();
-
-      const result = rops.map((rop) => {
-        if (rop.id === editingRop.id) {
-          return safeRop;
-        } else {
-          return rop;
-        }
-      });
-
-      setRops(result);
-
-      handleEditModal();
-
-      toast.success(`${editingRop.email} dan ${safeRop.email} ga yangilandi!`, {
-        position: "top-center",
-      });
-    } else if (req.status === 409) {
-      toast.error("Bu email bilan boshqaruvchi ro'yhatdan o'tgan!", {
-        position: "top-center",
-      });
-    } else {
-      toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
-        position: "top-center",
-      });
-    }
-
-    setEditLoading(false);
-  }
-
+  // Read
   async function get() {
+    let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
     setGetLoading(true);
-    const req = await fetch(
-      import.meta.env.VITE_BASE_URL + `/api/v1/user/all/rop`,
-      {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
+    try {
+      req = await fetch(
+        import.meta.env.VITE_BASE_URL + `/api/v1/user/all/rop`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
+    } catch {
+      setError("Tizimda nosozlik!");
+    }
+
+    if (req) {
+      if (req.status === 200) {
+        const { users } = await req.json();
+
+        setRops(users);
+      } else {
+        setError("Xatolik yuz berdi qayta urunib ko'ring!");
       }
-    );
-
-    if (req.status === 200) {
-      const { users } = await req.json();
-
-      setRops(users);
-    } else {
-      setError("Xatolik yuz berdi qayta urunib ko'ring!");
     }
 
     setGetLoading(false);
   }
 
+  // Update
+  async function edit(data) {
+    let req;
+    const token = JSON.parse(localStorage.getItem("user")).accessToken;
+
+    setEditLoading(true);
+    try {
+      req = await fetch(
+        import.meta.env.VITE_BASE_URL +
+          `/api/v1/user/update-rop/${editingRop.id}`,
+        {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + token,
+          },
+          body: JSON.stringify(data),
+        }
+      );
+    } catch {
+      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!", {
+        position: "top-center",
+      });
+    }
+
+    if (req) {
+      if (req.status === 200) {
+        const { safeRop } = await req.json();
+
+        const result = rops.map((rop) => {
+          if (rop.id === editingRop.id) {
+            return safeRop;
+          } else {
+            return rop;
+          }
+        });
+
+        setRops(result);
+
+        handleEditModal();
+
+        toast.success(
+          `${editingRop.email} dan ${safeRop.email} ga yangilandi!`,
+          {
+            position: "top-center",
+          }
+        );
+      } else if (req.status === 409) {
+        toast.error("Bu email bilan boshqaruvchi ro'yhatdan o'tgan!", {
+          position: "top-center",
+        });
+      } else {
+        toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
+          position: "top-center",
+        });
+      }
+    }
+
+    setEditLoading(false);
+  }
+
+  // Delete
   async function remove(id) {
+    let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
     setRemoveLoading(true);
-    const req = await fetch(
-      import.meta.env.VITE_BASE_URL + `/api/v1/user/remove-rop/${id}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      }
-    );
-
-    if (req.status === 200) {
-      const result = rops.filter((rop) => rop.id !== id);
-      setRops(result);
-      toast.success(`${deletingRop.email} o'chirildi!`);
-    } else {
-      toast.error(
-        "Boshqaruvchini o'chirishda xatolik yuz berdi qayta urunib ko'ring!"
+    try {
+      req = await fetch(
+        import.meta.env.VITE_BASE_URL + `/api/v1/user/remove-rop/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
       );
+    } catch {
+      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!");
+    }
+
+    if (req) {
+      if (req.status === 200) {
+        const result = rops.filter((rop) => rop.id !== id);
+        setRops(result);
+        toast.success(`${deletingRop.email} o'chirildi!`);
+      } else {
+        toast.error(
+          "Boshqaruvchini o'chirishda xatolik yuz berdi qayta urunib ko'ring!"
+        );
+      }
     }
 
     setRemoveLoading(false);
     setDeletingRop(null);
   }
 
+  // ===== Funtions =====
   function handleAddSubmit(evt) {
     evt.preventDefault();
     const result = getFormData(evt.currentTarget);
@@ -254,7 +295,7 @@ export default function Rop() {
     get();
   }, [error]);
 
-  // Render
+  // ====== Render ======
   if (user) {
     if (getLoading) {
       return (
