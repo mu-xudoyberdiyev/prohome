@@ -122,6 +122,10 @@ export default function Admin() {
           position: "top-center",
         }
       );
+    } else if (req.status === 409) {
+      toast.error("Bu email bilan admin ro'yhatdan o'tgan!", {
+        position: "top-center",
+      });
     } else {
       toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
         position: "top-center",

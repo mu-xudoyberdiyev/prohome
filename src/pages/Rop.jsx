@@ -119,6 +119,10 @@ export default function Rop() {
       toast.success(`${editingRop.email} dan ${safeRop.email} ga yangilandi!`, {
         position: "top-center",
       });
+    } else if (req.status === 409) {
+      toast.error("Bu email bilan boshqaruvchi ro'yhatdan o'tgan!", {
+        position: "top-center",
+      });
     } else {
       toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
         position: "top-center",
@@ -331,10 +335,10 @@ export default function Rop() {
           <div className="w-full h-full flex justify-center items-center animate-fade-in">
             <div className="flex flex-col items-center text-center w-full max-w-sm">
               <h3 className="text-2xl mb-3 font-medium">
-                Hali admin mavjud emas!
+                Hali boshqaruvchi mavjud emas!
               </h3>
               <p className="text-muted-foreground mb-5">
-                Admin yaratishni istasangiz "Istayman" tugmasini bosing.
+                Boshqaruvchi yaratishni istasangiz "Istayman" tugmasini bosing.
               </p>
               <Button onClick={handleAddModal} variant="secondary">
                 Istayman
