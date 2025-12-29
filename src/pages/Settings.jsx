@@ -100,30 +100,32 @@ export default function Settings() {
         <section className="h-full animate-fade-in">
           <h2 className="mb-10 font-bold text-3xl">Sozlamalar</h2>
 
-          {/* Theme  */}
-          <div className="border relative px-3 py-6 mb-8 rounded">
-            <h3 className="absolute left-5 top-0 -translate-y-2/4 bg-background font-bold px-2 text-muted-foreground flex gap-2">
-              <Palette /> Mavzu
-            </h3>
-            <div className="flex items-center space-x-2">
-              <Switch
-                onCheckedChange={handleChange}
-                defaultChecked={dark}
-                id="dark-mode"
-              />
-              <Label htmlFor="dark-mode">Qorong'u rejim</Label>
+          <div className="max-h-96 overflow-y-auto h-full pr-2 py-3">
+            {/* Theme  */}
+            <div className="border relative px-3 py-6 mb-8 rounded">
+              <h3 className="absolute left-5 top-0 -translate-y-2/4 bg-background font-bold px-2 text-muted-foreground flex gap-2">
+                <Palette /> Mavzu
+              </h3>
+              <div className="flex items-center space-x-2">
+                <Switch
+                  onCheckedChange={handleChange}
+                  defaultChecked={dark}
+                  id="dark-mode"
+                />
+                <Label htmlFor="dark-mode">Qorong'u rejim</Label>
+              </div>
             </div>
-          </div>
 
-          {/* Privacy */}
-          <div className="border relative px-3 py-6 rounded">
-            <h3 className="absolute left-5 top-0 -translate-y-2/4 bg-background font-bold px-2 text-muted-foreground flex gap-2">
-              <GlobeLockIcon /> Xavfsizlik
-            </h3>
+            {/* Privacy */}
+            <div className="border relative px-3 py-6 rounded">
+              <h3 className="absolute left-5 top-0 -translate-y-2/4 bg-background font-bold px-2 text-muted-foreground flex gap-2">
+                <GlobeLockIcon /> Xavfsizlik
+              </h3>
 
-            <Button onClick={handleUpdateModal} variant="secondary">
-              <KeyRound /> Parolni yangilash
-            </Button>
+              <Button onClick={handleUpdateModal} variant="secondary">
+                <KeyRound /> Parolni yangilash
+              </Button>
+            </div>
           </div>
         </section>
 

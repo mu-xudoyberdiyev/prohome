@@ -278,7 +278,7 @@ export default function SalesManager() {
 
     if (error) {
       return (
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center animate-fade-in">
           <div className="flex flex-col w-full max-w-sm">
             <h3 className="text-2xl mb-3 font-medium">{error}</h3>
             <p className="text-muted-foreground mb-5">
