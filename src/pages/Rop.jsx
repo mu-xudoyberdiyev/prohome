@@ -171,7 +171,7 @@ export default function Rop() {
         handleEditModal();
 
         toast.success(
-          `${editingRop.email} dan ${safeRop.email} ga yangilandi!`,
+          `${editingRop?.email} dan ${safeRop.email} ga yangilandi!`,
           {
             position: "top-center",
           }
@@ -213,7 +213,7 @@ export default function Rop() {
       if (req.status === 200) {
         const result = rops.filter((rop) => rop.id !== id);
         setRops(result);
-        toast.success(`${deletingRop.email} o'chirildi!`);
+        toast.success(`${deletingRop?.email} o'chirildi!`);
       } else {
         toast.error(
           "Boshqaruvchini o'chirishda xatolik yuz berdi qayta urunib ko'ring!"

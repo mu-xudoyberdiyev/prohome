@@ -174,7 +174,7 @@ export default function SalesManager() {
         handleEditModal();
 
         toast.success(
-          `${editingSalesManager.email} dan ${safeSalesManager.email} ga yangilandi!`,
+          `${editingSalesManager?.email} dan ${safeSalesManager.email} ga yangilandi!`,
           {
             position: "top-center",
           }
@@ -217,7 +217,7 @@ export default function SalesManager() {
       if (req.status === 200) {
         const result = salesManagers.filter((sm) => sm.id !== id);
         setSalesManagers(result);
-        toast.success(`${deletingSalesManager.email} o'chirildi!`);
+        toast.success(`${deletingSalesManager?.email} o'chirildi!`);
       } else {
         toast.error(
           "Boshqaruvchini o'chirishda xatolik yuz berdi qayta urunib ko'ring!"

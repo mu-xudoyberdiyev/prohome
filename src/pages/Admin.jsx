@@ -171,7 +171,7 @@ export default function Admin() {
         handleEditModal();
 
         toast.success(
-          `${editingAdmin.email} dan ${safeAdmin.email} ga yangilandi!`,
+          `${editingAdmin?.email} dan ${safeAdmin.email} ga yangilandi!`,
           {
             position: "top-center",
           }
@@ -211,7 +211,7 @@ export default function Admin() {
       if (req.status === 200) {
         const result = admins.filter((adm) => adm.id !== id);
         setAdmins(result);
-        toast.success(`${deletingAdmin.email} o'chirildi!`);
+        toast.success(`${deletingAdmin?.email} o'chirildi!`);
       } else {
         toast.error(
           "Adminni o'chirishda xatolik yuz berdi qayta urunib ko'ring!"
