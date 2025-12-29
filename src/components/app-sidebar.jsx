@@ -4,7 +4,7 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useAppStore } from "../lib/zustand";
 import { Button, buttonVariants } from "./ui/button";
 import { Building2, HomeIcon, LogOut, User } from "lucide-react";
@@ -33,6 +33,7 @@ const routes = {
 
 export function AppSidebar({ ...props }) {
   const { user, setUser } = useAppStore();
+  const currentPath = useLocation().pathname;
 
   function handleLogout() {
     const check = confirm("Tizimni tark etishni istaysiz-mi?");
@@ -62,7 +63,11 @@ export function AppSidebar({ ...props }) {
                 <Link
                   className={`${buttonVariants({
                     variant: "ghost",
-                  })} justify-start`}
+                  })} justify-start ${
+                    url === currentPath
+                      ? "bg-accent text-accent-foreground dark:bg-accent/50"
+                      : ""
+                  }`}
                   key={index}
                   to={url}
                 >

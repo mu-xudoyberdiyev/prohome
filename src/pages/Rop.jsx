@@ -4,6 +4,7 @@ import {
   PlusCircle,
   PlusCircleIcon,
   RefreshCcw,
+  SearchAlert,
   Trash,
 } from "lucide-react";
 import { Button } from "../components/ui/button";
@@ -33,6 +34,8 @@ export default function Rop() {
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [rops, setRops] = useState([]);
+
+  const [error, setError] = useState(null);
 
   const [getLoading, setGetLoading] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
@@ -148,6 +151,8 @@ export default function Rop() {
       const { users } = await req.json();
 
       setRops(users);
+    } else {
+      setError("Xatolik yuz berdi qayta urunib ko'ring!");
     }
 
     setGetLoading(false);
@@ -241,9 +246,13 @@ export default function Rop() {
     handleEditModal();
   }
 
+  function handleError() {
+    setError(null);
+  }
+
   useEffect(() => {
     get();
-  }, []);
+  }, [error]);
 
   // Render
   if (user) {
@@ -257,6 +266,23 @@ export default function Rop() {
               aria-hidden={true}
             />
             <p className="text-xl">prohome.uz</p>
+          </div>
+        </div>
+      );
+    }
+
+    if (error) {
+      return (
+        <div className="w-full h-full flex items-center justify-center">
+          <div className="flex flex-col w-full max-w-sm">
+            <h3 className="text-2xl mb-3 font-medium">{error}</h3>
+            <p className="text-muted-foreground mb-5">
+              Havotirlanmang, barchasi joyida. Ba'zida shunday xatoliklar ham
+              bo'lib turadi. Agar bu davomli bo'lsa, admin bilan aloqaga chiqing
+            </p>
+            <Button onClick={handleError} variant="secondary">
+              <SearchAlert /> Qayta urunib ko'rish
+            </Button>
           </div>
         </div>
       );
