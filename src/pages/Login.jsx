@@ -32,7 +32,9 @@ export default function Login() {
         },
         body: JSON.stringify(userData),
       });
-    } catch {
+    } catch (e) {
+      console.log(e);
+
       toast.error("Tizimda nosozlik, adminga aloqaga chiqing!");
     }
 
