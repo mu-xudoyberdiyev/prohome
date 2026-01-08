@@ -72,7 +72,6 @@ export default function Login() {
     return (
       <section className="h-full grid grid-cols-2">
         <div className="h-full relative ">
-          {/* <Globe /> */}
           <video
             className="w-full h-full aspect-square object-cover object-center"
             src="/construction-process.mp4"

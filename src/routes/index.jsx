@@ -7,6 +7,8 @@ import SalesManager from "../pages/SalesManager";
 import MainLayout from "../MainLayout";
 import Settings from "../pages/Settings";
 import Company from "../pages/Company";
+import CompanyDetails from "../pages/CompanyDetails";
+import AddCompany from "../pages/AddCompany";
 
 export default createBrowserRouter([
   {
@@ -37,6 +39,14 @@ export default createBrowserRouter([
       {
         path: "/company",
         element: <Company />,
+      },
+      {
+        path: "/add/company",
+        element: <AddCompany />,
+      },
+      {
+        path: "/company/:id",
+        element: <CompanyDetails />,
       },
     ],
   },
