@@ -135,8 +135,10 @@ export default function Company() {
                 </Avatar>
                 <h2>{name}</h2>
                 <Badge
-                  className={"absolute top-0 right-5 -translate-y-2/4"}
-                  variant={status ? "default" : "secondary"}
+                  className={`absolute top-0 right-5 -translate-y-2/4 ${
+                    status === false ? "bg-background" : ""
+                  }`}
+                  variant={status ? "default" : "outline"}
                 >
                   {status ? (
                     <>

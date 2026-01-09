@@ -92,17 +92,10 @@ export default function CompanyDetails() {
   }
 
   async function edit(data) {
-    console.log("Ketayotgan: ", data);
-
     const formData = new FormData();
 
     Object.entries(data).forEach(([key, value]) => {
       formData.append(key, value);
-    });
-
-    formData.forEach((value, key) => {
-      console.log("KEY: ", key);
-      console.log("VALUE: ", typeof value);
     });
 
     let req;
@@ -377,8 +370,10 @@ export default function CompanyDetails() {
             <div className="flex items-center justify-between">
               {statusLoading === false && (
                 <Badge
-                  className={"animate-fade-in"}
-                  variant={details.status ? "default" : "secondary"}
+                  className={`animate-fade-in ${
+                    details.status === false ? "bg-background" : ""
+                  }`}
+                  variant={details.status ? "default" : "outline"}
                 >
                   {details.status ? (
                     <>
@@ -528,7 +523,7 @@ export default function CompanyDetails() {
                       id="phoneNumber"
                       name="phoneNumber"
                       type="text"
-                      placeholder="Telefon raqamni kiriting"
+                      placeholder="xxxxxxx"
                       defaultValue={details.phoneNumber.replace("+998", "")}
                       disabled={editMode === false}
                     />

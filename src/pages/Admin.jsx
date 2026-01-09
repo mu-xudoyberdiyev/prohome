@@ -89,6 +89,8 @@ export default function Admin() {
           position: "top-center",
         });
       } else {
+        console.log(req, await req.json());
+
         toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
           position: "top-center",
         });
