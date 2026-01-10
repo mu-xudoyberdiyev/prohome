@@ -19,6 +19,10 @@ import { useAppStore } from "../lib/zustand";
 import { Navigate } from "react-router-dom";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "../components/ui/native-select";
 import { getFormData } from "../lib/utils";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
@@ -36,6 +40,7 @@ export default function SalesManager() {
   const [addModal, setAddModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
   const [salesManagers, setSalesManagers] = useState([]);
+  const [companies, setCompanies] = useState([]);
 
   // Errors
   const [error, setError] = useState(null);
@@ -45,12 +50,40 @@ export default function SalesManager() {
   const [addLoading, setAddLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [removeLoading, setRemoveLoading] = useState(false);
+  const [companiesLoading, setCompaniesLoading] = useState(false);
 
   // Permanently states
   const [deletingSalesManager, setDeletingSalesManager] = useState(null);
   const [editingSalesManager, setEditingSalesManager] = useState(null);
 
   // ======= CRUD =======
+
+  async function getCompanies() {
+    let req;
+    const token = JSON.parse(localStorage.getItem("user")).accessToken;
+    setCompaniesLoading(true);
+    try {
+      req = await fetch(import.meta.env.VITE_BASE_URL + `/api/v1/company/all`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch {
+      setError("Tizimda nosozlik!");
+    }
+
+    if (req) {
+      if (req.status === 200) {
+        const { data } = await req.json();
+
+        setCompanies(data);
+      } else {
+        setError("Xatolik yuz berdi qayta urunib ko'ring!");
+      }
+    }
+
+    setCompaniesLoading(false);
+  }
   // Create
   async function add(data) {
     let req;
@@ -173,12 +206,9 @@ export default function SalesManager() {
 
         handleEditModal();
 
-        toast.success(
-          `${editingSalesManager.email} dan ${safeSalesManager.email} ga yangilandi!`,
-          {
-            position: "top-center",
-          }
-        );
+        toast.success(`${safeSalesManager.email} yangilandi!`, {
+          position: "top-center",
+        });
       } else if (req.status === 409) {
         toast.error("Bu email bilan sotuv operatori ro'yhatdan o'tgan!", {
           position: "top-center",
@@ -233,7 +263,6 @@ export default function SalesManager() {
   function handleAddSubmit(evt) {
     evt.preventDefault();
     const result = getFormData(evt.currentTarget);
-    result.companyId = Number(result.companyId);
 
     if (result.email.trim() === "") {
       evt.currentTarget.email.focus();
@@ -246,7 +275,13 @@ export default function SalesManager() {
       toast.info("Parol eng kamida 6 ta belgi bo'lishi kerak!", {
         position: "top-center",
       });
+    } else if ("companyId" in result === false) {
+      evt.currentTarget.companyId.focus();
+      toast.info("Kompaniyani tanlang!", {
+        position: "top-center",
+      });
     } else {
+      result.companyId = Number(result.companyId);
       add(result);
     }
   }
@@ -254,7 +289,6 @@ export default function SalesManager() {
   function handleEditSubmit(evt) {
     evt.preventDefault();
     const result = getFormData(evt.currentTarget);
-    result.companyId = Number(result.companyId);
 
     if (result.email.trim() === "") {
       evt.currentTarget.email.focus();
@@ -297,6 +331,7 @@ export default function SalesManager() {
 
   useEffect(() => {
     get();
+    getCompanies();
   }, [error]);
 
   // ====== Render ======
@@ -454,17 +489,30 @@ export default function SalesManager() {
                   placeholder="********"
                 />
               </div>
+
               <div className="grid w-full items-center gap-3">
-                <Label htmlFor="companyId">Kompaniya ID*</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  id="companyId"
-                  value="1"
-                  name="companyId"
-                  readOnly
-                  placeholder="ID yozing"
-                />
+                <Label htmlFor="companyId">Kompaniya*</Label>
+                {companiesLoading ? (
+                  <Skeleton className={"w-86 h-9"} />
+                ) : (
+                  <NativeSelect
+                    className={"w-86"}
+                    id="companyId"
+                    name="companyId"
+                    defaultValue=""
+                  >
+                    <NativeSelectOption disabled value="">
+                      Kompaniya nomini tanlang
+                    </NativeSelectOption>
+                    {companies.map(({ name, id }) => {
+                      return (
+                        <NativeSelectOption value={id} key={id}>
+                          {name}
+                        </NativeSelectOption>
+                      );
+                    })}
+                  </NativeSelect>
+                )}
               </div>
 
               <Button disabled={addLoading} type="submit">
@@ -483,59 +531,49 @@ export default function SalesManager() {
         </Drawer>
 
         {/* Edit modal  */}
-        <Drawer open={editModal} onOpenChange={handleEditModal}>
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>
-                <b>{editingSalesManager?.email}</b>ni yangilash.
-              </DrawerTitle>
-              <DrawerDescription>
-                Sotv operatorini yangilashda ham barcha ma'lumotlarni to'liq
-                to'ldirishingiz kerak!
-              </DrawerDescription>
-            </DrawerHeader>
+        {editingSalesManager && (
+          <Drawer open={editModal} onOpenChange={handleEditModal}>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>
+                  <b>{editingSalesManager.email}</b>ni yangilash.
+                </DrawerTitle>
+                <DrawerDescription>
+                  Sotv operatorini yangilashda ham barcha ma'lumotlarni to'liq
+                  to'ldirishingiz kerak!
+                </DrawerDescription>
+              </DrawerHeader>
 
-            <form
-              onSubmit={handleEditSubmit}
-              className="max-w-sm w-full mx-auto flex flex-col gap-5 p-5"
-            >
-              <div className="grid w-full items-center gap-3">
-                <Label htmlFor="email">Email*</Label>
-                <Input
-                  type="email"
-                  id="email"
-                  name="email"
-                  defaultValue={editingSalesManager?.email}
-                  placeholder="Email"
-                />
-              </div>
-              <div className="grid w-full items-center gap-3">
-                <Label htmlFor="companyId">Kompaniya ID*</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  id="companyId"
-                  value="1"
-                  name="companyId"
-                  readOnly
-                  placeholder="ID yozing"
-                />
-              </div>
+              <form
+                onSubmit={handleEditSubmit}
+                className="max-w-sm w-full mx-auto flex flex-col gap-5 p-5"
+              >
+                <div className="grid w-full items-center gap-3">
+                  <Label htmlFor="email">Email*</Label>
+                  <Input
+                    type="email"
+                    id="email"
+                    name="email"
+                    defaultValue={editingSalesManager.email}
+                    placeholder="Email"
+                  />
+                </div>
 
-              <Button disabled={editLoading} type="submit">
-                {editLoading ? (
-                  <>
-                    <RefreshCcw className="animate-spin" /> Tahrirlanmoqda...
-                  </>
-                ) : (
-                  <>
-                    <Edit2 /> Tahrirlash
-                  </>
-                )}
-              </Button>
-            </form>
-          </DrawerContent>
-        </Drawer>
+                <Button disabled={editLoading} type="submit">
+                  {editLoading ? (
+                    <>
+                      <RefreshCcw className="animate-spin" /> Tahrirlanmoqda...
+                    </>
+                  ) : (
+                    <>
+                      <Edit2 /> Tahrirlash
+                    </>
+                  )}
+                </Button>
+              </form>
+            </DrawerContent>
+          </Drawer>
+        )}
       </>
     );
   } else {

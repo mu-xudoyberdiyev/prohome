@@ -52,6 +52,8 @@ export default function Admin() {
   // ======= CRUD =======
   // Create
   async function add(data) {
+    console.log(data);
+
     let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
 
@@ -230,7 +232,6 @@ export default function Admin() {
   function handleAddSubmit(evt) {
     evt.preventDefault();
     const result = getFormData(evt.currentTarget);
-    result.companyId = Number(result.companyId);
 
     if (result.email.trim() === "") {
       evt.currentTarget.email.focus();
@@ -244,6 +245,8 @@ export default function Admin() {
         position: "top-center",
       });
     } else {
+      result.companyId = Number(user.campanyId);
+
       add(result);
     }
   }
@@ -447,18 +450,6 @@ export default function Admin() {
                   placeholder="********"
                 />
               </div>
-              <div className="grid w-full items-center gap-3">
-                <Label htmlFor="companyId">Kompaniya ID*</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  id="companyId"
-                  value="1"
-                  name="companyId"
-                  readOnly
-                  placeholder="ID yozing"
-                />
-              </div>
 
               <Button disabled={addLoading} type="submit">
                 {addLoading ? (
@@ -476,59 +467,49 @@ export default function Admin() {
         </Drawer>
 
         {/* Edit modal  */}
-        <Drawer open={editModal} onOpenChange={handleEditModal}>
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>
-                <b>{editingAdmin?.email}</b>ni yangilash.
-              </DrawerTitle>
-              <DrawerDescription>
-                Adminni yangilashda ham barcha ma'lumotlarni to'liq
-                to'ldirishingiz kerak!
-              </DrawerDescription>
-            </DrawerHeader>
+        {editingAdmin && (
+          <Drawer open={editModal} onOpenChange={handleEditModal}>
+            <DrawerContent>
+              <DrawerHeader>
+                <DrawerTitle>
+                  <b>{editingAdmin.email}</b>ni yangilash.
+                </DrawerTitle>
+                <DrawerDescription>
+                  Adminni yangilashda ham barcha ma'lumotlarni to'liq
+                  to'ldirishingiz kerak!
+                </DrawerDescription>
+              </DrawerHeader>
 
-            <form
-              onSubmit={handleEditSubmit}
-              className="max-w-sm w-full mx-auto flex flex-col gap-5 p-5"
-            >
-              <div className="grid w-full items-center gap-3">
-                <Label htmlFor="email">Email*</Label>
-                <Input
-                  type="email"
-                  id="email"
-                  name="email"
-                  defaultValue={editingAdmin?.email}
-                  placeholder="Email"
-                />
-              </div>
-              <div className="grid w-full items-center gap-3">
-                <Label htmlFor="companyId">Kompaniya ID*</Label>
-                <Input
-                  type="number"
-                  min="0"
-                  id="companyId"
-                  value="1"
-                  name="companyId"
-                  readOnly
-                  placeholder="ID yozing"
-                />
-              </div>
+              <form
+                onSubmit={handleEditSubmit}
+                className="max-w-sm w-full mx-auto flex flex-col gap-5 p-5"
+              >
+                <div className="grid w-full items-center gap-3">
+                  <Label htmlFor="email">Email*</Label>
+                  <Input
+                    type="email"
+                    id="email"
+                    name="email"
+                    defaultValue={editingAdmin.email}
+                    placeholder="Email"
+                  />
+                </div>
 
-              <Button disabled={editLoading} type="submit">
-                {editLoading ? (
-                  <>
-                    <RefreshCcw className="animate-spin" /> Tahrirlanmoqda...
-                  </>
-                ) : (
-                  <>
-                    <Edit2 /> Tahrirlash
-                  </>
-                )}
-              </Button>
-            </form>
-          </DrawerContent>
-        </Drawer>
+                <Button disabled={editLoading} type="submit">
+                  {editLoading ? (
+                    <>
+                      <RefreshCcw className="animate-spin" /> Tahrirlanmoqda...
+                    </>
+                  ) : (
+                    <>
+                      <Edit2 /> Tahrirlash
+                    </>
+                  )}
+                </Button>
+              </form>
+            </DrawerContent>
+          </Drawer>
+        )}
       </>
     );
   } else {
