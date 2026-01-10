@@ -64,9 +64,7 @@ export default function AddCompany() {
         toast.success(`${data.name} kompaniyasi qo'shildi!`);
         navigate("/company");
       } else if (req.status === 409) {
-        toast.error(
-          "Ushbu telefon raqam bilan boshqa kompaniya ro'yhatdan o'tgan!"
-        );
+        toast.error("Ushbu kompaniya ro'yhatdan o'tgan!");
       } else {
         toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
           position: "top-center",

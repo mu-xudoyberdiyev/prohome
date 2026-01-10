@@ -396,14 +396,14 @@ export default function CompanyDetails() {
               <div className="flex gap-3">
                 <Button
                   onClick={handleStatus}
-                  disabled={editMode === false || statusLoading}
+                  disabled={editMode === false || statusLoading || editLoading}
                   variant={details.status ? "secondary" : "default"}
                 >
                   <Power /> {details.status ? "To'xtatish" : "Faollashtirish"}
                 </Button>
                 <Button
                   onClick={handleDelete}
-                  disabled={deleteLoading}
+                  disabled={deleteLoading || editLoading || statusLoading}
                   variant="destructive"
                 >
                   {deleteLoading ? (
@@ -454,7 +454,9 @@ export default function CompanyDetails() {
               </Avatar>
               {editMode && (
                 <div
-                  className={`absolute flex z-10 inset-0 bg-black/50 animate-fade-in`}
+                  className={`absolute flex z-10 inset-0 bg-black/50 animate-fade-in ${
+                    editLoading ? "pointer-events-none opacity-80" : ""
+                  }`}
                 >
                   {typeof logo.src === "string" && (
                     <div
@@ -500,7 +502,9 @@ export default function CompanyDetails() {
                     type="text"
                     placeholder="Kompaniya nomini kiriting"
                     defaultValue={details.name}
-                    disabled={editMode === false}
+                    disabled={
+                      editMode === false || editLoading || statusLoading
+                    }
                   />
                 </div>
                 <div className="grid gap-2 w-full">
@@ -511,7 +515,9 @@ export default function CompanyDetails() {
                     type="text"
                     placeholder="Boshqaruvchi ismini kiriting"
                     defaultValue={details.managerName}
-                    disabled={editMode === false}
+                    disabled={
+                      editMode === false || editLoading || statusLoading
+                    }
                   />
                 </div>
                 <div className="grid gap-2 w-full col-start-1 col-end-3">
@@ -525,7 +531,9 @@ export default function CompanyDetails() {
                       type="text"
                       placeholder="xxxxxxx"
                       defaultValue={details.phoneNumber.replace("+998", "")}
-                      disabled={editMode === false}
+                      disabled={
+                        editMode === false || editLoading || statusLoading
+                      }
                     />
                     <InputGroupAddon>
                       <InputGroupText>+998</InputGroupText>
@@ -541,7 +549,9 @@ export default function CompanyDetails() {
                     id="description"
                     name="description"
                     defaultValue={details.description}
-                    disabled={editMode === false}
+                    disabled={
+                      editMode === false || editLoading || statusLoading
+                    }
                   />
                 </div>
               </div>
@@ -552,10 +562,11 @@ export default function CompanyDetails() {
                     onClick={handleEditMode}
                     variant="outline"
                     type="button"
+                    disabled={editLoading || statusLoading}
                   >
                     Bekor qilish
                   </Button>
-                  <Button disabled={editLoading} type="submit">
+                  <Button disabled={editLoading || statusLoading} type="submit">
                     {editLoading ? (
                       <>
                         <RefreshCcw className="animate-spin" />
