@@ -9,6 +9,8 @@ import Settings from "../pages/Settings";
 import Company from "../pages/Company";
 import CompanyDetails from "../pages/CompanyDetails";
 import AddCompany from "../pages/AddCompany";
+import Tjm from "../pages/Tjm";
+import TjmDetails from "../pages/TjmDetails";
 
 export default createBrowserRouter([
   {
@@ -53,5 +55,13 @@ export default createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
+  },
+  {
+    path: "/tjm",
+    element: <Tjm />,
+  },
+  {
+    path: "/tjm/:slug",
+    element: <TjmDetails />,
   },
 ]);

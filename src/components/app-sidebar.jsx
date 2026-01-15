@@ -7,7 +7,7 @@ import {
 import { Link, useLocation } from "react-router-dom";
 import { useAppStore } from "../lib/zustand";
 import { Button, buttonVariants } from "./ui/button";
-import { Building2, HomeIcon, LogOut, User } from "lucide-react";
+import { BrickWall, Building2, HomeIcon, LogOut, User } from "lucide-react";
 import { toast } from "sonner";
 
 const routes = {
@@ -17,18 +17,24 @@ const routes = {
     { url: "/admin", text: "Adminlar", icon: <User /> },
     { url: "/rop", text: "Boshqaruvchilar", icon: <User /> },
     { url: "/salesmanager", text: "Sotuv menejerlari", icon: <User /> },
+    { url: "/tjm", text: "TJM", icon: <BrickWall /> },
   ],
   ADMIN: [
     { url: "/", text: "Bosh sahifa", icon: <HomeIcon /> },
     { url: "/company", text: "Kompaniyalar", icon: <Building2 /> },
     { url: "/rop", text: "Boshqaruvchilar", icon: <User /> },
     { url: "/salesmanager", text: "Sotuv menejerlari", icon: <User /> },
+    { url: "/tjm", text: "TJM", icon: <BrickWall /> },
   ],
   ROP: [
     { url: "/", text: "Bosh sahifa", icon: <HomeIcon /> },
     { url: "/salesmanager", text: "Sotuv menejerlari", icon: <User /> },
+    { url: "/tjm", text: "TJM", icon: <BrickWall /> },
   ],
-  SALESMANAGER: [{ url: "/", text: "Bosh sahifa", icon: <HomeIcon /> }],
+  SALESMANAGER: [
+    { url: "/", text: "Bosh sahifa", icon: <HomeIcon /> },
+    { url: "/tjm", text: "TJM", icon: <BrickWall /> },
+  ],
 };
 
 export function AppSidebar({ ...props }) {
