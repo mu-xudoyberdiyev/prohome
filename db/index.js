@@ -9,8 +9,11 @@ function homeBuilder(room) {
   };
   return {
     room,
+    houseNumber: Math.trunc(Math.random() * 100),
     size: sizes[room],
-    price: 9,
+    get price() {
+      return sizes[room] * 7;
+    },
     status: statuses[randomIndex],
     view: {
       "2d": "",

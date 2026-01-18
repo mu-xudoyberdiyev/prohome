@@ -107,6 +107,7 @@ export default function TjmDetails() {
               value={activeTab}
               onValueChange={handleTab}
             >
+              {/* Box */}
               <TabsContent className={"animate-fade-in"} value="box">
                 <div className="flex mx-10 min-w-max mb-10 sticky top-1 z-20 gap-20">
                   {Object.keys(readyData.blocks).map((b) => {
@@ -146,15 +147,39 @@ export default function TjmDetails() {
                                       ?.reverse()
                                       .map((h) => {
                                         return (
-                                          <div
-                                            className={`leading-none flex items-center justify-center w-10 h-full text-white font-bold text-sm rounded ${
-                                              arr.length === index + 1
-                                                ? "bg-slate-400"
-                                                : statuses[h.status]
-                                            }`}
-                                          >
-                                            {h.room}
-                                          </div>
+                                          <Tooltip>
+                                            <TooltipTrigger>
+                                              <div
+                                                className={`leading-none flex items-center justify-center w-10 h-full text-white font-bold text-sm rounded ${
+                                                  arr.length === index + 1
+                                                    ? "bg-slate-400"
+                                                    : statuses[h.status]
+                                                }`}
+                                              >
+                                                {h.room}
+                                              </div>
+                                            </TooltipTrigger>
+                                            <TooltipContent
+                                              className={"pointer-events-none"}
+                                            >
+                                              <div className="flex flex-col">
+                                                <div className="flex gap-1">
+                                                  <h4 className="font-bold">
+                                                    Uy raqami:
+                                                  </h4>
+                                                  <span className="font-mono">
+                                                    #{h.houseNumber}
+                                                  </span>
+                                                </div>
+                                                <div className="flex gap-1">
+                                                  <h4 className="font-bold">
+                                                    Narxi:
+                                                  </h4>
+                                                  {h.price} mln so'm
+                                                </div>
+                                              </div>
+                                            </TooltipContent>
+                                          </Tooltip>
                                         );
                                       })}
                                   </div>
@@ -174,6 +199,8 @@ export default function TjmDetails() {
                     })}
                 </div>
               </TabsContent>
+
+              {/* Card  */}
               <TabsContent className={"animate-fade-in"} value="card">
                 <div className="flex mx-10 min-w-max mb-10 sticky top-1 z-20 gap-20">
                   {Object.keys(readyData.blocks).map((b) => {
@@ -214,13 +241,30 @@ export default function TjmDetails() {
                                       .map((h) => {
                                         return (
                                           <div
-                                            className={`leading-none flex items-center justify-center w-50 h-full text-white font-bold text-sm rounded ${
+                                            className={`flex flex-col justify-between p-2 w-50 h-full text-white text-sm rounded ${
                                               arr.length === index + 1
                                                 ? "bg-slate-400"
                                                 : statuses[h.status]
                                             }`}
                                           >
-                                            {h.room} xona
+                                            <div className="flex justify-between">
+                                              <span>{h.room} xonalik</span>
+                                              <span className="font-mono">
+                                                #{h.houseNumber}
+                                              </span>
+                                            </div>
+                                            <p className="font-medium">
+                                              {h.price} mln so'm
+                                            </p>
+                                            <div className="flex justify-between">
+                                              <p className="text-xs">
+                                                {h.size}m <sup>2</sup>
+                                              </p>
+                                              -
+                                              <p className="text-xs">
+                                                7 mln / m<sup>2</sup>
+                                              </p>
+                                            </div>
                                           </div>
                                         );
                                       })}
