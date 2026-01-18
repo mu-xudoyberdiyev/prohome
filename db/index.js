@@ -53,19 +53,25 @@ const readyData = {
       },
     },
     D: {
-      floor: 12,
+      floor: 10,
       get appartment() {
         return block(this.floor);
       },
     },
-    I: {
-      floor: 12,
+    E: {
+      floor: 10,
       get appartment() {
         return block(this.floor);
       },
     },
     F: {
-      floor: 12,
+      floor: 8,
+      get appartment() {
+        return block(this.floor);
+      },
+    },
+    G: {
+      floor: 8,
       get appartment() {
         return block(this.floor);
       },

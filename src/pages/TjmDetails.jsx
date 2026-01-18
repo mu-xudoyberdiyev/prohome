@@ -49,7 +49,7 @@ export default function TjmDetails() {
 
   if (user) {
     return (
-      <section className="animate-fade-in max-h-screen h-full flex flex-col">
+      <section className="animate-fade-in max-h-screen h-full w-full flex flex-col">
         {/* Back  */}
         <Tooltip>
           <TooltipTrigger asChild>
@@ -100,14 +100,15 @@ export default function TjmDetails() {
               </div>
             </div>
           </div>
-          <div className="w-full h-[85%] overflow-auto no-scrollbar">
+
+          <div className="w-full overflow-auto h-[85%] no-scrollbar">
             <Tabs
-              className={"min-w-max"}
-              value={activeTab}
               defaultValue={activeTab}
+              value={activeTab}
+              onValueChange={handleTab}
             >
               <TabsContent className={"animate-fade-in"} value="box">
-                <div className="flex mx-10 w-full mb-10 sticky top-1 z-20 gap-20">
+                <div className="flex mx-10 min-w-max mb-10 sticky top-1 z-20 gap-20">
                   {Object.keys(readyData.blocks).map((b) => {
                     return (
                       <div className="sticky left-10 w-65 bg-accent text-xs text-muted-foreground p-1 text-center rounded border">
@@ -116,7 +117,7 @@ export default function TjmDetails() {
                     );
                   })}
                 </div>
-                <div className="w-full flex flex-col pb-2 gap-1">
+                <div className="min-w-max flex flex-col pb-2 gap-1">
                   {Array.from(
                     { length: readyData.maxFloor },
                     (_, index) => index + 1
@@ -124,7 +125,7 @@ export default function TjmDetails() {
                     .reverse()
                     .map((_, index, arr) => {
                       return (
-                        <div className="flex min-h-10 hover:bg-accent transition-colors cursor-pointer relative group">
+                        <div className="flex w-full min-h-10 hover:bg-accent transition-colors cursor-pointer relative group">
                           {/* CHAP STICKY */}
                           <div className="text-xs text-center text-muted-foreground w-10 flex items-center justify-center sticky left-0 bg-background z-10">
                             <span className="group-hover:font-bold group-hover:scale-150 transition-transform">
@@ -174,7 +175,7 @@ export default function TjmDetails() {
                 </div>
               </TabsContent>
               <TabsContent className={"animate-fade-in"} value="card">
-                <div className="flex mx-10 w-full mb-10 sticky top-1 z-20 gap-20">
+                <div className="flex mx-10 min-w-max mb-10 sticky top-1 z-20 gap-20">
                   {Object.keys(readyData.blocks).map((b) => {
                     return (
                       <div className="sticky left-10 w-305 bg-accent text-xs text-muted-foreground px-2 py-1 rounded border">
