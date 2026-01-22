@@ -1,15 +1,19 @@
 import { Link, Navigate } from "react-router-dom";
 import { Button, buttonVariants } from "../components/ui/button";
 import {
+  Box,
+  CircleMinus,
+  CirclePlus,
   Cuboid,
-  Drama,
+  Plus,
   RectangleHorizontal,
   Square,
   X,
   XIcon,
+  ZoomIn,
+  ZoomOut,
 } from "lucide-react";
 import { useAppStore } from "../lib/zustand";
-import readyData from "../../db";
 import {
   Tabs,
   TabsContent,
@@ -23,6 +27,7 @@ import {
 } from "../components/ui/tooltip";
 import { useEffect, useState } from "react";
 import { Badge } from "../components/ui/badge";
+import { PhotoProvider, PhotoSlider, PhotoView } from "react-photo-view";
 
 const statuses = {
   sold: "bg-red-500",
@@ -100,8 +105,8 @@ export default function TjmDetails() {
               <Link
                 className={`${buttonVariants({
                   size: "icon",
-                  variant: "outline",
-                })} bg-background rounded-none fixed top-1 right-1 z-50`}
+                  variant: "destructive",
+                })} rounded-none fixed top-0 right-0 z-50`}
                 to={"/tjm"}
               >
                 <XIcon />
@@ -114,8 +119,8 @@ export default function TjmDetails() {
 
           {/* Parts */}
           <section className="h-full w-full">
-            <div className="w-full h-[15%] flex flex-col">
-              <div className="mt-auto p-2 flex justify-between items-center">
+            <div className="w-full h-30 flex flex-col">
+              <div className="mt-auto p-3 flex justify-between items-center">
                 <div className="flex gap-3">
                   {Object.entries(statuses).map(([key, value]) => {
                     return (
@@ -125,6 +130,7 @@ export default function TjmDetails() {
                     );
                   })}
                 </div>
+
                 <Tabs
                   onValueChange={handleTab}
                   defaultValue={activeTab}
@@ -145,7 +151,7 @@ export default function TjmDetails() {
               </div>
             </div>
 
-            <div className="w-full flex overflow-hidden h-[85%]">
+            <div className="w-full flex overflow-hidden h-[calc(100%-120px)]">
               <div className="h-full w-full overflow-auto no-scrollbar">
                 <Tabs
                   defaultValue={activeTab}
@@ -154,10 +160,10 @@ export default function TjmDetails() {
                 >
                   {/* Box */}
                   <TabsContent className={"animate-fade-in"} value="box">
-                    <div className="flex mx-10 min-w-max mb-10 sticky top-0 z-10 gap-20">
+                    <div className="flex mx-10 min-w-max mb-10 sticky top-0 z-10 gap-20 bg-background">
                       {Object.keys(home?.blocks).map((b) => {
                         return (
-                          <div className="sticky left-10 w-58 bg-background text-xs text-muted-foreground p-1">
+                          <div className="sticky left-10 w-58 text-xs text-muted-foreground p-1 bg-background">
                             <h3>{b}</h3>
                           </div>
                         );
@@ -257,7 +263,7 @@ export default function TjmDetails() {
 
                   {/* Card  */}
                   <TabsContent className={"animate-fade-in"} value="card">
-                    <div className="flex min-w-max mb-10 mx-10 sticky top-0 z-20 gap-20">
+                    <div className="flex min-w-max mb-10 mx-10 sticky bg-background top-0 z-20 gap-20">
                       {Object.keys(home?.blocks).map((b) => {
                         return (
                           <div className="sticky left-10 w-310 bg-background text-xs text-muted-foreground p-1">
@@ -296,8 +302,15 @@ export default function TjmDetails() {
                                           .map((h) => {
                                             return (
                                               <div
-                                                className={`flex flex-col justify-between p-2 w-50 h-full text-white text-sm rounded ${
+                                                onClick={() => {
+                                                  handleActiveHome(h);
+                                                }}
+                                                className={`flex flex-col justify-between p-2 w-50 h-full text-white text-sm border-8 border-transparent rounded ${
                                                   statuses[h.status]
+                                                } ${
+                                                  h.id === activeHome?.id
+                                                    ? "border-destructive! shadow"
+                                                    : ""
                                                 }`}
                                               >
                                                 <div className="flex justify-between">
@@ -343,22 +356,134 @@ export default function TjmDetails() {
 
               {/* Detals  */}
               <div
-                className={`bg-background relative transition-all duration-400 ${
-                  activeHome
-                    ? "translate-x-0 w-112.5 p-5"
-                    : "translate-x-112.5 w-0"
+                className={`bg-background relative transition-all duration-400 h-full overflow-y-scroll no-scrollbar ${
+                  activeHome ? "translate-x-0 w-112.5" : "translate-x-112.5 w-0"
                 }`}
               >
-                <Button
-                  onClick={() => {
-                    handleActiveHome(null);
-                  }}
-                  className={"rounded-full absolute top-3 right-3"}
-                  variant="outline"
-                  size="icon-sm"
-                >
-                  <X />
-                </Button>
+                <div className="bg-background sticky top-0 border-b">
+                  {activeHome && (
+                    <div className="flex justify-end mb-5">
+                      <Button
+                        onClick={() => {
+                          handleActiveHome(null);
+                        }}
+                        className={"rounded-none"}
+                        variant="destructive"
+                        size="icon-sm"
+                      >
+                        <X />
+                      </Button>
+                    </div>
+                  )}
+
+                  {activeHome && (
+                    <div className="p-2">
+                      <div className="flex items-center justify-between">
+                        <i className="font-mono">№ {activeHome.houseNumber}</i>
+
+                        <Badge className={statuses[activeHome.status]}>
+                          {uzebekTranslate[activeHome.status]}
+                        </Badge>
+                      </div>
+                    </div>
+                  )}
+                </div>
+
+                {/* Images */}
+                {activeHome && (
+                  <div className="p-3 mb-10">
+                    <Tabs defaultValue="2d">
+                      <PhotoProvider
+                        toolbarRender={({ onScale, scale }) => {
+                          return (
+                            <div className="flex mr-5">
+                              <div className="w-11 h-11 p-2.5 group">
+                                <CircleMinus
+                                  className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
+                                  onClick={() => {
+                                    onScale(scale - 1);
+                                  }}
+                                />
+                              </div>
+                              <div className="w-11 h-11 p-2.5 group">
+                                <CirclePlus
+                                  className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
+                                  onClick={() => {
+                                    onScale(scale + 1);
+                                  }}
+                                />
+                              </div>
+                            </div>
+                          );
+                        }}
+                      >
+                        <PhotoView src="/public/2d.jpg">
+                          <TabsContent value="2d">
+                            <img
+                              className="object-cover h-52.5 w-full"
+                              src="/public/2d.jpg"
+                              alt="2d"
+                            />
+                          </TabsContent>
+                        </PhotoView>
+                        <PhotoView src="/public/3d.jpg">
+                          <TabsContent value="3d">
+                            <img
+                              className="object-cover h-52.5 w-full"
+                              src="/public/3d.jpg"
+                              alt="3d"
+                            />
+                          </TabsContent>
+                        </PhotoView>
+                      </PhotoProvider>
+
+                      <TabsList className={"w-full"}>
+                        <TabsTrigger className={"w-2/4"} value="2d">
+                          <Square />
+                          2D
+                        </TabsTrigger>
+                        <TabsTrigger className={"w-2/4"} value="3d">
+                          <Box />
+                          3D
+                        </TabsTrigger>
+                      </TabsList>
+                    </Tabs>
+                  </div>
+                )}
+
+                {activeHome && (
+                  <div className="flex items-start justify-between text-lg mb-10">
+                    <span className="text-muted-foreground">Narx</span>
+                    <div className="">
+                      <span className="bg-primary text-primary-foreground px-2 py-1 leading-none">
+                        {activeHome.price} mln
+                      </span>
+                    </div>
+                  </div>
+                )}
+
+                {activeHome && (
+                  <dl className="flex flex-col">
+                    <div className="flex justify-between items-center px-2 bg-accent">
+                      <dt>Joylashuv</dt>
+                      <dd>B</dd>
+                    </div>
+                    <div className="flex justify-between items-center px-2">
+                      <dt>Qavat</dt>
+                      <dd>7</dd>
+                    </div>
+                    <div className="flex justify-between items-center px-2 bg-accent">
+                      <dt>Maydon</dt>
+                      <dd>
+                        54 m <sup>2</sup>
+                      </dd>
+                    </div>
+                    <div className="flex justify-between items-center px-2">
+                      <dt>Xona</dt>
+                      <dd>{activeHome.room}</dd>
+                    </div>
+                  </dl>
+                )}
               </div>
             </div>
           </section>
