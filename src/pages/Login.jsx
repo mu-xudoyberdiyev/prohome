@@ -100,7 +100,6 @@ export default function Login() {
                     name="email"
                     type="email"
                     placeholder="m@prohome.uz"
-                    defaultValue="superAdmin@gmail.com"
                   />
                 </div>
                 <div className="grid gap-2">
@@ -112,7 +111,6 @@ export default function Login() {
                     name="password"
                     placeholder="********"
                     type="password"
-                    defaultValue="superAdmin123"
                   />
                 </div>
               </div>

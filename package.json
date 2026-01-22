@@ -21,6 +21,7 @@
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "cobe": "^0.6.5",
+    "json-server": "^0.17.4",
     "lucide-react": "^0.562.0",
     "motion": "^12.23.26",
     "react": "^19.0.0",

@@ -1,0 +1,4579 @@
+{
+  "data": {
+    "maxFloor": 16,
+    "blockCount": 3,
+    "blocks": {
+      "A": {
+        "floor": 16,
+        "appartment": [
+          [
+            {
+              "room": 2,
+              "houseNumber": 8,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "7b18da74-f4c3-4f1a-b769-a47cc97ad0b4"
+            },
+            {
+              "room": 2,
+              "houseNumber": 73,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "1e2a0da0-60b8-4f73-bcdb-d227924f028a"
+            },
+            {
+              "room": 3,
+              "houseNumber": 33,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "14e3112d-1f35-470b-89b8-9be86fcc5e29"
+            },
+            {
+              "room": 3,
+              "houseNumber": 15,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "16b2f61a-5a02-4591-ba73-f89da19614e1"
+            },
+            {
+              "room": 4,
+              "houseNumber": 18,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "cf11bef2-00b2-4823-8b8c-aee406b84773"
+            },
+            {
+              "room": 1,
+              "houseNumber": 30,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "fcdc4c04-1e4d-4ae4-8261-d56d40e0d690"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 61,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "89eb2e0e-1263-4b30-bea4-cc769411514e"
+            },
+            {
+              "room": 2,
+              "houseNumber": 4,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "90b11561-dcc9-468d-92e1-bc4b17605abf"
+            },
+            {
+              "room": 3,
+              "houseNumber": 71,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "7d268027-ff0f-48cf-9b68-c3551441f68f"
+            },
+            {
+              "room": 3,
+              "houseNumber": 3,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "91107453-6dae-4bde-934b-95e9c25b7520"
+            },
+            {
+              "room": 4,
+              "houseNumber": 85,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "d140d3df-a726-4ba5-a8e3-583257635fe6"
+            },
+            {
+              "room": 1,
+              "houseNumber": 60,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "6cdd456a-bb20-42d7-85f7-d91410c76fe4"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 86,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "edaaf067-2aa7-4ed3-905a-8ef54a089a42"
+            },
+            {
+              "room": 2,
+              "houseNumber": 50,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "765b4313-7ca9-4d05-b433-189c3990ccf1"
+            },
+            {
+              "room": 3,
+              "houseNumber": 54,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "63854b5a-fbdc-45a8-94e9-2b38d894460a"
+            },
+            {
+              "room": 3,
+              "houseNumber": 79,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "d5f69029-2c47-4d6c-bf44-f92088ff43c7"
+            },
+            {
+              "room": 4,
+              "houseNumber": 16,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "984854b5-3a10-404f-8067-d2cb31dc6556"
+            },
+            {
+              "room": 1,
+              "houseNumber": 59,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "8ca1445c-926a-4e9e-a03e-1e8a2fe1785d"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 16,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "e2bd6a91-38a2-451e-bf7d-a372b736d864"
+            },
+            {
+              "room": 2,
+              "houseNumber": 80,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "769000e1-1883-4276-8b9a-ba8706c9ecee"
+            },
+            {
+              "room": 3,
+              "houseNumber": 93,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "14c196b4-bc8f-47e2-915e-5ada1b994fc8"
+            },
+            {
+              "room": 3,
+              "houseNumber": 69,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "4d1fa799-605b-43c9-9cc3-2db2abf06333"
+            },
+            {
+              "room": 4,
+              "houseNumber": 16,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "534e55d8-e6f3-4b38-a04d-ffedccd3cdf5"
+            },
+            {
+              "room": 1,
+              "houseNumber": 73,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "983a16fa-0014-4c15-95cc-346b72daaee8"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 85,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "1e994d88-9001-444e-9e54-51e88cbcc6fe"
+            },
+            {
+              "room": 2,
+              "houseNumber": 39,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "2968d663-4e9f-42d2-9aec-997e6e4d915a"
+            },
+            {
+              "room": 3,
+              "houseNumber": 87,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "f95e2d7f-1c3c-4237-9dde-eea33db1df76"
+            },
+            {
+              "room": 3,
+              "houseNumber": 33,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "e9ba04d7-751b-4601-b3c6-e2ce7d69931d"
+            },
+            {
+              "room": 4,
+              "houseNumber": 14,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "342acaf6-c564-4f61-8453-3a6ebc10a972"
+            },
+            {
+              "room": 1,
+              "houseNumber": 21,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "45aeb359-c1e3-4810-8d71-ba7561d7660e"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 57,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "4eddd783-b5d3-4ea2-bd62-785e459ed740"
+            },
+            {
+              "room": 2,
+              "houseNumber": 53,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "d1e5bd09-e832-461a-a521-aab802570cf6"
+            },
+            {
+              "room": 3,
+              "houseNumber": 10,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "f47754cb-79d9-40a6-aeaa-2e6d94509050"
+            },
+            {
+              "room": 3,
+              "houseNumber": 88,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "0182bf98-42c2-4f0b-b9b1-eda1b8187605"
+            },
+            {
+              "room": 4,
+              "houseNumber": 29,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "49d5fdc2-29c4-4b8c-a3d3-6e6357fa3680"
+            },
+            {
+              "room": 1,
+              "houseNumber": 53,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "a1b9c126-f551-49b7-9ff8-6bc2add7b7c2"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 57,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "02b99df9-c717-4651-87f3-6244140698ed"
+            },
+            {
+              "room": 2,
+              "houseNumber": 52,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "e24b4a60-5ee0-48e3-a7f3-c9c1825e5e28"
+            },
+            {
+              "room": 3,
+              "houseNumber": 70,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "d54d1be2-2ec1-4ea3-808f-8f63fee92a69"
+            },
+            {
+              "room": 3,
+              "houseNumber": 0,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "8c6e980a-338e-47f3-b333-eb09f5073c25"
+            },
+            {
+              "room": 4,
+              "houseNumber": 36,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "aac6dd2b-b1a4-424f-b422-262eb864c91d"
+            },
+            {
+              "room": 1,
+              "houseNumber": 42,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "6c01c864-a75d-42f0-8ecb-b60bfcbb84ad"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 90,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "ea8adaaa-4949-4465-84fc-98e02d2a7f2f"
+            },
+            {
+              "room": 2,
+              "houseNumber": 9,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "841319ac-3c83-4653-9ae0-96b1a43a6674"
+            },
+            {
+              "room": 3,
+              "houseNumber": 1,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "e80789d3-b8e4-4516-a52c-f1c7fa575062"
+            },
+            {
+              "room": 3,
+              "houseNumber": 44,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "d0a2e24c-a72d-40d3-8b61-27da385481e0"
+            },
+            {
+              "room": 4,
+              "houseNumber": 49,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "a6172599-a5b3-4dc5-8b0b-472aa93ded47"
+            },
+            {
+              "room": 1,
+              "houseNumber": 82,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "b0dce6e1-02a5-46ae-9441-3a3ba099ecb4"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 43,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "987f8acf-bfcb-489b-b3a8-1d20957d26e0"
+            },
+            {
+              "room": 2,
+              "houseNumber": 3,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "d47cd37c-daea-4cbe-8e29-88a4b983b632"
+            },
+            {
+              "room": 3,
+              "houseNumber": 84,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "f5c325f8-6f58-4319-a054-b1955fcea6a4"
+            },
+            {
+              "room": 3,
+              "houseNumber": 32,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "475ab3c6-6eb9-405b-a69b-3284aa3071b3"
+            },
+            {
+              "room": 4,
+              "houseNumber": 78,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "7a41ed92-add1-48e7-945b-ea58e7b1d965"
+            },
+            {
+              "room": 1,
+              "houseNumber": 47,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "47df2d59-9c2d-4f73-9f5f-c1045406c465"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 32,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "f8cbcebc-2811-48fe-a4c1-a548da367d4c"
+            },
+            {
+              "room": 2,
+              "houseNumber": 80,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "f066402d-76e0-409a-85da-a7b9340f1bad"
+            },
+            {
+              "room": 3,
+              "houseNumber": 36,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "de38b3fb-940c-4785-9e7c-ef842050e296"
+            },
+            {
+              "room": 3,
+              "houseNumber": 78,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "e7cac94e-7c1c-44ca-8281-d8bd2df7a458"
+            },
+            {
+              "room": 4,
+              "houseNumber": 79,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "1b36a5a5-0b76-4605-ae74-b06cb2bc6286"
+            },
+            {
+              "room": 1,
+              "houseNumber": 16,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "07a11758-5765-4777-bf8c-4770099cb7a3"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 39,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "b15d1559-36d2-4c78-bd07-09fe2cfba0a2"
+            },
+            {
+              "room": 2,
+              "houseNumber": 25,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "21f80026-51be-443c-9b6e-122969cbc9ec"
+            },
+            {
+              "room": 3,
+              "houseNumber": 81,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "56581b9a-09a1-4a3e-aed8-953e8d9175e3"
+            },
+            {
+              "room": 3,
+              "houseNumber": 23,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "9e8e9226-3605-4565-b726-c16bec721e72"
+            },
+            {
+              "room": 4,
+              "houseNumber": 12,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "43b16207-0f6e-4e9f-8f15-f04b0cc93f4d"
+            },
+            {
+              "room": 1,
+              "houseNumber": 43,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "7523ee35-aec2-4507-ad3f-0249454b5f6e"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 62,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "52835dc3-3c95-47f7-8f35-f7e58dee4902"
+            },
+            {
+              "room": 2,
+              "houseNumber": 58,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "f3c939ac-a9d4-469b-94ea-2f74b2dfa224"
+            },
+            {
+              "room": 3,
+              "houseNumber": 71,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "fe7b06a4-f154-4062-bc64-75f8d5197f71"
+            },
+            {
+              "room": 3,
+              "houseNumber": 0,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "7c68909f-c88d-417d-a4e4-97449c976ea8"
+            },
+            {
+              "room": 4,
+              "houseNumber": 88,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "562c4d14-22b4-49a4-8bfa-f374e951dc28"
+            },
+            {
+              "room": 1,
+              "houseNumber": 30,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "8e408a23-4fe0-4fa0-8a94-d7a08326523b"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 46,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "246530a3-5314-463f-bb32-2239b206fc7f"
+            },
+            {
+              "room": 2,
+              "houseNumber": 24,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "1d1e4317-0133-4db1-80c4-e258ff0657d7"
+            },
+            {
+              "room": 3,
+              "houseNumber": 81,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "a7d0cebc-26c7-4357-8a82-6c78ac7c0dd8"
+            },
+            {
+              "room": 3,
+              "houseNumber": 66,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "42ab8a1f-36e5-4441-ba74-e81f9a38eaa0"
+            },
+            {
+              "room": 4,
+              "houseNumber": 8,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "6f287e7c-08b3-4a41-b347-430a01567307"
+            },
+            {
+              "room": 1,
+              "houseNumber": 89,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "0a947d4a-5b9a-4c0f-8891-fdfd34ac0315"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 16,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "e13730af-4c35-4494-a6c2-30adee51fe89"
+            },
+            {
+              "room": 2,
+              "houseNumber": 47,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "48e02467-7e52-4380-b03e-a56de50cc0a9"
+            },
+            {
+              "room": 3,
+              "houseNumber": 27,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "fb384321-9fc1-4470-a3a5-aed34fdeec94"
+            },
+            {
+              "room": 3,
+              "houseNumber": 7,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "52eff942-8ad7-484c-b115-ee4c581af522"
+            },
+            {
+              "room": 4,
+              "houseNumber": 99,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "a762512e-b6b2-4b6f-82fc-de1ecf48054a"
+            },
+            {
+              "room": 1,
+              "houseNumber": 1,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "2bf5e251-4635-40aa-9291-eba8b67a49c2"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 13,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "83b4d860-3592-4ca4-b6fa-1e6c9eaa5858"
+            },
+            {
+              "room": 2,
+              "houseNumber": 21,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "03c882fc-6fca-4019-8710-8574d3513895"
+            },
+            {
+              "room": 3,
+              "houseNumber": 50,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "92e6bf08-167a-47dc-b724-83ca2c69e9af"
+            },
+            {
+              "room": 3,
+              "houseNumber": 31,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "33406182-44e3-472d-abec-e1fa138b3c0a"
+            },
+            {
+              "room": 4,
+              "houseNumber": 94,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "ced28022-def4-4912-a55f-d574f430f333"
+            },
+            {
+              "room": 1,
+              "houseNumber": 64,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "b5317e81-f289-444e-b5e4-8d0306f43834"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 24,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "56833f65-1ef3-404a-8264-161794567e33"
+            },
+            {
+              "room": 2,
+              "houseNumber": 96,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "22347f35-3497-4288-9921-f66e0cce6e0a"
+            },
+            {
+              "room": 3,
+              "houseNumber": 46,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "d5946dd1-1a69-4dfe-8966-31861d3d282b"
+            },
+            {
+              "room": 3,
+              "houseNumber": 60,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "bba14fd3-4719-41c2-aa86-cfc67ec68d21"
+            },
+            {
+              "room": 4,
+              "houseNumber": 28,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "677258ad-0927-4fea-a284-458bb32050fb"
+            },
+            {
+              "room": 1,
+              "houseNumber": 78,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "bc1913f3-2934-48ea-8e2b-a919fe5fd384"
+            }
+          ]
+        ]
+      },
+      "B": {
+        "floor": 16,
+        "appartment": [
+          [
+            {
+              "room": 2,
+              "houseNumber": 11,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "bfa438de-a654-45d8-ae98-c589ac726375"
+            },
+            {
+              "room": 2,
+              "houseNumber": 6,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "1e41ea5d-50d7-4fde-ac0b-e8172eb13315"
+            },
+            {
+              "room": 3,
+              "houseNumber": 28,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "641a2b46-3572-4ffa-8d02-66c1c64cfb86"
+            },
+            {
+              "room": 3,
+              "houseNumber": 49,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "f7068b89-4957-45af-8e0e-f3d87ea6bd06"
+            },
+            {
+              "room": 4,
+              "houseNumber": 30,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "04461b96-fb05-4285-89a7-18b9c5609269"
+            },
+            {
+              "room": 1,
+              "houseNumber": 17,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "e4523c0e-c7b9-4295-81c5-445a503b75ab"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 31,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "e23570f0-830c-4132-943b-cbafeec81578"
+            },
+            {
+              "room": 2,
+              "houseNumber": 27,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "5cafae48-2ae0-4c48-b6cd-930fc21096bd"
+            },
+            {
+              "room": 3,
+              "houseNumber": 94,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "a20bbd41-6b46-4dc3-828d-f03ce06fa587"
+            },
+            {
+              "room": 3,
+              "houseNumber": 51,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "68ca374d-8dca-4242-97fa-72c4c2cb44b2"
+            },
+            {
+              "room": 4,
+              "houseNumber": 72,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "5131a95e-e45f-44f8-b3bc-2e4f1d63c8d3"
+            },
+            {
+              "room": 1,
+              "houseNumber": 59,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "07ef6d14-56c2-4055-a450-5fa43acf19c2"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 16,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "406052fc-640d-4bc2-8e78-23a3b5eff5c2"
+            },
+            {
+              "room": 2,
+              "houseNumber": 77,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "aea17d62-7536-4dfe-9628-687e593fe459"
+            },
+            {
+              "room": 3,
+              "houseNumber": 20,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "96df3701-776c-446e-8503-5681432395df"
+            },
+            {
+              "room": 3,
+              "houseNumber": 72,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "6e947e64-1666-4b68-bc75-42d8b8c43b62"
+            },
+            {
+              "room": 4,
+              "houseNumber": 34,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "0553e2c5-0253-435c-a10e-e77809d76d05"
+            },
+            {
+              "room": 1,
+              "houseNumber": 3,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "d6027d55-3579-4c6f-bc4d-d70c299ea0fc"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 93,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "ac6ea16c-52ad-47ce-83f0-f8fe08166113"
+            },
+            {
+              "room": 2,
+              "houseNumber": 81,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "557563ac-79ac-4659-84b0-2fa06e7f29aa"
+            },
+            {
+              "room": 3,
+              "houseNumber": 1,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "5342a9c0-f349-4d0d-9204-40bb460951af"
+            },
+            {
+              "room": 3,
+              "houseNumber": 27,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "21576aeb-c664-4aab-b9ad-63daff4b80cc"
+            },
+            {
+              "room": 4,
+              "houseNumber": 81,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "3896f156-5d16-453c-9fd3-4c20a4f1980e"
+            },
+            {
+              "room": 1,
+              "houseNumber": 40,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "1b855634-5e99-4a65-a597-2e90d09356c7"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 36,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "8baf7237-ad29-4a4a-bf1f-f85bb37adcac"
+            },
+            {
+              "room": 2,
+              "houseNumber": 22,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "5ac9e23d-6d16-4121-82f2-32749bb35fbb"
+            },
+            {
+              "room": 3,
+              "houseNumber": 84,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "3337206c-1efb-4166-aee4-b2ed53e5d31f"
+            },
+            {
+              "room": 3,
+              "houseNumber": 40,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "b3c5151f-5191-4cc7-8eb4-acbb7b848295"
+            },
+            {
+              "room": 4,
+              "houseNumber": 19,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "5825f8de-6db3-4023-ae4c-b075d007787f"
+            },
+            {
+              "room": 1,
+              "houseNumber": 11,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "dd010871-db31-4a29-8a37-861061f8a891"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 99,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "b0a22d0a-b9b6-4514-b676-d0e9424b96e3"
+            },
+            {
+              "room": 2,
+              "houseNumber": 45,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "a11c2b40-c79f-44c8-b152-2d177f5339d9"
+            },
+            {
+              "room": 3,
+              "houseNumber": 51,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "20aba9d0-cfc8-446b-8cb8-5021dba07a36"
+            },
+            {
+              "room": 3,
+              "houseNumber": 2,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "ec4f95ee-0ce7-49ff-af9f-8888bf183090"
+            },
+            {
+              "room": 4,
+              "houseNumber": 65,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "177c4f12-6ee4-4ef4-a76c-d58b816b72fc"
+            },
+            {
+              "room": 1,
+              "houseNumber": 38,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "f9c68c62-e70b-4d08-aaaa-3a0a4dd861a9"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 7,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "6148fb1e-a022-4e83-a11c-e7fcb7592312"
+            },
+            {
+              "room": 2,
+              "houseNumber": 94,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "461e512a-89f2-495d-8519-c99c8709afe0"
+            },
+            {
+              "room": 3,
+              "houseNumber": 99,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "69bbf149-e20b-4363-b55d-b10e9310268d"
+            },
+            {
+              "room": 3,
+              "houseNumber": 59,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "c3298053-13c6-45c2-b7e7-331d17332ea5"
+            },
+            {
+              "room": 4,
+              "houseNumber": 57,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "aeb8dea8-c98b-4b3c-a2de-5f91c2daf468"
+            },
+            {
+              "room": 1,
+              "houseNumber": 0,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "6ceeb0a9-d4f2-4a76-91ef-dc4d9629cc27"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 61,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "67e5e8a0-fe0b-4d51-8cee-b2d43ecb565d"
+            },
+            {
+              "room": 2,
+              "houseNumber": 63,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "b45521bc-714f-46ca-8aa2-6bc6711477b5"
+            },
+            {
+              "room": 3,
+              "houseNumber": 79,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "bdab3e44-10c6-42fa-88c8-c92e0d9399c4"
+            },
+            {
+              "room": 3,
+              "houseNumber": 70,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "69e572c2-240f-441d-94a8-d378400dd415"
+            },
+            {
+              "room": 4,
+              "houseNumber": 42,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "3ee8d3c9-796c-4387-9507-c005aae07b34"
+            },
+            {
+              "room": 1,
+              "houseNumber": 88,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "d1b6fd22-39d2-4198-820c-43c6400b7984"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 53,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "f68ff249-7d65-4654-944d-b753a1951817"
+            },
+            {
+              "room": 2,
+              "houseNumber": 21,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "ab7078f8-4a9f-4577-bfe1-986e44f1925c"
+            },
+            {
+              "room": 3,
+              "houseNumber": 74,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "1628a162-aca3-4bd3-a857-2787ce3bdd72"
+            },
+            {
+              "room": 3,
+              "houseNumber": 63,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "d2044480-f2d5-40bb-9213-b6059811442f"
+            },
+            {
+              "room": 4,
+              "houseNumber": 14,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "20e57c6c-2aef-4905-88ca-9715b138db55"
+            },
+            {
+              "room": 1,
+              "houseNumber": 77,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "57758b67-db27-4fba-bd49-1d20774e00b5"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 91,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "0b03d406-23f5-4805-8569-83ea716d7a47"
+            },
+            {
+              "room": 2,
+              "houseNumber": 31,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "0247038d-95f1-4408-92fb-df58969de607"
+            },
+            {
+              "room": 3,
+              "houseNumber": 78,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "b31f2b32-e923-457c-8bc8-00a81baf37e3"
+            },
+            {
+              "room": 3,
+              "houseNumber": 12,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "dbc8b535-d18f-48cc-8f8f-936896173807"
+            },
+            {
+              "room": 4,
+              "houseNumber": 58,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "b6e240f8-ff55-4f9e-99e8-1612a9a23409"
+            },
+            {
+              "room": 1,
+              "houseNumber": 34,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "bac06c39-d61c-43d0-9cb5-f89ae5dd5894"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 4,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "f450813e-547d-4847-8b0a-7a6e69bd0191"
+            },
+            {
+              "room": 2,
+              "houseNumber": 89,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "2aa71b00-fba8-4d13-be0b-bebf5d343e72"
+            },
+            {
+              "room": 3,
+              "houseNumber": 56,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "69b0af17-ce3f-448c-b596-f2acb324b811"
+            },
+            {
+              "room": 3,
+              "houseNumber": 27,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "022ed8a9-de4d-4904-bdd9-e4346d5f111b"
+            },
+            {
+              "room": 4,
+              "houseNumber": 86,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "75d7a543-4da3-4978-b528-8306fceba87e"
+            },
+            {
+              "room": 1,
+              "houseNumber": 34,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "1c5f7902-afe9-44c1-a2ea-877d5dd9b7ad"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 43,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "fc0405d9-da63-4542-9694-cfd7a047758c"
+            },
+            {
+              "room": 2,
+              "houseNumber": 73,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "587ae617-5344-4579-baee-4fad775b55bf"
+            },
+            {
+              "room": 3,
+              "houseNumber": 45,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "5b23311d-9ae6-4f97-9e4c-746c41dd3e0a"
+            },
+            {
+              "room": 3,
+              "houseNumber": 7,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "49c5519e-63ef-40d3-ad54-6c556fc7a157"
+            },
+            {
+              "room": 4,
+              "houseNumber": 10,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "1e715a21-f87a-4670-8adf-276de146c76f"
+            },
+            {
+              "room": 1,
+              "houseNumber": 69,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "1f4de4b2-cdcb-425e-9b58-0e31697ac12b"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 84,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "69bace7f-6131-4445-8636-e8c4c5a755b9"
+            },
+            {
+              "room": 2,
+              "houseNumber": 2,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "799dccf3-0ec4-4276-941c-4431f4fe1b23"
+            },
+            {
+              "room": 3,
+              "houseNumber": 23,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "995a0434-aead-4997-ac37-2eb895456147"
+            },
+            {
+              "room": 3,
+              "houseNumber": 37,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "d6ddb7cb-5987-4baf-ae53-478638bb6a40"
+            },
+            {
+              "room": 4,
+              "houseNumber": 47,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "8f7806fc-95e5-42fc-a545-b9e9d4216662"
+            },
+            {
+              "room": 1,
+              "houseNumber": 2,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "643da22a-1ce3-453e-a9da-e2127c578b3e"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 9,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "012e2418-df3d-41ae-878d-2a721a98918e"
+            },
+            {
+              "room": 2,
+              "houseNumber": 93,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "a9eda877-fd2e-45b5-b5a8-3e47b596648b"
+            },
+            {
+              "room": 3,
+              "houseNumber": 8,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "b754b655-8222-48b3-bbb1-b3109a4db669"
+            },
+            {
+              "room": 3,
+              "houseNumber": 64,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "e51b8a8b-01ca-4594-8dff-667164dcd996"
+            },
+            {
+              "room": 4,
+              "houseNumber": 41,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "d703ebf9-04d0-48ae-91c5-a9446a3b03ad"
+            },
+            {
+              "room": 1,
+              "houseNumber": 24,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "eedcb806-fb99-476d-ba0c-0ef5369af291"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 48,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "f84545ff-e61c-468b-b868-b93cf1066658"
+            },
+            {
+              "room": 2,
+              "houseNumber": 50,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "b6b7ed2d-75e9-42b1-9af8-a7d72914580a"
+            },
+            {
+              "room": 3,
+              "houseNumber": 45,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "9718e751-f4e0-4a06-8685-6c44733131bd"
+            },
+            {
+              "room": 3,
+              "houseNumber": 86,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "f72eb859-1e13-4f41-867b-9f9728795690"
+            },
+            {
+              "room": 4,
+              "houseNumber": 62,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "2e40dafe-9f05-4bf6-89c0-7afddde66fd2"
+            },
+            {
+              "room": 1,
+              "houseNumber": 2,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "ebea8730-5b07-4fd9-95d9-f48ebe2a7a83"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 3,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "69249ea1-45ee-4f81-b198-fb4eadc42cb9"
+            },
+            {
+              "room": 2,
+              "houseNumber": 81,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "2924402c-e13b-4aed-98b9-61ecee6af8a0"
+            },
+            {
+              "room": 3,
+              "houseNumber": 19,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "5f57a9f9-d50c-4caa-a5a1-2485ea966b01"
+            },
+            {
+              "room": 3,
+              "houseNumber": 31,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "7b9c0738-2f0a-4002-9a65-e6a04dbf619b"
+            },
+            {
+              "room": 4,
+              "houseNumber": 85,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "7892c6fe-34b1-4507-acfc-e571093bd775"
+            },
+            {
+              "room": 1,
+              "houseNumber": 54,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "82fe7076-42d2-4986-85b7-199729da362d"
+            }
+          ]
+        ]
+      },
+      "C": {
+        "floor": 12,
+        "appartment": [
+          [
+            {
+              "room": 2,
+              "houseNumber": 83,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "b0b2d0b8-0079-4100-a646-d269ab26b08e"
+            },
+            {
+              "room": 2,
+              "houseNumber": 16,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "98882dd9-e200-44a3-a189-7dec103842b9"
+            },
+            {
+              "room": 3,
+              "houseNumber": 15,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "bfcb2965-613b-406e-a1b8-b3eecfef3aa7"
+            },
+            {
+              "room": 3,
+              "houseNumber": 55,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "bb43951a-ae53-4068-b202-9afe5843ef94"
+            },
+            {
+              "room": 4,
+              "houseNumber": 77,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "79cd7c9f-ea68-4d8a-b7fa-035533091460"
+            },
+            {
+              "room": 1,
+              "houseNumber": 83,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "6e7b696a-cdb1-4211-88a1-13064374d929"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 68,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "f3b99dff-b279-4b97-bd33-16ced3b65cca"
+            },
+            {
+              "room": 2,
+              "houseNumber": 97,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "a3641f98-6da6-4a6b-a09e-97e6cbd8a0fc"
+            },
+            {
+              "room": 3,
+              "houseNumber": 95,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "7959f26b-809e-49bf-a099-988f9c6de169"
+            },
+            {
+              "room": 3,
+              "houseNumber": 73,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "d42062a1-d77b-4ab5-aaac-52da4637414b"
+            },
+            {
+              "room": 4,
+              "houseNumber": 80,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "e8f8692f-7813-47f6-b8b7-3a75b2924160"
+            },
+            {
+              "room": 1,
+              "houseNumber": 12,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "4aa99c12-a05c-487f-8bfb-68d942e88851"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 95,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "0a23418e-ec03-4aae-89f5-03670642f18a"
+            },
+            {
+              "room": 2,
+              "houseNumber": 5,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "502f7514-3983-4b27-bbe0-10e4a5541d71"
+            },
+            {
+              "room": 3,
+              "houseNumber": 26,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "c4475b3b-565f-4d8f-8b86-93dee50a531c"
+            },
+            {
+              "room": 3,
+              "houseNumber": 91,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "d8a56805-f5b9-4971-a2f9-bdeb7f4ee4de"
+            },
+            {
+              "room": 4,
+              "houseNumber": 89,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "039e55c6-952b-4020-858e-80b782de62df"
+            },
+            {
+              "room": 1,
+              "houseNumber": 4,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "d121bedc-7b05-4e4f-8f75-5ac3bbfbebe6"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 65,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "2b905388-4fa6-4412-bbf0-4a5f0a9d0c39"
+            },
+            {
+              "room": 2,
+              "houseNumber": 75,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "c4301b48-c908-42dc-ac2d-56a8b0cb9028"
+            },
+            {
+              "room": 3,
+              "houseNumber": 70,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "a0c5b7cf-7100-455d-840c-8c55c29acfcf"
+            },
+            {
+              "room": 3,
+              "houseNumber": 58,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "d36f94d2-545c-4113-bae2-560e5a5e7f62"
+            },
+            {
+              "room": 4,
+              "houseNumber": 88,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "4d59a500-2886-4b38-82c6-dadcdacd384a"
+            },
+            {
+              "room": 1,
+              "houseNumber": 39,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "f671574f-faa8-4e41-bc84-7e43dd232374"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 70,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "a63a21a2-a5ca-4c38-8050-b468a48316cd"
+            },
+            {
+              "room": 2,
+              "houseNumber": 24,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "8760948a-6bec-4b04-856c-fca110cd8819"
+            },
+            {
+              "room": 3,
+              "houseNumber": 22,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "d5f059e8-d1ec-4b1f-b314-2faf9a505f1c"
+            },
+            {
+              "room": 3,
+              "houseNumber": 6,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "d6bace18-af1d-40ad-9ceb-48f1a6afd5fb"
+            },
+            {
+              "room": 4,
+              "houseNumber": 27,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "fb59d894-2367-4289-a78c-097554126751"
+            },
+            {
+              "room": 1,
+              "houseNumber": 28,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "12322c2a-45c5-438b-9c50-12d44da09bb6"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 74,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "6cb92abb-204b-4136-9f3c-e18b0b1a8f08"
+            },
+            {
+              "room": 2,
+              "houseNumber": 88,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "6a4a750c-4ef2-484b-ac5b-3a7306c2f326"
+            },
+            {
+              "room": 3,
+              "houseNumber": 94,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "875f9992-b48a-4548-b715-b64a9dd2a369"
+            },
+            {
+              "room": 3,
+              "houseNumber": 61,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "c11c6376-6c3b-4a95-b78a-3bf2e46b23ec"
+            },
+            {
+              "room": 4,
+              "houseNumber": 13,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "33af7406-d8f7-4401-b2a8-c9a3378aecb9"
+            },
+            {
+              "room": 1,
+              "houseNumber": 69,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "22d4a8fd-bbf6-4421-b48c-28bb76f582b2"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 41,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "5440dcce-cc1c-4e23-9a7d-06093b15e558"
+            },
+            {
+              "room": 2,
+              "houseNumber": 81,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "7cf560e7-0f9c-4fba-aafc-5aeed2d43285"
+            },
+            {
+              "room": 3,
+              "houseNumber": 58,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "8bb83ab3-b8b0-4ea9-954d-ca79d13b42a1"
+            },
+            {
+              "room": 3,
+              "houseNumber": 61,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "d3ac2619-96b6-466d-a54c-6ae71a0f4f4b"
+            },
+            {
+              "room": 4,
+              "houseNumber": 6,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "08768c01-8b4e-4b19-96a4-88f22ae0ea85"
+            },
+            {
+              "room": 1,
+              "houseNumber": 77,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "60db7dd7-78e2-43e1-a7de-5e2c5e8558dd"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 51,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "497a65ee-fdb4-44f9-971c-3c1ea7b22581"
+            },
+            {
+              "room": 2,
+              "houseNumber": 43,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "28c6d03b-a141-4334-9ce3-aca1d3cfac03"
+            },
+            {
+              "room": 3,
+              "houseNumber": 58,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "c20081dc-a0e4-42ab-8096-4a8ac6b4d8d8"
+            },
+            {
+              "room": 3,
+              "houseNumber": 11,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "88033c96-ec70-47a7-892a-4d12fb5ad003"
+            },
+            {
+              "room": 4,
+              "houseNumber": 57,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "05346295-dd9d-41cb-b305-b86269a4b058"
+            },
+            {
+              "room": 1,
+              "houseNumber": 16,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "dc1a7368-7d38-4b25-902c-f0ba7bf9c46d"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 35,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "2236b0e2-5d67-4de5-9ccc-91e80f2f7806"
+            },
+            {
+              "room": 2,
+              "houseNumber": 86,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "33c49a19-7881-4451-a77a-a8aa0ad4d3d9"
+            },
+            {
+              "room": 3,
+              "houseNumber": 19,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "b48b9d02-d6b9-40ef-820b-cf2202a287bf"
+            },
+            {
+              "room": 3,
+              "houseNumber": 91,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "867529a2-bb84-4782-9c25-33ba88503b80"
+            },
+            {
+              "room": 4,
+              "houseNumber": 85,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "6d33a3ce-5493-44d7-9fb2-68b1ead13446"
+            },
+            {
+              "room": 1,
+              "houseNumber": 94,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "a7d4fd8f-3668-4c96-a50b-20604fae19fd"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 67,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "0e976d32-ca49-404c-8eb4-ecab1e0538d6"
+            },
+            {
+              "room": 2,
+              "houseNumber": 25,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "eeecab7e-da97-4e83-b0ac-8274021a52f0"
+            },
+            {
+              "room": 3,
+              "houseNumber": 79,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "717d03dd-a49b-4133-bba6-42e3c4a835bb"
+            },
+            {
+              "room": 3,
+              "houseNumber": 97,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "959af061-5de4-4c27-b54b-2d5efb85460b"
+            },
+            {
+              "room": 4,
+              "houseNumber": 34,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "70239034-74d4-457a-b6fa-39c44d657baa"
+            },
+            {
+              "room": 1,
+              "houseNumber": 90,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "e02d1924-21ba-4220-a154-71b447c5524f"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 24,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "2db1f8e6-c0ba-4064-88cf-842dd003a526"
+            },
+            {
+              "room": 2,
+              "houseNumber": 54,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "f22ad19a-24a9-4393-aa2e-2908aaa70c47"
+            },
+            {
+              "room": 3,
+              "houseNumber": 81,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "19dd02b4-6570-45e0-9240-198912e384fb"
+            },
+            {
+              "room": 3,
+              "houseNumber": 5,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "2a9039fe-4e88-453f-81e1-1fbe358ca78e"
+            },
+            {
+              "room": 4,
+              "houseNumber": 78,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "0d9f8d4d-716f-48cc-b9ca-4beba3dedaf2"
+            },
+            {
+              "room": 1,
+              "houseNumber": 55,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "a37d62d4-8b81-4798-8016-ba86fe7fb59d"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 40,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "1198fcf0-f6b6-41e0-bf37-be5ac8065664"
+            },
+            {
+              "room": 2,
+              "houseNumber": 65,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "007c1c09-e243-44b8-bc12-fee881001952"
+            },
+            {
+              "room": 3,
+              "houseNumber": 59,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "fdc6e495-250d-4185-88fd-82ccb2e5590d"
+            },
+            {
+              "room": 3,
+              "houseNumber": 35,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "f1a8982e-347a-47ed-9d68-b69bc87b6b09"
+            },
+            {
+              "room": 4,
+              "houseNumber": 11,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "b92b3b65-8c83-4625-a4e2-78eea747842c"
+            },
+            {
+              "room": 1,
+              "houseNumber": 68,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "a8910814-aeda-431b-ac88-6148fceb6138"
+            }
+          ]
+        ]
+      },
+      "D": {
+        "floor": 10,
+        "appartment": [
+          [
+            {
+              "room": 2,
+              "houseNumber": 20,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "b98cf4b8-9e27-4ae8-986f-d10b974d99df"
+            },
+            {
+              "room": 2,
+              "houseNumber": 67,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "07dbb3f9-b2dd-4d05-8f2f-d1a0cc8b69f2"
+            },
+            {
+              "room": 3,
+              "houseNumber": 95,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "4eff6726-5dd2-4b30-97ba-5b65e6fd6b4a"
+            },
+            {
+              "room": 3,
+              "houseNumber": 5,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "b7fa4f25-a015-4437-9951-42d6ccd9bf3b"
+            },
+            {
+              "room": 4,
+              "houseNumber": 50,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "6fa6cef2-3470-4890-b177-bb54de794546"
+            },
+            {
+              "room": 1,
+              "houseNumber": 42,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "dac03ce1-d20e-4183-8d8f-2f71005c4f95"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 7,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "ba2702c2-0dde-444f-9277-e11f91b6e353"
+            },
+            {
+              "room": 2,
+              "houseNumber": 17,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "fd0be189-b1dc-4f10-b0ed-a566d08a2adb"
+            },
+            {
+              "room": 3,
+              "houseNumber": 74,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "6dd58947-42b9-4122-a370-55b576b0918e"
+            },
+            {
+              "room": 3,
+              "houseNumber": 91,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "e08e6117-2dd9-4f22-bbff-c09d7905c17a"
+            },
+            {
+              "room": 4,
+              "houseNumber": 66,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "8ce3bcae-75a9-4e61-b8a3-36bc842682a3"
+            },
+            {
+              "room": 1,
+              "houseNumber": 4,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "1726e65a-07be-473b-ac73-ac45e00b51c9"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 68,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "a5d048d9-0b85-4668-bc99-28b432ade072"
+            },
+            {
+              "room": 2,
+              "houseNumber": 26,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "617e4978-868e-4933-9ca0-eb038dbb4326"
+            },
+            {
+              "room": 3,
+              "houseNumber": 95,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "d2c11293-5d15-4fca-a5a7-fa1408e3d357"
+            },
+            {
+              "room": 3,
+              "houseNumber": 80,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "d63361f4-b14b-4910-b885-9d1b4d531ea1"
+            },
+            {
+              "room": 4,
+              "houseNumber": 45,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "c8ec0be0-c63e-4a1e-9f07-69e05fdcbf7a"
+            },
+            {
+              "room": 1,
+              "houseNumber": 19,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "b84fc67f-39b5-49e4-970d-0dccefbb2210"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 91,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "ed89b18f-ce4d-4801-98db-99f34606a16c"
+            },
+            {
+              "room": 2,
+              "houseNumber": 33,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "222366cf-3f71-4e3e-9398-d2591e29412d"
+            },
+            {
+              "room": 3,
+              "houseNumber": 18,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "dcb8adbf-9691-4616-a04e-25f27befd124"
+            },
+            {
+              "room": 3,
+              "houseNumber": 32,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "61a757e3-1026-4521-a50b-7059974bd044"
+            },
+            {
+              "room": 4,
+              "houseNumber": 41,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "a584f00e-4d93-4da2-a2ba-d4c857c6f383"
+            },
+            {
+              "room": 1,
+              "houseNumber": 78,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "71c18126-e6e4-4102-9704-677662860449"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 94,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "996460da-d645-4245-a121-b86d3bc328fc"
+            },
+            {
+              "room": 2,
+              "houseNumber": 7,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "9884fa7c-3150-42c7-a4a8-075e657a8f67"
+            },
+            {
+              "room": 3,
+              "houseNumber": 52,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "dad22c9d-e4a4-41fc-8c5f-5848df7166b8"
+            },
+            {
+              "room": 3,
+              "houseNumber": 81,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "a314f7ef-1eeb-4245-bdf3-56dbe5c25c38"
+            },
+            {
+              "room": 4,
+              "houseNumber": 24,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "d33569ae-f2b0-417f-8a9f-43b02ff28855"
+            },
+            {
+              "room": 1,
+              "houseNumber": 52,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "64707230-79b7-42ce-872d-5c270685f3e1"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 24,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "29b115b7-2065-4cbc-abe3-2b8a8d34c5ef"
+            },
+            {
+              "room": 2,
+              "houseNumber": 41,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "64d6b81a-4758-45e1-95de-aa59f288780a"
+            },
+            {
+              "room": 3,
+              "houseNumber": 30,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "b66e28bb-1a76-4e48-928c-98446ecb0814"
+            },
+            {
+              "room": 3,
+              "houseNumber": 82,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "23470a15-8d5e-4f50-b3d3-0d8035f0c970"
+            },
+            {
+              "room": 4,
+              "houseNumber": 86,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "07f8e046-d5c7-4a58-bc36-68aaa230361c"
+            },
+            {
+              "room": 1,
+              "houseNumber": 51,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "5c7d3650-e667-4fe3-a959-f13d26bd247a"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 35,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "d8fae457-6265-46a0-8089-10e295b62937"
+            },
+            {
+              "room": 2,
+              "houseNumber": 91,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "5a86e8ab-a9f6-4052-889f-5141b3bf990d"
+            },
+            {
+              "room": 3,
+              "houseNumber": 19,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "b96cd46c-dfe7-424d-84a4-e9455b182f04"
+            },
+            {
+              "room": 3,
+              "houseNumber": 23,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "3a26cbc7-64a0-4e42-873c-ce21304a2f6a"
+            },
+            {
+              "room": 4,
+              "houseNumber": 54,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "49628c86-5fe4-44d9-9740-2289f0fd53a7"
+            },
+            {
+              "room": 1,
+              "houseNumber": 25,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "7c23a876-7b11-4b1f-955c-85c2d9a88fec"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 82,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "c3eb50e1-2dab-478b-9277-fc9d19b04077"
+            },
+            {
+              "room": 2,
+              "houseNumber": 33,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "4132f110-6894-4a25-82f7-f47a9d594ecc"
+            },
+            {
+              "room": 3,
+              "houseNumber": 70,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "29dc9373-c78c-43f5-bbc4-20ecec48832c"
+            },
+            {
+              "room": 3,
+              "houseNumber": 89,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "8568189d-7e16-452e-a6aa-e8463089cec9"
+            },
+            {
+              "room": 4,
+              "houseNumber": 48,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "0fa7e21f-b0cf-4448-97cf-77cbb31181bf"
+            },
+            {
+              "room": 1,
+              "houseNumber": 12,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "bae29abd-0d9e-4044-85f0-046fafb3aa9f"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 78,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "1129b796-0a03-4fde-aac5-ec4fbc55e469"
+            },
+            {
+              "room": 2,
+              "houseNumber": 86,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "520edd42-aa00-45f9-9727-76aadac105c7"
+            },
+            {
+              "room": 3,
+              "houseNumber": 94,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "9cdb285e-41df-4685-8714-5e7eddc6b5b7"
+            },
+            {
+              "room": 3,
+              "houseNumber": 39,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "69ca411f-5cd0-4137-b3e1-41459551b8c5"
+            },
+            {
+              "room": 4,
+              "houseNumber": 74,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "04fd1aa5-7f47-4945-8afe-461c4d39075a"
+            },
+            {
+              "room": 1,
+              "houseNumber": 69,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "cb91cf50-7d04-47b8-9147-182a2816042e"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 7,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "6cb8ec42-dbab-4259-b073-93ed0a477588"
+            },
+            {
+              "room": 2,
+              "houseNumber": 49,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "aab52d57-da67-4df2-93a7-88e819258e73"
+            },
+            {
+              "room": 3,
+              "houseNumber": 59,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "4be072ce-154b-4dad-a88e-010f660b4de9"
+            },
+            {
+              "room": 3,
+              "houseNumber": 80,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "4441f9c5-8e50-4b2c-ab48-c58a4c5fbf98"
+            },
+            {
+              "room": 4,
+              "houseNumber": 29,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "f66e7da4-7d87-43c6-8e40-94b98adf56dc"
+            },
+            {
+              "room": 1,
+              "houseNumber": 65,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "4adb1371-7e5d-4f09-90c1-53cb877a210b"
+            }
+          ]
+        ]
+      },
+      "E": {
+        "floor": 10,
+        "appartment": [
+          [
+            {
+              "room": 2,
+              "houseNumber": 4,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "e7272fa1-05d1-4c0a-a87a-f057cecd03f0"
+            },
+            {
+              "room": 2,
+              "houseNumber": 10,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "f7d9c2db-5596-4fb9-924a-65e9da0acf00"
+            },
+            {
+              "room": 3,
+              "houseNumber": 7,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "f6ff37cb-a07e-4c4e-a8a0-8f70b2bb7e53"
+            },
+            {
+              "room": 3,
+              "houseNumber": 54,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "0eb446fc-20f7-4fdd-994c-18c6cb63a650"
+            },
+            {
+              "room": 4,
+              "houseNumber": 39,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "972c5f34-207b-4ce6-a750-2e8eca6c0e3e"
+            },
+            {
+              "room": 1,
+              "houseNumber": 59,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "56ccbbf0-3ed2-43da-af72-60b194517ee2"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 36,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "0d32efa7-47b4-4643-90ae-4cb01e077e73"
+            },
+            {
+              "room": 2,
+              "houseNumber": 63,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "e44ee479-6150-4075-bf90-e172c2bf50c8"
+            },
+            {
+              "room": 3,
+              "houseNumber": 62,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "9cf1e879-18a6-488a-b924-9159e0c141b2"
+            },
+            {
+              "room": 3,
+              "houseNumber": 43,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "96ca5cb0-b8fa-43c6-a601-59cc985f4e85"
+            },
+            {
+              "room": 4,
+              "houseNumber": 18,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "870d68e2-7aa2-43a5-b7e0-d793ef31fd69"
+            },
+            {
+              "room": 1,
+              "houseNumber": 0,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "5aef83d4-3724-445c-aaca-e8fccb5886f8"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 39,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "d1e3933b-a988-4448-b6f6-1d5a081b6c8f"
+            },
+            {
+              "room": 2,
+              "houseNumber": 26,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "01734517-5977-423e-b957-a16d7aa5995c"
+            },
+            {
+              "room": 3,
+              "houseNumber": 3,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "2be1fea5-a68e-4482-acf5-6e9d5896120d"
+            },
+            {
+              "room": 3,
+              "houseNumber": 72,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "1313303f-dbc3-4192-85a9-0a65044194ec"
+            },
+            {
+              "room": 4,
+              "houseNumber": 69,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "9407c2e9-458c-4475-a7f0-a0ec0a7889f9"
+            },
+            {
+              "room": 1,
+              "houseNumber": 18,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "99d089c8-e24c-43f8-bcbe-759d3be9eb44"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 57,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "96424d85-f45a-4b67-b123-1d9c41b80ba7"
+            },
+            {
+              "room": 2,
+              "houseNumber": 3,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "215c3758-6e18-4b43-b1a0-406bb3b91d34"
+            },
+            {
+              "room": 3,
+              "houseNumber": 18,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "d4357cc6-e7ae-4b28-8905-e48964a1690d"
+            },
+            {
+              "room": 3,
+              "houseNumber": 35,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "36daea97-5cf8-4535-8218-a1edb57293df"
+            },
+            {
+              "room": 4,
+              "houseNumber": 10,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "202f7454-8994-40ac-aa7d-3335bdca01de"
+            },
+            {
+              "room": 1,
+              "houseNumber": 88,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "cbfcb983-5347-4b6b-9b71-da1d75de89d0"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 38,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "340f3d36-0993-4ee9-82d4-c1a163b7e3de"
+            },
+            {
+              "room": 2,
+              "houseNumber": 34,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "e5849b18-4d84-4a86-bfaf-dedee0884c21"
+            },
+            {
+              "room": 3,
+              "houseNumber": 62,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "b77b9436-1cd1-4baa-9691-6fc4108496b4"
+            },
+            {
+              "room": 3,
+              "houseNumber": 55,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "c36c04b4-2d11-4a37-a7a7-590fda0adbc7"
+            },
+            {
+              "room": 4,
+              "houseNumber": 82,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "d9b208be-cd67-4b15-9049-947636079352"
+            },
+            {
+              "room": 1,
+              "houseNumber": 12,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "eb6a1385-301c-4103-ac60-750408b3144f"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 79,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "727dbc47-3b3e-4bb9-8322-07c7af77b038"
+            },
+            {
+              "room": 2,
+              "houseNumber": 67,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "e469e9b2-b8c0-4421-ae08-d90964c9b893"
+            },
+            {
+              "room": 3,
+              "houseNumber": 92,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "55d51466-8893-44c4-a28e-60bc4ffcb118"
+            },
+            {
+              "room": 3,
+              "houseNumber": 34,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "4d1b7f16-eaf2-44ff-8dd8-f370666c13d4"
+            },
+            {
+              "room": 4,
+              "houseNumber": 87,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "bfdc06ab-f5cf-4963-bd09-7ec3a994d5cc"
+            },
+            {
+              "room": 1,
+              "houseNumber": 69,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "72ca1e19-367f-4270-a00c-21b8f4f29413"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 76,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "7dd009ec-2ab2-4d06-b922-5026380cc9bb"
+            },
+            {
+              "room": 2,
+              "houseNumber": 70,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "f5c89ad3-cf86-4e25-9e26-f3fced002e39"
+            },
+            {
+              "room": 3,
+              "houseNumber": 94,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "97737547-3b99-4c9e-b665-7b8a31aae9dd"
+            },
+            {
+              "room": 3,
+              "houseNumber": 10,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "ac117e3d-dc1f-4600-8bfc-d59378e2b293"
+            },
+            {
+              "room": 4,
+              "houseNumber": 91,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "22420c15-bc3d-4827-a99b-2d48bdb94c86"
+            },
+            {
+              "room": 1,
+              "houseNumber": 96,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "00c9bd9d-c58a-4a25-ac5b-40053385b55b"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 17,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "f2328ddc-ab5b-40eb-8772-96cc1e5fa92a"
+            },
+            {
+              "room": 2,
+              "houseNumber": 88,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "16b891b2-3948-4a60-94a1-d8757410553d"
+            },
+            {
+              "room": 3,
+              "houseNumber": 70,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "8e4d877b-983b-4f5d-94f6-1df7610ab4d4"
+            },
+            {
+              "room": 3,
+              "houseNumber": 29,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "fa24aa6b-db42-4ff3-9559-b0cba72b5e51"
+            },
+            {
+              "room": 4,
+              "houseNumber": 93,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "8edf4346-456c-4bc7-ace9-acceb48bc5d2"
+            },
+            {
+              "room": 1,
+              "houseNumber": 79,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "6ed80b1d-dc26-42f8-b3cf-e925cb80448c"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 83,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "d0034b93-7359-4790-907f-b19830db8ddb"
+            },
+            {
+              "room": 2,
+              "houseNumber": 5,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "26344b2b-0cd7-475b-a1ce-c4c053510672"
+            },
+            {
+              "room": 3,
+              "houseNumber": 83,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "aea4bcc6-db6f-4ee5-bdb6-075881c5c986"
+            },
+            {
+              "room": 3,
+              "houseNumber": 35,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "9c3d927d-544d-405b-9e99-2e5ab41aeacd"
+            },
+            {
+              "room": 4,
+              "houseNumber": 28,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "820d84c2-a373-4463-97f8-573bf60525c1"
+            },
+            {
+              "room": 1,
+              "houseNumber": 10,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "e9e926d3-20e5-4139-b947-0afc35f0eb54"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 32,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "835a79d7-322b-4fcf-b29a-89b7778b24a1"
+            },
+            {
+              "room": 2,
+              "houseNumber": 15,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "14e5ca08-7b42-45ba-bb66-ff2847bf404e"
+            },
+            {
+              "room": 3,
+              "houseNumber": 17,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "2153017b-998c-432a-b623-0f1563c4b918"
+            },
+            {
+              "room": 3,
+              "houseNumber": 29,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "7b98422f-c308-4e53-a356-bae2c135f8ae"
+            },
+            {
+              "room": 4,
+              "houseNumber": 78,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "a51c4b64-2a61-4041-9096-4edfcad363ae"
+            },
+            {
+              "room": 1,
+              "houseNumber": 36,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "c2b79f4a-e506-49b1-9550-f55285b70dcf"
+            }
+          ]
+        ]
+      },
+      "F": {
+        "floor": 8,
+        "appartment": [
+          [
+            {
+              "room": 2,
+              "houseNumber": 5,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "43b80230-71b7-4d1b-83ca-c84f646ecb70"
+            },
+            {
+              "room": 2,
+              "houseNumber": 79,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "47eaa75b-0cf0-4b47-a723-724321ba3027"
+            },
+            {
+              "room": 3,
+              "houseNumber": 8,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "3c894144-77e5-46ac-8772-fc10dadb0cfc"
+            },
+            {
+              "room": 3,
+              "houseNumber": 63,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "392d3f5c-5930-4036-b7a5-1de1675648cd"
+            },
+            {
+              "room": 4,
+              "houseNumber": 67,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "b13db643-edd2-4944-9dea-acd7b2d090ee"
+            },
+            {
+              "room": 1,
+              "houseNumber": 64,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "31e2f21e-48c3-4b71-b69a-dcc274d5679b"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 73,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "feffc334-61c7-428c-9cd8-f7326b5cd0a8"
+            },
+            {
+              "room": 2,
+              "houseNumber": 7,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "b7a9f924-30c9-4918-9025-bfbb6fabb3c6"
+            },
+            {
+              "room": 3,
+              "houseNumber": 40,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "8395e33e-de5d-4c89-9428-4892ad544598"
+            },
+            {
+              "room": 3,
+              "houseNumber": 66,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "e1c3dbe6-4482-42a0-bc3d-e4508cad048c"
+            },
+            {
+              "room": 4,
+              "houseNumber": 3,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "70ddde28-498a-42a0-b9ea-4665e82f2686"
+            },
+            {
+              "room": 1,
+              "houseNumber": 90,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "9246c382-6252-4701-86af-94089b3b08d5"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 31,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "807ff13f-29cc-4aa4-a530-8d9bedf3584e"
+            },
+            {
+              "room": 2,
+              "houseNumber": 61,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "87c28990-ee88-4c88-b4d4-39659805ed77"
+            },
+            {
+              "room": 3,
+              "houseNumber": 6,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "737de824-052d-43ac-a46b-2320003db4c2"
+            },
+            {
+              "room": 3,
+              "houseNumber": 98,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "d6e3085f-e9b0-4e93-9627-bfb1643f172d"
+            },
+            {
+              "room": 4,
+              "houseNumber": 25,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "8776d7a4-a459-49a1-9340-7e71fb549a55"
+            },
+            {
+              "room": 1,
+              "houseNumber": 4,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "2937cec3-33cf-4d12-af97-668be65555e3"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 0,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "855cbd98-bccc-4fc3-8f25-5cb8b7b0508f"
+            },
+            {
+              "room": 2,
+              "houseNumber": 17,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "7e576fcf-45a7-4152-8c8c-0d5f8323aef8"
+            },
+            {
+              "room": 3,
+              "houseNumber": 49,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "1f24630c-8a6c-4e21-bd9d-ab8997addd48"
+            },
+            {
+              "room": 3,
+              "houseNumber": 85,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "3c2538d5-c19d-4d22-8413-0aa6fa97351a"
+            },
+            {
+              "room": 4,
+              "houseNumber": 63,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "beb7be4e-3841-4c00-ac02-f0d580a3766f"
+            },
+            {
+              "room": 1,
+              "houseNumber": 46,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "fe3f92e4-60ce-41e4-882c-69c75c9ebbd1"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 41,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "d6ac5bf7-11df-41fd-a83c-017149d974b9"
+            },
+            {
+              "room": 2,
+              "houseNumber": 36,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "64be0781-c986-4c5c-9907-a88edbd624f9"
+            },
+            {
+              "room": 3,
+              "houseNumber": 24,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "d607db3c-da75-4550-a456-f7a74cf03ffb"
+            },
+            {
+              "room": 3,
+              "houseNumber": 17,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "803de366-cd21-4c86-af14-2229d15e21aa"
+            },
+            {
+              "room": 4,
+              "houseNumber": 47,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "07ddacdb-3975-4744-a737-e3c123905783"
+            },
+            {
+              "room": 1,
+              "houseNumber": 11,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "6eedba06-28e6-4581-bce9-5d5ffe639942"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 64,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "38d4008c-4e1c-4598-99aa-e5418e53bbfa"
+            },
+            {
+              "room": 2,
+              "houseNumber": 84,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "e3cbff08-e633-484b-863d-697610b629b0"
+            },
+            {
+              "room": 3,
+              "houseNumber": 55,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "89b70f56-c1bf-4de3-9ee1-fbb7d28a8992"
+            },
+            {
+              "room": 3,
+              "houseNumber": 55,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "706cf81c-9da0-446f-a4d2-b9f2e3324466"
+            },
+            {
+              "room": 4,
+              "houseNumber": 31,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "e001eeb3-5ac7-4574-a91b-691e8cd509d0"
+            },
+            {
+              "room": 1,
+              "houseNumber": 7,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "2ab10a62-bc80-4663-8b19-4c1b3d47d6ed"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 31,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "3eeef853-fbe5-4e96-9c2a-feb9137cc2c2"
+            },
+            {
+              "room": 2,
+              "houseNumber": 90,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "f3fe89b5-abee-42b7-a2ab-73eb0d2011e2"
+            },
+            {
+              "room": 3,
+              "houseNumber": 9,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "67efa1b3-6e95-45b6-90b3-573d49038e50"
+            },
+            {
+              "room": 3,
+              "houseNumber": 68,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "281fe472-c808-427b-b0ce-0c50a958a7b1"
+            },
+            {
+              "room": 4,
+              "houseNumber": 58,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "a0757016-d5ec-4240-99b2-1f3f3302ee1c"
+            },
+            {
+              "room": 1,
+              "houseNumber": 72,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "2477ef8c-4e26-465b-8c92-040d7b420bf0"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 38,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "a1780f98-d761-48d6-a63e-fa61306119f2"
+            },
+            {
+              "room": 2,
+              "houseNumber": 25,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "37e6f47e-2f48-402c-a9b8-d61ffd0af22a"
+            },
+            {
+              "room": 3,
+              "houseNumber": 29,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "16c61dd1-5e19-4c66-8435-3523d85655fa"
+            },
+            {
+              "room": 3,
+              "houseNumber": 76,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "292a2091-225a-4033-a12a-76a3eeaf38bb"
+            },
+            {
+              "room": 4,
+              "houseNumber": 50,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "804d31ed-c0e7-4fea-ad80-e394fad367e8"
+            },
+            {
+              "room": 1,
+              "houseNumber": 18,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "9f7bc855-8a5e-482f-9897-225f9612799a"
+            }
+          ]
+        ]
+      },
+      "G": {
+        "floor": 8,
+        "appartment": [
+          [
+            {
+              "room": 2,
+              "houseNumber": 4,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "e2a0343d-e719-4a13-b197-c4eb8e8860d7"
+            },
+            {
+              "room": 2,
+              "houseNumber": 4,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "a0c21799-53f1-45ca-bc6d-b37acef45224"
+            },
+            {
+              "room": 3,
+              "houseNumber": 67,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "9c6e7bce-c2c7-4633-beae-b60bdb11de47"
+            },
+            {
+              "room": 3,
+              "houseNumber": 74,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "fcf54e58-dc7f-4a32-b065-0a2ec70e1eff"
+            },
+            {
+              "room": 4,
+              "houseNumber": 41,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "fff9bc2a-b752-4f75-92e9-6fc2fe729e09"
+            },
+            {
+              "room": 1,
+              "houseNumber": 32,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "5f402406-e63b-4d9d-9436-febb0c3c3b4f"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 35,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "2b5f4de9-7ded-4664-bef5-e455b088d481"
+            },
+            {
+              "room": 2,
+              "houseNumber": 77,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "beac7842-1fad-4131-9499-cff8231623db"
+            },
+            {
+              "room": 3,
+              "houseNumber": 75,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "c82ffd80-a4f4-4270-b4d8-a5c1cde147e1"
+            },
+            {
+              "room": 3,
+              "houseNumber": 46,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "e053c817-1d0b-4950-a917-2f3ddecb92cc"
+            },
+            {
+              "room": 4,
+              "houseNumber": 28,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "102b7834-187a-4754-bb7e-eda874d72f2f"
+            },
+            {
+              "room": 1,
+              "houseNumber": 67,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "e9b059e2-3cc5-4625-951b-671fd0408df1"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 7,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "330864a7-b0b1-4fbe-b718-7eb6ce38fdbd"
+            },
+            {
+              "room": 2,
+              "houseNumber": 11,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "42c03bfd-57fe-45e2-9aaa-61fcea0c2710"
+            },
+            {
+              "room": 3,
+              "houseNumber": 0,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "54031884-5894-42e2-a7ed-f60b5167c8d2"
+            },
+            {
+              "room": 3,
+              "houseNumber": 76,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "46de0914-0b37-444c-8ced-93b33e4ba800"
+            },
+            {
+              "room": 4,
+              "houseNumber": 65,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "f0baa5d6-a655-4f13-9211-e201f25a5e46"
+            },
+            {
+              "room": 1,
+              "houseNumber": 34,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "280fdaec-615c-4e14-a36a-ad61b5bb1491"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 68,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "a2e244a1-48b0-474d-b54b-5a1b178bae35"
+            },
+            {
+              "room": 2,
+              "houseNumber": 43,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "48545357-13c8-4340-83f6-e67951a9c949"
+            },
+            {
+              "room": 3,
+              "houseNumber": 90,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "20c219d8-76b7-446b-9133-6711a0255249"
+            },
+            {
+              "room": 3,
+              "houseNumber": 69,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "d20105d2-425e-4c97-a120-40b69f46158a"
+            },
+            {
+              "room": 4,
+              "houseNumber": 89,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "fe461f4a-3ba1-40c3-9b45-a97c5ff57188"
+            },
+            {
+              "room": 1,
+              "houseNumber": 54,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "2804e805-b13a-4925-8668-dbb3976725a2"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 75,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "47884500-df28-4797-9abc-f9a3e5094658"
+            },
+            {
+              "room": 2,
+              "houseNumber": 49,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "728f4ac1-6c5e-4954-8190-33e0777bebe5"
+            },
+            {
+              "room": 3,
+              "houseNumber": 42,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "8d311ca2-4892-48c9-8a97-87f8f487f24c"
+            },
+            {
+              "room": 3,
+              "houseNumber": 2,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "bc830a23-6b81-4ecb-9d30-31b03bd45265"
+            },
+            {
+              "room": 4,
+              "houseNumber": 74,
+              "size": 76,
+              "price": 532,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "cf2475e1-d5cf-402a-8e20-a9d16a88595b"
+            },
+            {
+              "room": 1,
+              "houseNumber": 80,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "a18bc23d-bb7d-403c-bbe4-9037bd097674"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 8,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "e281519d-8c49-47f2-ad78-214bfdf347e1"
+            },
+            {
+              "room": 2,
+              "houseNumber": 41,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "a4caf749-53c3-4069-8e6e-80a377acfb08"
+            },
+            {
+              "room": 3,
+              "houseNumber": 64,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "0d0787b3-1d7a-476c-96a8-ed3d653e3120"
+            },
+            {
+              "room": 3,
+              "houseNumber": 73,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "f1f98cc1-61a3-4f71-a3e9-48369e7ae797"
+            },
+            {
+              "room": 4,
+              "houseNumber": 24,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "c373bd0f-3c90-4914-b80d-ef8cf5f91b44"
+            },
+            {
+              "room": 1,
+              "houseNumber": 82,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "5f249e78-c9ce-41bf-a566-630cd81fa349"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 41,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "cfc61298-1d7d-42cc-9b6d-cbd2480c853a"
+            },
+            {
+              "room": 2,
+              "houseNumber": 8,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "49183435-5b56-4cbe-9a04-e310de6d5109"
+            },
+            {
+              "room": 3,
+              "houseNumber": 84,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "ebf37c29-6c9a-40af-9d4b-96ae1c2319cb"
+            },
+            {
+              "room": 3,
+              "houseNumber": 41,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "4e368de5-6d2d-4e4f-9f22-572ddbe43d8b"
+            },
+            {
+              "room": 4,
+              "houseNumber": 63,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "1a20d3a2-fd1c-42e1-9105-cdf8d0bd884c"
+            },
+            {
+              "room": 1,
+              "houseNumber": 8,
+              "size": 35,
+              "price": 245,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "ee11e466-330d-4fb4-8662-f1c88538eb31"
+            }
+          ],
+          [
+            {
+              "room": 2,
+              "houseNumber": 33,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "4140b3cc-e98b-474e-8273-7fef673a0006"
+            },
+            {
+              "room": 2,
+              "houseNumber": 32,
+              "size": 50.4,
+              "price": 352.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "2aec0e70-d52a-423d-b174-6b73b78a4ad6"
+            },
+            {
+              "room": 3,
+              "houseNumber": 54,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "884accc3-1b7b-41a5-97c9-45c6a3a18b3d"
+            },
+            {
+              "room": 3,
+              "houseNumber": 96,
+              "size": 60.4,
+              "price": 422.8,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "3f53cfa1-8f2b-489e-8132-57c5200ffb87"
+            },
+            {
+              "room": 4,
+              "houseNumber": 69,
+              "size": 76,
+              "price": 532,
+              "status": "empty",
+              "view": { "2d": "", "3d": "" },
+              "id": "736fb376-1ff9-4eb0-98b5-ff2238cc5777"
+            },
+            {
+              "room": 1,
+              "houseNumber": 71,
+              "size": 35,
+              "price": 245,
+              "status": "sold",
+              "view": { "2d": "", "3d": "" },
+              "id": "1fd32c9a-30ca-4144-8e77-0e3cc18edec4"
+            }
+          ]
+        ]
+      }
+    }
+  },
+  "appartment": [
+    {
+      "room": 2,
+      "houseNumber": 57,
+      "size": 50.4,
+      "price": 352.8,
+      "status": "sold",
+      "view": { "2d": "", "3d": "" },
+      "id": "4eddd783-b5d3-4ea2-bd62-785e459ed740"
+    },
+    {
+      "room": 2,
+      "houseNumber": 53,
+      "size": 50.4,
+      "price": 352.8,
+      "status": "empty",
+      "view": { "2d": "", "3d": "" },
+      "id": "d1e5bd09-e832-461a-a521-aab802570cf6"
+    },
+    {
+      "room": 3,
+      "houseNumber": 10,
+      "size": 60.4,
+      "price": 422.8,
+      "status": "sold",
+      "view": { "2d": "", "3d": "" },
+      "id": "f47754cb-79d9-40a6-aeaa-2e6d94509050"
+    },
+    {
+      "room": 3,
+      "houseNumber": 88,
+      "size": 60.4,
+      "price": 422.8,
+      "status": "empty",
+      "view": { "2d": "", "3d": "" },
+      "id": "0182bf98-42c2-4f0b-b9b1-eda1b8187605"
+    },
+    {
+      "room": 4,
+      "houseNumber": 29,
+      "size": 76,
+      "price": 532,
+      "status": "empty",
+      "view": { "2d": "", "3d": "" },
+      "id": "49d5fdc2-29c4-4b8c-a3d3-6e6357fa3680"
+    },
+    {
+      "room": 1,
+      "houseNumber": 53,
+      "size": 35,
+      "price": 245,
+      "status": "sold",
+      "view": { "2d": "", "3d": "" },
+      "id": "a1b9c126-f551-49b7-9ff8-6bc2add7b7c2"
+    }
+  ]
+}

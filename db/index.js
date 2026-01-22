@@ -19,6 +19,7 @@ function homeBuilder(room) {
       "2d": "",
       "3d": "",
     },
+    id: window.crypto.randomUUID(),
   };
 }
 
@@ -82,4 +83,6 @@ const readyData = {
   },
 };
 
-export default readyData;
+localStorage.setItem("h", JSON.stringify(readyData));
+
+export default JSON.parse(localStorage.getItem("h")) || readyData;
