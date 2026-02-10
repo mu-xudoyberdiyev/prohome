@@ -1,19 +1,39 @@
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useLocation, useParams } from "react-router-dom";
 import { Button, buttonVariants } from "../components/ui/button";
+import { SparklesText } from "@/components/ui/sparkles-text";
 import {
+  BadgePercent,
+  Bolt,
   Box,
+  Calculator,
+  Calendar1,
+  CalendarDays,
+  CircleDollarSign,
   CircleMinus,
   CirclePlus,
   Cuboid,
-  Plus,
+  HandCoins,
   RectangleHorizontal,
+  RefreshCcw,
   Square,
   X,
   XIcon,
-  ZoomIn,
-  ZoomOut,
 } from "lucide-react";
+import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { useAppStore } from "../lib/zustand";
+import {
+  Drawer,
+  DrawerClose,
+  DrawerContent,
+  DrawerTrigger,
+} from "@/components/ui/drawer";
 import {
   Tabs,
   TabsContent,
@@ -27,33 +47,73 @@ import {
 } from "../components/ui/tooltip";
 import { useEffect, useState } from "react";
 import { Badge } from "../components/ui/badge";
-import { PhotoProvider, PhotoSlider, PhotoView } from "react-photo-view";
+import { PhotoProvider, PhotoView } from "react-photo-view";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupText,
+} from "../components/ui/input-group";
+import { Label } from "../components/ui/label";
+import { Input } from "../components/ui/input";
+import {
+  NativeSelect,
+  NativeSelectOption,
+} from "../components/ui/native-select";
+import { Switch } from "../components/ui/switch";
+import {
+  formatNumber,
+  formatNumberWithPercent,
+  getFormData,
+} from "../lib/utils";
+import { Spinner } from "../components/ui/spinner";
+import HomeGallery from "../components/HomeGallery";
 
 const statuses = {
-  sold: "bg-red-500",
-  reserved: "bg-yellow-500",
-  empty: "bg-green-500",
-  not: "bg-slate-400",
+  SOLD: "bg-red-500",
+  RESERVED: "bg-yellow-500",
+  EMPTY: "bg-green-500",
+  NOT: "bg-slate-400",
 };
 
 const uzebekTranslate = {
-  sold: "Sotilgan",
-  reserved: "Band qilingan",
-  empty: "Bo'sh",
-  not: "Sotilmaydi",
+  SOLD: "Sotilgan",
+  RESERVED: "Band qilingan",
+  EMPTY: "Bo'sh",
+  NOT: "Sotilmaydi",
 };
 
+const states = {
+  BOX: "Karobka",
+  READY: "Ta'mirlangan",
+};
+
+const paymentPeriods = [12, 24, 36, 48, 60];
+
 export default function TjmDetails() {
+  const { id } = useParams();
   const { user } = useAppStore();
   const [home, setHome] = useState(null);
+  const [calcResult, setCalcResult] = useState({
+    monthlyPayment: 0,
+    downPayment: 0,
+    months: 60,
+  });
   const [activeTab, setActiveTab] = useState("box");
   const [activeHome, setActiveHome] = useState(null);
+  const [showDiscount, setShowDiscount] = useState(false);
+  const [discountType, setDiscountType] = useState("discountPerM2");
+  const [period, setPeriod] = useState(60);
+  const [downPayment, setDownPayment] = useState(0);
+  const [discount, setDiscount] = useState("");
 
   // Errors
   const [error, setError] = useState(null);
 
   // Loadings
   const [getLoading, setGetLoading] = useState(false);
+  const [pdfLoading, setPdfLoading] = useState(false);
+  const [calcLoading, setCalcLoading] = useState(false);
 
   // API
   async function get() {
@@ -61,11 +121,14 @@ export default function TjmDetails() {
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
     setGetLoading(true);
     try {
-      req = await fetch(`http://localhost:3000/data`, {
-        // headers: {
-        //   Authorization: "Bearer " + token,
-        // },
-      });
+      req = await fetch(
+        import.meta.env.VITE_BASE_URL + `/api/v1/projects/${id}/structure`,
+        {
+          headers: {
+            Authorization: "Bearer " + token,
+          },
+        }
+      );
     } catch {
       setError("Tizimda nosozlik!");
     }
@@ -83,6 +146,34 @@ export default function TjmDetails() {
     setGetLoading(false);
   }
 
+  async function calc(url) {
+    let req;
+    const token = JSON.parse(localStorage.getItem("user")).accessToken;
+    setCalcLoading(true);
+    try {
+      req = await fetch(url, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch {
+      setError("Tizimda nosozlik!");
+    }
+
+    if (req) {
+      if (req.status === 200) {
+        const data = await req.json();
+        console.log(data);
+
+        setCalcResult(data);
+      } else {
+        setError("Xatolik yuz berdi qayta urunib ko'ring!");
+      }
+    }
+
+    setCalcLoading(false);
+  }
+
   useEffect(() => {
     get();
   }, []);
@@ -93,6 +184,83 @@ export default function TjmDetails() {
 
   function handleActiveHome(home) {
     setActiveHome(home);
+  }
+
+  function handleClick() {
+    setPdfLoading(true);
+    fetch("http://localhost:3030/save-as-pdf")
+      .then((res) => {
+        return res.blob();
+      })
+      .then((res) => {
+        const tab = window.open("", "_blank");
+        const file = new Blob([res], { type: "application/pdf" });
+        const url = URL.createObjectURL(file);
+        tab.location.href = url;
+        URL.revokeObjectURL(url);
+      })
+      .finally(() => {
+        setPdfLoading(false);
+      });
+  }
+
+  function handleClose() {
+    setCalcResult({
+      monthlyPayment: 0,
+      downPayment: 0,
+      months: 60,
+    });
+
+    setDownPayment(0);
+    setPeriod(60);
+    setDiscount("");
+    setShowDiscount(false);
+  }
+
+  function handleChangeDiscount() {
+    setShowDiscount(!showDiscount);
+  }
+
+  function handleChangeDiscountType(value) {
+    setDiscountType(value);
+  }
+
+  function handleCalc(evt) {
+    evt.preventDefault();
+    const url = new URL(
+      import.meta.env.VITE_BASE_URL + `/api/v1/room/${43}/calculate`
+    );
+    const formData = getFormData(evt.currentTarget);
+
+    Object.entries(formData).forEach(([key, value]) => {
+      url.searchParams.append(key, value.replaceAll(" ", ""));
+    });
+
+    setCalcResult({
+      monthlyPayment: 0,
+      downPayment: 0,
+      months: 60,
+    });
+
+    console.log(url.href);
+
+    calc(url.href);
+  }
+
+  function handlePeriod(p) {
+    setPeriod(p);
+  }
+
+  function handleDownPayment(evt) {
+    let input = evt.target.value;
+    let rawValue = input.replace(/\D/g, "");
+    let formattedValue = formatNumber(rawValue);
+    setDownPayment(formattedValue);
+  }
+
+  function handleDiscount(evt) {
+    const value = formatNumberWithPercent(evt.target.value);
+    setDiscount(value);
   }
 
   if (user) {
@@ -354,7 +522,7 @@ export default function TjmDetails() {
                 </Tabs>
               </div>
 
-              {/* Detals  */}
+              {/* Details  */}
               <div
                 className={`bg-background relative transition-all duration-400 h-full overflow-y-scroll no-scrollbar ${
                   activeHome ? "translate-x-0 w-112.5" : "translate-x-112.5 w-0"
@@ -417,20 +585,20 @@ export default function TjmDetails() {
                           );
                         }}
                       >
-                        <PhotoView src="/public/2d.jpg">
+                        <PhotoView src="/2d.jpg">
                           <TabsContent value="2d">
                             <img
                               className="object-cover h-52.5 w-full"
-                              src="/public/2d.jpg"
+                              src="/2d.jpg"
                               alt="2d"
                             />
                           </TabsContent>
                         </PhotoView>
-                        <PhotoView src="/public/3d.jpg">
+                        <PhotoView src="/3d.jpg">
                           <TabsContent value="3d">
                             <img
                               className="object-cover h-52.5 w-full"
-                              src="/public/3d.jpg"
+                              src="/3d.jpg"
                               alt="3d"
                             />
                           </TabsContent>
@@ -463,7 +631,7 @@ export default function TjmDetails() {
                 )}
 
                 {activeHome && (
-                  <dl className="flex flex-col">
+                  <dl className="flex flex-col mb-10">
                     <div className="flex justify-between items-center px-2 bg-accent">
                       <dt>Joylashuv</dt>
                       <dd>B</dd>
@@ -483,6 +651,274 @@ export default function TjmDetails() {
                       <dd>{activeHome.room}</dd>
                     </div>
                   </dl>
+                )}
+
+                {activeHome && (
+                  <Drawer direction={"top"}>
+                    <DrawerTrigger
+                      className={`${buttonVariants({
+                        variant: "secondary",
+                      })} w-full mb-4`}
+                    >
+                      <Calculator />
+                      To'lov kalkulyatori
+                    </DrawerTrigger>
+                    <DrawerContent className="h-full min-h-screen">
+                      {/* Close  */}
+                      <DrawerClose
+                        onClick={handleClose}
+                        className={`${buttonVariants({
+                          variant: "destructive",
+                          size: "icon-sm",
+                        })} rounded-none absolute top-0 right-0`}
+                      >
+                        <X />
+                      </DrawerClose>
+
+                      <div className="py-15 px-10 h-full flex gap-10">
+                        <div
+                          className={`w-[65%] h-full overflow-y-auto no-scrollbar relative transition-opacity ${
+                            calcLoading ? "opacity-50" : ""
+                          }`}
+                        >
+                          {calcLoading && (
+                            <div className="inset-0 absolute z-10 flex items-center justify-center">
+                              <Spinner />
+                            </div>
+                          )}
+                          {calcResult && (
+                            <div className="animate-fade-in">
+                              <div className="border px-3 py-6 rounded animate-fade-in w-full sticky top-2 bg-background mb-8">
+                                <h3 className="absolute left-5 top-0 -translate-y-2/4 bg-background text-muted-foreground px-2 flex gap-2 rounded">
+                                  Oyiga
+                                </h3>
+                                <SparklesText className={"text-5xl font-mono"}>
+                                  {formatNumber(calcResult.monthlyPayment)} so'm
+                                </SparklesText>
+                              </div>
+
+                              <div className="grid grid-cols-[6fr_2fr_3fr] gap-2 mb-2">
+                                <div className="border p-2 w-full rounded bg-primary/2">
+                                  <div className="flex items-center gap-1 mb-2">
+                                    <CircleDollarSign />
+                                    <span className="text-muted-foreground text-xs">
+                                      Umumiy narx
+                                    </span>
+                                  </div>
+                                  <h4 className="text-lg font-mono font-medium">
+                                    {calcResult?.totalPrice
+                                      ? formatNumber(calcResult.totalPrice)
+                                      : "---"}{" "}
+                                  </h4>
+                                </div>
+                                <div className="border p-2 w-full rounded bg-primary/2">
+                                  <div className="flex items-center gap-1 mb-2">
+                                    <CalendarDays />
+                                    <span className="text-muted-foreground text-xs">
+                                      Muddat
+                                    </span>
+                                  </div>
+                                  <h4 className="text-lg font-mono font-medium">
+                                    {calcResult.months} oy
+                                  </h4>
+                                </div>
+                                {states[calcResult.state] && (
+                                  <div className="border p-2 w-full rounded bg-primary/2">
+                                    <div className="flex items-center gap-1 mb-2">
+                                      <Bolt />
+                                      <span className="text-muted-foreground text-xs">
+                                        Holati
+                                      </span>
+                                    </div>
+                                    <h4 className="text-lg font-mono font-medium">
+                                      {states[calcResult.state]}
+                                    </h4>
+                                  </div>
+                                )}
+                              </div>
+
+                              <div className="border p-2 w-full rounded bg-primary/2">
+                                <div className="flex items-center gap-1 mb-2">
+                                  <HandCoins />
+                                  <span className="text-muted-foreground text-xs">
+                                    Boshlang'ich to'lov
+                                  </span>
+                                </div>
+                                <h4 className="text-lg font-mono font-medium">
+                                  {formatNumber(calcResult.downPayment)}
+                                </h4>
+                              </div>
+                            </div>
+                          )}
+
+                          <HomeGallery />
+                        </div>
+
+                        <form
+                          onSubmit={handleCalc}
+                          className="w-[35%] mx-auto flex flex-col gap-5"
+                        >
+                          <div className="flex items-center space-x-2 mb-3">
+                            <Switch
+                              onCheckedChange={handleChangeDiscount}
+                              defaultChecked={showDiscount}
+                              id="discount"
+                            />
+                            <Label htmlFor="discount">
+                              Chegirma beramiz-mi?
+                            </Label>
+                          </div>
+
+                          {showDiscount && (
+                            <div className="border border-primary relative px-3 py-6 rounded animate-fade-in">
+                              <h3 className="absolute left-5 top-0 -translate-y-2/4  font-bold px-2 text-white flex gap-2 bg-primary p-0.5 rounded">
+                                <BadgePercent /> Chegirma
+                              </h3>
+                              <div className="flex w-full gap-5">
+                                <Input
+                                  placeholder="100 yoki 5%"
+                                  onChange={handleDiscount}
+                                  value={discount}
+                                  autoFocus={true}
+                                  autoComplete="off"
+                                  name={discountType}
+                                />
+                                <NativeSelect
+                                  className={"w-45"}
+                                  onChange={(evt) => {
+                                    handleChangeDiscountType(evt.target.value);
+                                  }}
+                                  value={discountType}
+                                  defaultValue={discountType}
+                                >
+                                  <NativeSelectOption value={"discountPerM2"}>
+                                    Kvadrat metrdan
+                                  </NativeSelectOption>
+                                  <NativeSelectOption value={"discountTotal"}>
+                                    Umumiy summadan
+                                  </NativeSelectOption>
+                                </NativeSelect>
+                              </div>
+                            </div>
+                          )}
+                          <RadioGroup name={"state"} defaultValue="BOX">
+                            <div className="flex gap-4">
+                              <FieldLabel htmlFor="box">
+                                <Field orientation="horizontal">
+                                  <FieldContent>
+                                    <FieldTitle>Karobka</FieldTitle>
+                                    <FieldDescription className="text-xs">
+                                      Uy hech qanday ta'mirsiz, karobka holatida
+                                      topshiriladi
+                                    </FieldDescription>
+                                  </FieldContent>
+                                  <RadioGroupItem value="BOX" id="box" />
+                                </Field>
+                              </FieldLabel>
+                              <FieldLabel htmlFor="ready">
+                                <Field orientation="horizontal">
+                                  <FieldContent>
+                                    <FieldTitle>Ta'mirlangan</FieldTitle>
+                                    <FieldDescription className="text-xs">
+                                      Uy jihozlashga tayyor bo'ladi
+                                    </FieldDescription>
+                                  </FieldContent>
+                                  <RadioGroupItem value="READY" id="ready" />
+                                </Field>
+                              </FieldLabel>
+                            </div>
+                          </RadioGroup>
+                          <div className="grid gap-2">
+                            <Label htmlFor="downPayment">
+                              Boshlang'ich to'lov
+                            </Label>
+                            <InputGroup>
+                              <InputGroupInput
+                                id="downPayment"
+                                onChange={handleDownPayment}
+                                value={downPayment}
+                                name={"downPayment"}
+                                placeholder="0"
+                                autoComplete="off"
+                                autoFocus={true}
+                              />
+                              <InputGroupAddon align="inline-end">
+                                <InputGroupText>so'm</InputGroupText>
+                              </InputGroupAddon>
+                            </InputGroup>
+                          </div>
+                          <div className="grid gap-2">
+                            <Label htmlFor="months">Necha oyga</Label>
+                            <div className="flex gap-2">
+                              <div className="flex gap-1">
+                                {paymentPeriods.map((p) => {
+                                  return (
+                                    <span
+                                      onClick={() => {
+                                        handlePeriod(p);
+                                      }}
+                                      className={`inline-flex items-center justify-center w-9 rounded-full cursor-pointer ${
+                                        period === p
+                                          ? "bg-primary text-primary-foreground"
+                                          : "border"
+                                      }`}
+                                    >
+                                      {p}
+                                    </span>
+                                  );
+                                })}
+                              </div>
+                              <InputGroup>
+                                <InputGroupInput
+                                  id="months"
+                                  name={"months"}
+                                  autoComplete="off"
+                                  onChange={(evt) => {
+                                    const value = Number(evt.target.value);
+                                    handlePeriod(value);
+                                  }}
+                                  type="number"
+                                  min={12}
+                                  max={240}
+                                  value={period}
+                                  placeholder="0"
+                                />
+                                <InputGroupAddon align="inline-end">
+                                  <InputGroupText>oy</InputGroupText>
+                                </InputGroupAddon>
+                              </InputGroup>
+                            </div>
+                          </div>
+                          <Button variant="secondary" disabled={calcLoading}>
+                            {calcLoading ? (
+                              <>Hisoblanmoqda...</>
+                            ) : (
+                              <>
+                                <Calculator /> Hisoblash
+                              </>
+                            )}
+                          </Button>
+                        </form>
+                      </div>
+                    </DrawerContent>
+                  </Drawer>
+                )}
+
+                {activeHome && (
+                  <Button
+                    disabled={pdfLoading}
+                    className={"mb-10 w-full"}
+                    onClick={handleClick}
+                  >
+                    {pdfLoading ? (
+                      <>
+                        <RefreshCcw className="animate-spin" />
+                        Rasmiylashtirilmoqda...
+                      </>
+                    ) : (
+                      "Rasmiylashtirish"
+                    )}
+                  </Button>
                 )}
               </div>
             </div>

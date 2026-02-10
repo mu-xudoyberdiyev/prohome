@@ -61,7 +61,7 @@ export default createBrowserRouter([
     element: <Tjm />,
   },
   {
-    path: "/tjm/:slug",
+    path: "/tjm/:id",
     element: <TjmDetails />,
   },
 ]);

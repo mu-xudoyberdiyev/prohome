@@ -64,7 +64,7 @@ export function AppSidebar({ ...props }) {
       <SidebarContent>
         <div className="h-full p-2 flex flex-col">
           {user &&
-            routes[user.role].map(({ url, text, icon }, index) => {
+            routes[user.user.role].map(({ url, text, icon }, index) => {
               return (
                 <Link
                   className={`${buttonVariants({

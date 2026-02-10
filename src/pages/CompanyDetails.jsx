@@ -498,7 +498,7 @@ export default function CompanyDetails() {
                   <Input
                     className={"w-full"}
                     id="name"
-                    name="name"
+                    name="name" 
                     type="text"
                     placeholder="Kompaniya nomini kiriting"
                     defaultValue={details.name}
@@ -519,6 +519,7 @@ export default function CompanyDetails() {
                       editMode === false || editLoading || statusLoading
                     }
                   />
+                  f
                 </div>
                 <div className="grid gap-2 w-full col-start-1 col-end-3">
                   <Label htmlFor="phoneNumber">Telefon raqami*</Label>

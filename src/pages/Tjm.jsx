@@ -2,16 +2,53 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { Button, buttonVariants } from "../components/ui/button";
 import { ArrowLeft, ArrowRight, Folder, FolderOpen } from "lucide-react";
 import { useAppStore } from "../lib/zustand";
-
-const mockData = [{ title: "Nurli Maskan TJM" }];
+import { useEffect, useState } from "react";
 
 export default function Tjm() {
   const { user } = useAppStore();
   const navigate = useNavigate();
 
+  const [projects, setProjects] = useState([]);
+  const [error, setError] = useState(null);
+
+  // Loadings
+  const [getLoading, setGetLoading] = useState(false);
+
+  // API
+  async function get() {
+    let req;
+    const token = JSON.parse(localStorage.getItem("user")).accessToken;
+    setGetLoading(true);
+    try {
+      req = await fetch(import.meta.env.VITE_BASE_URL + `/api/v1/projects`, {
+        headers: {
+          Authorization: "Bearer " + token,
+        },
+      });
+    } catch {
+      setError("Tizimda nosozlik!");
+    }
+
+    if (req) {
+      if (req.status === 200) {
+        const data = await req.json();
+
+        setProjects(data);
+      } else {
+        setError("Xatolik yuz berdi qayta urunib ko'ring!");
+      }
+    }
+
+    setGetLoading(false);
+  }
+
   function handleClick(slug) {
     navigate(slug);
   }
+
+  useEffect(() => {
+    get();
+  }, []);
 
   if (user) {
     return (
@@ -27,20 +64,18 @@ export default function Tjm() {
         </Link>
 
         <div className="grid grid-cols-3 gap-3">
-          {mockData.map(({ title }, index) => {
+          {projects.map(({ name, id }, index) => {
             return (
               <div
                 onClick={() => {
-                  handleClick(
-                    `/tjm/${title.replaceAll(" ", "-").toLowerCase()}`
-                  );
+                  handleClick(`/tjm/${id}`);
                 }}
                 className="border-2 flex gap-3 transition rounded p-3 hover:border-primary cursor-pointer group"
                 key={index}
               >
                 <Folder className="group-hover:hidden animate-fade-in" />
                 <FolderOpen className="hidden group-hover:inline-block animate-fade-in" />
-                <p>{title}</p>
+                <p>{name}</p>
                 <ArrowRight className="ml-auto hidden group-hover:inline-block animate-fade-in" />
               </div>
             );
