@@ -1,4 +1,6 @@
 {
+  "maxFloor": 16,
+  "blockCount": 3,
   "blocks": {
     "A": {
       "floor": 16,

@@ -36,3 +36,16 @@ export function formatNumberWithPercent(num) {
 
   return number?.toLocaleString("ru-RU").replace(/,/g, " ");
 }
+
+export function normalizePeriod(value) {
+  let num = value.replace(/\D/g, "");
+
+  if (num === "") return "";
+
+  num = Number(num);
+
+  if (num < 12) return "12";
+  if (num > 240) return "240";
+
+  return String(num);
+}
