@@ -1,0 +1,683 @@
+{
+  "maxFloor": 12,
+  "blockCount": 1,
+  "blocks": {
+    "A": {
+      "floor": 12,
+      "appartment": [
+        [
+          {
+            "room": 2,
+            "houseNumber": 12,
+            "size": 2,
+            "price": null,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "245e680b-3a70-4af2-9d8c-91c3ea44a09a"
+          },
+          {
+            "room": 2,
+            "houseNumber": 57,
+            "size": 2,
+            "price": null,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "a4e21574-24b5-4cda-8afc-72cabe3bbacb"
+          },
+          {
+            "room": 2,
+            "houseNumber": 7,
+            "size": 2,
+            "price": null,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "1dbd18ef-514b-429b-8aa2-6f3a030dcbb3"
+          },
+          {
+            "room": 2,
+            "houseNumber": 95,
+            "size": 2,
+            "price": null,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "eb08f10f-0d1a-4218-bc2c-0ee2b66c6d95"
+          },
+          {
+            "room": 2,
+            "houseNumber": 0,
+            "size": 2,
+            "price": null,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "a39228d3-a017-4814-8ec0-34cc90c31d11"
+          },
+          {
+            "room": 1,
+            "houseNumber": 62,
+            "size": 1,
+            "price": null,
+            "status": "EMPTY",
+            "gallery": ["./gallery/1_.jpg"],
+            "id": "c527c71b-be1a-4065-ac37-4765f2fa8f40"
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "houseNumber": 78,
+            "size": 2,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "e3e9228e-3d15-4a8d-be13-0f1e2c26eedf"
+          },
+          {
+            "room": 2,
+            "houseNumber": 80,
+            "size": 2,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "714c6ed5-1184-4391-883b-7542d0c15539"
+          },
+          {
+            "room": 2,
+            "houseNumber": 74,
+            "size": 2,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "8175b006-a5a1-4fd6-9a72-4a03507f0966"
+          },
+          {
+            "room": 2,
+            "houseNumber": 52,
+            "size": 2,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "e9cf9c27-d906-4cec-a9ce-0e8be2449759"
+          },
+          {
+            "room": 2,
+            "houseNumber": 78,
+            "size": 2,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "65bf91b6-2549-4aa4-9b9e-20c38f5536f7"
+          },
+          {
+            "room": 1,
+            "houseNumber": 34,
+            "size": 1,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/1_.jpg"],
+            "id": "54d1546a-2515-41c2-aa04-99278dea9bac"
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "houseNumber": 93,
+            "size": 2,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "23e14353-14ff-4923-a977-d5f1115ea9a4"
+          },
+          {
+            "room": 2,
+            "houseNumber": 99,
+            "size": 2,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "3489acda-d947-4363-8749-e165551ab19f"
+          },
+          {
+            "room": 2,
+            "houseNumber": 32,
+            "size": 2,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "9f7bbe8b-b854-4685-81d3-ef18cea3b088"
+          },
+          {
+            "room": 2,
+            "houseNumber": 28,
+            "size": 2,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "a1c6cefa-1d06-4ad3-b55b-c280b300c350"
+          },
+          {
+            "room": 2,
+            "houseNumber": 39,
+            "size": 2,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "2feb7fd8-e3fd-49e1-a05f-c4722532a88f"
+          },
+          {
+            "room": 1,
+            "houseNumber": 54,
+            "size": 1,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/1_.jpg"],
+            "id": "19a1f59c-2e6c-4b85-b913-88dfba88ad72"
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "houseNumber": 23,
+            "size": 2,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "6f429028-6ee4-4103-9652-256884c1e963"
+          },
+          {
+            "room": 2,
+            "houseNumber": 44,
+            "size": 2,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "eb85d5c4-f2f9-4f02-a9e7-9c304b8c1f93"
+          },
+          {
+            "room": 2,
+            "houseNumber": 66,
+            "size": 2,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "43986b65-a5ba-4939-b46e-dc87567deb1c"
+          },
+          {
+            "room": 2,
+            "houseNumber": 67,
+            "size": 2,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "48c0a356-a0f4-4613-9334-0e3e66c50397"
+          },
+          {
+            "room": 2,
+            "houseNumber": 83,
+            "size": 2,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "ba40ec0c-6e85-4412-9bbd-80044c99e12e"
+          },
+          {
+            "room": 1,
+            "houseNumber": 29,
+            "size": 1,
+            "price": 459850000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/1_.jpg"],
+            "id": "d0f753f1-e4e9-4e9c-b670-64c51b4f4ae7"
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "houseNumber": 14,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "d8937faa-19d5-43b8-8f4f-995d565f7b7a"
+          },
+          {
+            "room": 2,
+            "houseNumber": 57,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "f64b7a36-1cf5-4df7-b437-38a452820d16"
+          },
+          {
+            "room": 2,
+            "houseNumber": 59,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "ac89692e-6b50-4230-beb9-39b22320a00c"
+          },
+          {
+            "room": 2,
+            "houseNumber": 91,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "b2f07d2f-fa76-49dc-9580-04f457274717"
+          },
+          {
+            "room": 2,
+            "houseNumber": 46,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "588713c9-4631-4378-88ed-d0bd08dd6bb2"
+          },
+          {
+            "room": 1,
+            "houseNumber": 25,
+            "size": 1,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/1_.jpg"],
+            "id": "e3ed618d-9585-49b3-be49-77424000ad51"
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "houseNumber": 24,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "21630708-5f8c-4185-ae9d-60fef18ddcf4"
+          },
+          {
+            "room": 2,
+            "houseNumber": 82,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "e5fb9e48-793c-4474-9d58-afc01e931934"
+          },
+          {
+            "room": 2,
+            "houseNumber": 32,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "e10f2047-2bea-4580-b983-f9155ece9c3c"
+          },
+          {
+            "room": 2,
+            "houseNumber": 33,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "8fc8673b-b67a-4064-917e-f23bb07110bb"
+          },
+          {
+            "room": 2,
+            "houseNumber": 68,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "0776646a-5835-4d77-9a13-841c3e5e4b53"
+          },
+          {
+            "room": 1,
+            "houseNumber": 97,
+            "size": 1,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/1_.jpg"],
+            "id": "a97a840a-63e5-43dd-b891-69abd87a595c"
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "houseNumber": 6,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "29405522-3305-4c83-be2c-66dbf5b4a9ab"
+          },
+          {
+            "room": 2,
+            "houseNumber": 57,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "4bb2d35d-8be1-4636-86a5-c3e9ff41c46e"
+          },
+          {
+            "room": 2,
+            "houseNumber": 0,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "54405762-093b-4337-ae57-3fadbb80aad7"
+          },
+          {
+            "room": 2,
+            "houseNumber": 97,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "ccc3da6e-520b-4927-be1b-1ad9091ad837"
+          },
+          {
+            "room": 2,
+            "houseNumber": 80,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "5cbde1d4-37a6-43e8-a45f-79ddc63d5e5c"
+          },
+          {
+            "room": 1,
+            "houseNumber": 99,
+            "size": 1,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/1_.jpg"],
+            "id": "6667a837-8687-4076-8c37-13ad841f95e4"
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "houseNumber": 32,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "8cf6b6ec-b498-4f09-ba0a-70072598f61c"
+          },
+          {
+            "room": 2,
+            "houseNumber": 38,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "ccf687cf-5e5d-4270-bfef-098bf39f5a03"
+          },
+          {
+            "room": 2,
+            "houseNumber": 11,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "30cda8cb-d5c7-420e-a033-39d16e8cf2dc"
+          },
+          {
+            "room": 2,
+            "houseNumber": 49,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "13b11fee-536a-4e9d-912d-ca1c81a68712"
+          },
+          {
+            "room": 2,
+            "houseNumber": 31,
+            "size": 2,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "a952cf0c-830d-48a0-ae22-2c6a611a9c84"
+          },
+          {
+            "room": 1,
+            "houseNumber": 87,
+            "size": 1,
+            "price": 405750000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/1_.jpg"],
+            "id": "57451b3b-be7a-466a-b57c-b90bd49d2992"
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "houseNumber": 77,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "eb73e041-6111-4404-8441-d076e7db6fc8"
+          },
+          {
+            "room": 2,
+            "houseNumber": 13,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "919c2048-3905-48ce-9b73-edbf2489f7d9"
+          },
+          {
+            "room": 2,
+            "houseNumber": 74,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "0b8f93d0-09cd-4550-b86e-24ef65a1efad"
+          },
+          {
+            "room": 2,
+            "houseNumber": 99,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "f599593a-baf0-4ab7-93a9-45c3e33fff5b"
+          },
+          {
+            "room": 2,
+            "houseNumber": 86,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "5bb546e4-0281-4aea-ae9d-240efa3557b3"
+          },
+          {
+            "room": 1,
+            "houseNumber": 33,
+            "size": 1,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/1_.jpg"],
+            "id": "721b8d12-7dca-4dc6-ada8-0abe5c6ef758"
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "houseNumber": 87,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "eee99ab3-df43-46ce-aea5-eddc1e89a2f8"
+          },
+          {
+            "room": 2,
+            "houseNumber": 26,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "11c849f5-f886-4438-82d1-2ea079e18901"
+          },
+          {
+            "room": 2,
+            "houseNumber": 66,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "ad833e09-381b-4fa2-bd46-b8ce89aa7afb"
+          },
+          {
+            "room": 2,
+            "houseNumber": 54,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "06426539-0a2d-4f44-b71d-59ab8d2c4867"
+          },
+          {
+            "room": 2,
+            "houseNumber": 15,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "c0a97a0e-ddfe-43c7-abc0-02f591a1dbbb"
+          },
+          {
+            "room": 1,
+            "houseNumber": 67,
+            "size": 1,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/1_.jpg"],
+            "id": "bcdd5581-03fb-48a7-8a98-87bba8ff64fd"
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "houseNumber": 77,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "d791f810-b133-4634-939f-f24d7da07419"
+          },
+          {
+            "room": 2,
+            "houseNumber": 25,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "b06b605c-6897-44c3-936a-f90ef5e329e7"
+          },
+          {
+            "room": 2,
+            "houseNumber": 37,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "1d178ded-4baa-4e1a-bdb6-ad3965d33652"
+          },
+          {
+            "room": 2,
+            "houseNumber": 85,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "337eefed-a292-4b54-93a9-68185aed2cf8"
+          },
+          {
+            "room": 2,
+            "houseNumber": 29,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "fbea902b-53cf-481d-9e06-c5a411cdb26c"
+          },
+          {
+            "room": 1,
+            "houseNumber": 1,
+            "size": 1,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/1_.jpg"],
+            "id": "6c567635-8297-4b13-975f-dd0bdc61de65"
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "houseNumber": 46,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "432114c7-f024-4a85-b550-c1ba8244fbcf"
+          },
+          {
+            "room": 2,
+            "houseNumber": 48,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "a4be687c-04a4-4b5d-9894-847ba414a9a8"
+          },
+          {
+            "room": 2,
+            "houseNumber": 67,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "9307c6a0-1dca-440b-acc9-281a12791040"
+          },
+          {
+            "room": 2,
+            "houseNumber": 31,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "7212801d-ac32-4067-bddd-25d8b47f5822"
+          },
+          {
+            "room": 2,
+            "houseNumber": 42,
+            "size": 2,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/2_.jpg"],
+            "id": "913d1aca-52e4-4338-bd6e-57072977c111"
+          },
+          {
+            "room": 1,
+            "houseNumber": 13,
+            "size": 1,
+            "price": 351650000,
+            "status": "EMPTY",
+            "gallery": ["./gallery/1_.jpg"],
+            "id": "ea589f7a-3640-4953-be21-08228610d043"
+          }
+        ]
+      ]
+    }
+  }
+}

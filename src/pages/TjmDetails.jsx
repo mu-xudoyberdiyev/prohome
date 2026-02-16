@@ -18,6 +18,7 @@ import { Badge } from "../components/ui/badge";
 
 import CalculatorTool from "../components/CalculatorTool";
 import HomeDetails from "../components/HomeDetails";
+import mockData from "../../db/mock.json";
 
 const statuses = {
   SOLD: "bg-red-500",
@@ -36,7 +37,7 @@ const uzebekTranslate = {
 export default function TjmDetails() {
   const { id } = useParams();
   const { user } = useAppStore();
-  const [home, setHome] = useState(null);
+  const [home, setHome] = useState(mockData);
 
   const [activeTab, setActiveTab] = useState("box");
   const [activeHome, setActiveHome] = useState(null);
@@ -48,39 +49,39 @@ export default function TjmDetails() {
   const [getLoading, setGetLoading] = useState(false);
 
   // API
-  async function get() {
-    let req;
-    const token = JSON.parse(localStorage.getItem("user")).accessToken;
-    setGetLoading(true);
-    try {
-      req = await fetch(
-        import.meta.env.VITE_BASE_URL + `/api/v1/projects/${id}/structure`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        }
-      );
-    } catch {
-      setError("Tizimda nosozlik!");
-    }
+  // async function get() {
+  //   let req;
+  //   const token = JSON.parse(localStorage.getItem("user")).accessToken;
+  //   setGetLoading(true);
+  //   try {
+  //     req = await fetch(
+  //       import.meta.env.VITE_BASE_URL + `/api/v1/projects/${id}/structure`,
+  //       {
+  //         headers: {
+  //           Authorization: "Bearer " + token,
+  //         },
+  //       }
+  //     );
+  //   } catch {
+  //     setError("Tizimda nosozlik!");
+  //   }
 
-    if (req) {
-      if (req.status === 200) {
-        const data = await req.json();
+  //   if (req) {
+  //     if (req.status === 200) {
+  //       const data = await req.json();
 
-        setHome(data);
-      } else {
-        setError("Xatolik yuz berdi qayta urunib ko'ring!");
-      }
-    }
+  //       setHome(data);
+  //     } else {
+  //       setError("Xatolik yuz berdi qayta urunib ko'ring!");
+  //     }
+  //   }
 
-    setGetLoading(false);
-  }
+  //   setGetLoading(false);
+  // }
 
-  useEffect(() => {
-    get();
-  }, []);
+  // useEffect(() => {
+  //   get();
+  // }, []);
 
   useEffect(() => {
     const url = new URL(window.location.href);
@@ -215,7 +216,12 @@ export default function TjmDetails() {
                                                     className={`leading-none flex items-center justify-center min-w-8 shrink-0 min-h-8 text-white font-bold text-sm border-5 border-transparent rounded transition-colors duration-400 ${
                                                       statuses[h.status]
                                                     } ${
-                                                      h.id === activeHome?.id
+                                                      h.id ===
+                                                      new URL(
+                                                        location.href
+                                                      ).searchParams.get(
+                                                        "details"
+                                                      )
                                                         ? "border-destructive! shadow"
                                                         : ""
                                                     }`}
@@ -313,7 +319,10 @@ export default function TjmDetails() {
                                                 className={`flex flex-col justify-between p-2 w-50 h-full text-white text-sm border-8 border-transparent rounded ${
                                                   statuses[h.status]
                                                 } ${
-                                                  h.id === activeHome?.id
+                                                  h.id ===
+                                                  new URL(
+                                                    location.href
+                                                  ).searchParams.get("details")
                                                     ? "border-destructive! shadow"
                                                     : ""
                                                 }`}
@@ -365,7 +374,7 @@ export default function TjmDetails() {
             </div>
           </section>
 
-          <CalculatorTool />
+          <CalculatorTool activeHome={activeHome} />
         </section>
       )
     );

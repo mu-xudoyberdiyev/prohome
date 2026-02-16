@@ -45,9 +45,46 @@ const states = {
   READY: "Ta'mirlangan",
 };
 
+const statuses = {
+  SOLD: "bg-red-500",
+  RESERVED: "bg-yellow-500",
+  EMPTY: "bg-green-500",
+  NOT: "bg-slate-400",
+};
+
+const uzebekTranslate = {
+  SOLD: "Sotilgan",
+  RESERVED: "Band qilingan",
+  EMPTY: "Bo'sh",
+  NOT: "Sotilmaydi",
+};
+
+const actionButtons = [
+  {
+    code: "SOLD",
+    title: "Sotish",
+    bg: "bg-red-500",
+  },
+  {
+    code: "RESERVED",
+    title: "Band qilish",
+    bg: "bg-yellow-500",
+  },
+  {
+    code: "NOT",
+    title: "To'xtatish",
+    bg: "bg-slate-400",
+  },
+  {
+    code: "EMPTY",
+    title: "Chiqarish",
+    bg: "bg-green-500",
+  },
+];
+
 const paymentPeriods = [12, 24, 36, 48, 60];
 
-export default function CalculatorTool() {
+export default function CalculatorTool({ activeHome }) {
   const [open, setOpen] = useState(
     window.location.search.includes("details=") &&
       window.location.hash === "#calculator"
@@ -287,146 +324,166 @@ export default function CalculatorTool() {
             <HomeGallery />
           </div>
 
-          <form
-            onSubmit={handleCalc}
-            className="w-[35%] mx-auto flex flex-col gap-5"
-          >
-            <div className="flex items-center space-x-2 mb-3">
-              <Switch
-                onCheckedChange={handleChangeDiscount}
-                defaultChecked={showDiscount}
-                id="discount"
-              />
-              <Label htmlFor="discount">Chegirma beramiz-mi?</Label>
-            </div>
-
-            {showDiscount && (
-              <div className="border border-primary relative px-3 py-6 rounded animate-fade-in">
-                <h3 className="absolute left-5 top-0 -translate-y-2/4  font-bold px-2 text-white flex gap-2 bg-primary p-0.5 rounded">
-                  <BadgePercent /> Chegirma
-                </h3>
-                <div className="flex w-full gap-5">
-                  <Input
-                    placeholder="100 yoki 5%"
-                    onChange={handleDiscount}
-                    value={discount}
-                    autoFocus={true}
-                    autoComplete="off"
-                    name={discountType}
-                  />
-                  <NativeSelect
-                    className={"w-45"}
-                    onChange={(evt) => {
-                      handleChangeDiscountType(evt.target.value);
-                    }}
-                    value={discountType}
-                    defaultValue={discountType}
-                  >
-                    <NativeSelectOption value={"discountPerM2"}>
-                      Kvadrat metrdan
-                    </NativeSelectOption>
-                    <NativeSelectOption value={"discountTotal"}>
-                      Umumiy summadan
-                    </NativeSelectOption>
-                  </NativeSelect>
-                </div>
-              </div>
-            )}
-            <RadioGroup name={"state"} defaultValue="BOX">
-              <div className="flex gap-4">
-                <FieldLabel htmlFor="box">
-                  <Field orientation="horizontal">
-                    <FieldContent>
-                      <FieldTitle>Karobka</FieldTitle>
-                      <FieldDescription className="text-xs">
-                        Uy hech qanday ta'mirsiz, karobka holatida topshiriladi
-                      </FieldDescription>
-                    </FieldContent>
-                    <RadioGroupItem value="BOX" id="box" />
-                  </Field>
-                </FieldLabel>
-                <FieldLabel htmlFor="ready">
-                  <Field orientation="horizontal">
-                    <FieldContent>
-                      <FieldTitle>Ta'mirlangan</FieldTitle>
-                      <FieldDescription className="text-xs">
-                        Uy jihozlashga tayyor bo'ladi
-                      </FieldDescription>
-                    </FieldContent>
-                    <RadioGroupItem value="READY" id="ready" />
-                  </Field>
-                </FieldLabel>
-              </div>
-            </RadioGroup>
-            <div className="grid gap-2">
-              <Label htmlFor="downPayment">Boshlang'ich to'lov</Label>
-              <InputGroup>
-                <InputGroupInput
-                  id="downPayment"
-                  onChange={handleDownPayment}
-                  value={downPayment}
-                  name={"downPayment"}
-                  placeholder="0"
-                  autoComplete="off"
-                  autoFocus={true}
+          <div className="w-[35%] h-full overflow-y-auto flex flex-col justify-between no-scrollbar">
+            <form
+              onSubmit={handleCalc}
+              className="w-full mx-auto flex flex-col gap-5"
+            >
+              <div className="flex items-center space-x-2 mb-3">
+                <Switch
+                  onCheckedChange={handleChangeDiscount}
+                  defaultChecked={showDiscount}
+                  id="discount"
                 />
-                <InputGroupAddon align="inline-end">
-                  <InputGroupText>so'm</InputGroupText>
-                </InputGroupAddon>
-              </InputGroup>
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="months">Necha oyga</Label>
-              <div className="flex gap-2">
-                <div className="flex gap-1">
-                  {paymentPeriods.map((p) => {
-                    return (
-                      <span
-                        onClick={() => {
-                          handlePeriod(p);
-                        }}
-                        className={`inline-flex items-center justify-center w-9 rounded-full cursor-pointer ${
-                          period === p
-                            ? "bg-primary text-primary-foreground"
-                            : "border"
-                        }`}
-                      >
-                        {p}
-                      </span>
-                    );
-                  })}
+                <Label htmlFor="discount">Chegirma beramiz-mi?</Label>
+              </div>
+
+              {showDiscount && (
+                <div className="border border-primary relative px-3 py-6 rounded animate-fade-in">
+                  <h3 className="absolute left-5 top-0 -translate-y-2/4  font-bold px-2 text-white flex gap-2 bg-primary p-0.5 rounded">
+                    <BadgePercent /> Chegirma
+                  </h3>
+                  <div className="flex w-full gap-5">
+                    <Input
+                      placeholder="100 yoki 5%"
+                      onChange={handleDiscount}
+                      value={discount}
+                      autoFocus={true}
+                      autoComplete="off"
+                      name={discountType}
+                    />
+                    <NativeSelect
+                      className={"w-45"}
+                      onChange={(evt) => {
+                        handleChangeDiscountType(evt.target.value);
+                      }}
+                      value={discountType}
+                      defaultValue={discountType}
+                    >
+                      <NativeSelectOption value={"discountPerM2"}>
+                        Kvadrat metrdan
+                      </NativeSelectOption>
+                      <NativeSelectOption value={"discountTotal"}>
+                        Umumiy summadan
+                      </NativeSelectOption>
+                    </NativeSelect>
+                  </div>
                 </div>
+              )}
+              <RadioGroup name={"state"} defaultValue="BOX">
+                <div className="flex gap-4">
+                  <FieldLabel htmlFor="box">
+                    <Field orientation="horizontal">
+                      <FieldContent>
+                        <FieldTitle>Karobka</FieldTitle>
+                        <FieldDescription className="text-xs">
+                          Uy hech qanday ta'mirsiz, karobka holatida
+                          topshiriladi
+                        </FieldDescription>
+                      </FieldContent>
+                      <RadioGroupItem value="BOX" id="box" />
+                    </Field>
+                  </FieldLabel>
+                  <FieldLabel htmlFor="ready">
+                    <Field orientation="horizontal">
+                      <FieldContent>
+                        <FieldTitle>Ta'mirlangan</FieldTitle>
+                        <FieldDescription className="text-xs">
+                          Uy jihozlashga tayyor bo'ladi
+                        </FieldDescription>
+                      </FieldContent>
+                      <RadioGroupItem value="READY" id="ready" />
+                    </Field>
+                  </FieldLabel>
+                </div>
+              </RadioGroup>
+              <div className="grid gap-2">
+                <Label htmlFor="downPayment">Boshlang'ich to'lov</Label>
                 <InputGroup>
                   <InputGroupInput
-                    id="months"
-                    name={"months"}
-                    autoComplete="off"
-                    onChange={(evt) => {
-                      const value = normalizePeriod(evt.target.value);
-                      handlePeriod(value);
-                    }}
-                    type="number"
-                    min={12}
-                    max={240}
-                    value={period}
+                    id="downPayment"
+                    onChange={handleDownPayment}
+                    value={downPayment}
+                    name={"downPayment"}
                     placeholder="0"
+                    autoComplete="off"
+                    autoFocus={true}
                   />
                   <InputGroupAddon align="inline-end">
-                    <InputGroupText>oy</InputGroupText>
+                    <InputGroupText>so'm</InputGroupText>
                   </InputGroupAddon>
                 </InputGroup>
               </div>
+              <div className="grid gap-2">
+                <Label htmlFor="months">Necha oyga</Label>
+                <div className="flex gap-2">
+                  <div className="flex gap-1">
+                    {paymentPeriods.map((p) => {
+                      return (
+                        <span
+                          onClick={() => {
+                            handlePeriod(p);
+                          }}
+                          className={`inline-flex items-center justify-center w-9 rounded-full cursor-pointer ${
+                            period === p
+                              ? "bg-primary text-primary-foreground"
+                              : "border"
+                          }`}
+                        >
+                          {p}
+                        </span>
+                      );
+                    })}
+                  </div>
+                  <InputGroup>
+                    <InputGroupInput
+                      id="months"
+                      name={"months"}
+                      autoComplete="off"
+                      onChange={(evt) => {
+                        const value = normalizePeriod(evt.target.value);
+                        handlePeriod(value);
+                      }}
+                      type="number"
+                      min={12}
+                      max={240}
+                      value={period}
+                      placeholder="0"
+                    />
+                    <InputGroupAddon align="inline-end">
+                      <InputGroupText>oy</InputGroupText>
+                    </InputGroupAddon>
+                  </InputGroup>
+                </div>
+              </div>
+              <Button variant="secondary" disabled={calcLoading}>
+                {calcLoading ? (
+                  <>Hisoblanmoqda...</>
+                ) : (
+                  <>
+                    <Calculator /> Hisoblash
+                  </>
+                )}
+              </Button>
+            </form>
+
+            <div className="py-10 flex flex-col gap-2">
+              {activeHome &&
+                actionButtons.map(({ bg, title, code }, index) => {
+                  return (
+                    code !== activeHome.status && (
+                      <Button
+                        className={`${bg} hover:${bg} hover:opacity-90  text-primary-foreground hover:text-primary-foreground`}
+                        size="sm"
+                        key={index}
+                      >
+                        {title}
+                      </Button>
+                    )
+                  );
+                })}
             </div>
-            <Button variant="secondary" disabled={calcLoading}>
-              {calcLoading ? (
-                <>Hisoblanmoqda...</>
-              ) : (
-                <>
-                  <Calculator /> Hisoblash
-                </>
-              )}
-            </Button>
-          </form>
+          </div>
         </div>
       </DrawerContent>
     </Drawer>

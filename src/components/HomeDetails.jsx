@@ -189,63 +189,35 @@ export default function HomeDetails({ activeHome, setActiveHome }) {
           </div>
 
           {/* Images */}
-          <div className="p-2">
-            <Tabs defaultValue="2d">
-              <PhotoProvider
-                toolbarRender={({ onScale, scale }) => {
-                  return (
-                    <div className="flex mr-5">
-                      <div className="w-11 h-11 p-2.5 group">
-                        <CircleMinus
-                          className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
-                          onClick={() => {
-                            onScale(scale - 1);
-                          }}
-                        />
-                      </div>
-                      <div className="w-11 h-11 p-2.5 group">
-                        <CirclePlus
-                          className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
-                          onClick={() => {
-                            onScale(scale + 1);
-                          }}
-                        />
-                      </div>
+          <div className="p-2 mb-5">
+            <PhotoProvider
+              toolbarRender={({ onScale, scale }) => {
+                return (
+                  <div className="flex mr-5">
+                    <div className="w-11 h-11 p-2.5 group">
+                      <CircleMinus
+                        className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
+                        onClick={() => {
+                          onScale(scale - 1);
+                        }}
+                      />
                     </div>
-                  );
-                }}
-              >
-                <PhotoView src="/2d.jpg">
-                  <TabsContent value="2d">
-                    <img
-                      className="object-cover h-52.5 w-full"
-                      src="/2d.jpg"
-                      alt="2d"
-                    />
-                  </TabsContent>
-                </PhotoView>
-                <PhotoView src="/3d.jpg">
-                  <TabsContent value="3d">
-                    <img
-                      className="object-cover h-52.5 w-full"
-                      src="/3d.jpg"
-                      alt="3d"
-                    />
-                  </TabsContent>
-                </PhotoView>
-              </PhotoProvider>
-
-              <TabsList className={"w-full"}>
-                <TabsTrigger className={"w-2/4"} value="2d">
-                  <Square />
-                  2D
-                </TabsTrigger>
-                <TabsTrigger className={"w-2/4"} value="3d">
-                  <Box />
-                  3D
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
+                    <div className="w-11 h-11 p-2.5 group">
+                      <CirclePlus
+                        className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
+                        onClick={() => {
+                          onScale(scale + 1);
+                        }}
+                      />
+                    </div>
+                  </div>
+                );
+              }}
+            >
+              <PhotoView src="/gallery/1.jpg">
+                <img className="w-full h-52.5" src="/gallery/1.jpg" alt="" />
+              </PhotoView>
+            </PhotoProvider>
           </div>
 
           <div className="px-2 mb-5">
