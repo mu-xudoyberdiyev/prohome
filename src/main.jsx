@@ -4,12 +4,13 @@ import "react-photo-view/dist/react-photo-view.css";
 import App from "./App.jsx";
 import { Toaster } from "sonner";
 import Offline from "./pages/Offline.jsx";
+import { LoadingBarContainer } from "react-top-loading-bar";
 
 const online = (
-  <>
+  <LoadingBarContainer>
     <App />
     <Toaster closeButton richColors position="bottom-right" visibleToasts={3} />
-  </>
+  </LoadingBarContainer>
 );
 
 const offline = <Offline />;

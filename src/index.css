@@ -143,6 +143,10 @@
     @apply h-full;
   }
 
+  .PhotoView-Portal {
+    pointer-events: all !important;
+  }
+
   button,
   a {
     @apply cursor-pointer;

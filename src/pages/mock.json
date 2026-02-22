@@ -1,0 +1,574 @@
+{
+  "maxFloor": 12,
+  "blocks": {
+    "A": {
+      "floor": 12,
+      "appartment": [
+        [
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-left",
+            "houseNumber": 60,
+            "pricePerM2": 6500000,
+            "price": 400660000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-left",
+            "houseNumber": 59,
+            "pricePerM2": 6500000,
+            "price": 351650000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-right",
+            "houseNumber": 58,
+            "pricePerM2": 6500000,
+            "price": 351650000
+          },
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-right",
+            "houseNumber": 57,
+            "pricePerM2": 6500000,
+            "price": 400660000
+          },
+          {
+            "room": 2,
+            "size": 44.51,
+            "status": "EMPTY",
+            "image": "44.51",
+            "houseNumber": 56,
+            "pricePerM2": 6500000,
+            "price": 289315000
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-left",
+            "houseNumber": 55,
+            "pricePerM2": 6500000,
+            "price": 400660000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-left",
+            "houseNumber": 54,
+            "pricePerM2": 6500000,
+            "price": 351650000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-right",
+            "houseNumber": 53,
+            "pricePerM2": 6500000,
+            "price": 351650000
+          },
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-right",
+            "houseNumber": 52,
+            "pricePerM2": 6500000,
+            "price": 400660000
+          },
+          {
+            "room": 2,
+            "size": 44.51,
+            "status": "EMPTY",
+            "image": "44.51",
+            "houseNumber": 51,
+            "pricePerM2": 6500000,
+            "price": 289315000
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-left",
+            "houseNumber": 50,
+            "pricePerM2": 6500000,
+            "price": 400660000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-left",
+            "houseNumber": 49,
+            "pricePerM2": 6500000,
+            "price": 351650000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-right",
+            "houseNumber": 48,
+            "pricePerM2": 6500000,
+            "price": 351650000
+          },
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-right",
+            "houseNumber": 47,
+            "pricePerM2": 6500000,
+            "price": 400660000
+          },
+          {
+            "room": 2,
+            "size": 44.51,
+            "status": "EMPTY",
+            "image": "44.51",
+            "houseNumber": 46,
+            "pricePerM2": 6500000,
+            "price": 289315000
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-left",
+            "houseNumber": 45,
+            "pricePerM2": 6500000,
+            "price": 400660000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-left",
+            "houseNumber": 44,
+            "pricePerM2": 6500000,
+            "price": 351650000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-right",
+            "houseNumber": 43,
+            "pricePerM2": 6500000,
+            "price": 351650000
+          },
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-right",
+            "houseNumber": 42,
+            "pricePerM2": 6500000,
+            "price": 400660000
+          },
+          {
+            "room": 2,
+            "size": 44.51,
+            "status": "EMPTY",
+            "image": "44.51",
+            "houseNumber": 41,
+            "pricePerM2": 6500000,
+            "price": 289315000
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-left",
+            "houseNumber": 40,
+            "pricePerM2": 7500000,
+            "price": 462300000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-left",
+            "houseNumber": 39,
+            "pricePerM2": 7500000,
+            "price": 405750000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-right",
+            "houseNumber": 38,
+            "pricePerM2": 7500000,
+            "price": 405750000
+          },
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-right",
+            "houseNumber": 37,
+            "pricePerM2": 7500000,
+            "price": 462300000
+          },
+          {
+            "room": 2,
+            "size": 44.51,
+            "status": "EMPTY",
+            "image": "44.51",
+            "houseNumber": 36,
+            "pricePerM2": 7500000,
+            "price": 333825000
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-left",
+            "houseNumber": 35,
+            "pricePerM2": 7500000,
+            "price": 462300000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-left",
+            "houseNumber": 34,
+            "pricePerM2": 7500000,
+            "price": 405750000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-right",
+            "houseNumber": 33,
+            "pricePerM2": 7500000,
+            "price": 405750000
+          },
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-right",
+            "houseNumber": 32,
+            "pricePerM2": 7500000,
+            "price": 462300000
+          },
+          {
+            "room": 2,
+            "size": 44.51,
+            "status": "EMPTY",
+            "image": "44.51",
+            "houseNumber": 31,
+            "pricePerM2": 7500000,
+            "price": 333825000
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-left",
+            "houseNumber": 30,
+            "pricePerM2": 7500000,
+            "price": 462300000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-left",
+            "houseNumber": 29,
+            "pricePerM2": 7500000,
+            "price": 405750000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-right",
+            "houseNumber": 28,
+            "pricePerM2": 7500000,
+            "price": 405750000
+          },
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-right",
+            "houseNumber": 27,
+            "pricePerM2": 7500000,
+            "price": 462300000
+          },
+          {
+            "room": 2,
+            "size": 44.51,
+            "status": "EMPTY",
+            "image": "44.51",
+            "houseNumber": 26,
+            "pricePerM2": 7500000,
+            "price": 333825000
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-left",
+            "houseNumber": 25,
+            "pricePerM2": 7500000,
+            "price": 462300000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-left",
+            "houseNumber": 24,
+            "pricePerM2": 7500000,
+            "price": 405750000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-right",
+            "houseNumber": 23,
+            "pricePerM2": 7500000,
+            "price": 405750000
+          },
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-right",
+            "houseNumber": 22,
+            "pricePerM2": 7500000,
+            "price": 462300000
+          },
+          {
+            "room": 2,
+            "size": 44.51,
+            "status": "EMPTY",
+            "image": "44.51",
+            "houseNumber": 21,
+            "pricePerM2": 7500000,
+            "price": 333825000
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-left",
+            "houseNumber": 20,
+            "pricePerM2": 8500000,
+            "price": 523940000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-left",
+            "houseNumber": 19,
+            "pricePerM2": 8500000,
+            "price": 459850000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-right",
+            "houseNumber": 18,
+            "pricePerM2": 8500000,
+            "price": 459850000
+          },
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-right",
+            "houseNumber": 17,
+            "pricePerM2": 8500000,
+            "price": 523940000
+          },
+          {
+            "room": 2,
+            "size": 44.51,
+            "status": "EMPTY",
+            "image": "44.51",
+            "houseNumber": 16,
+            "pricePerM2": 8500000,
+            "price": 378335000
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-left",
+            "houseNumber": 15,
+            "pricePerM2": 8500000,
+            "price": 523940000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-left",
+            "houseNumber": 14,
+            "pricePerM2": 8500000,
+            "price": 459850000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-right",
+            "houseNumber": 13,
+            "pricePerM2": 8500000,
+            "price": 459850000
+          },
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-right",
+            "houseNumber": 12,
+            "pricePerM2": 8500000,
+            "price": 523940000
+          },
+          {
+            "room": 2,
+            "size": 44.51,
+            "status": "EMPTY",
+            "image": "44.51",
+            "houseNumber": 11,
+            "pricePerM2": 8500000,
+            "price": 378335000
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-left",
+            "houseNumber": 10,
+            "pricePerM2": 8500000,
+            "price": 523940000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-left",
+            "houseNumber": 9,
+            "pricePerM2": 8500000,
+            "price": 459850000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "EMPTY",
+            "image": "54.1-right",
+            "houseNumber": 8,
+            "pricePerM2": 8500000,
+            "price": 459850000
+          },
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "EMPTY",
+            "image": "61.64-right",
+            "houseNumber": 7,
+            "pricePerM2": 8500000,
+            "price": 523940000
+          },
+          {
+            "room": 2,
+            "size": 44.51,
+            "status": "EMPTY",
+            "image": "44.51",
+            "houseNumber": 6,
+            "pricePerM2": 8500000,
+            "price": 378335000
+          }
+        ],
+        [
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "NOT",
+            "image": "61.64-left",
+            "houseNumber": 5,
+            "pricePerM2": 8500000,
+            "price": 523940000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "NOT",
+            "image": "54.1-left",
+            "houseNumber": 4,
+            "pricePerM2": 8500000,
+            "price": 459850000
+          },
+          {
+            "room": 2,
+            "size": 54.1,
+            "status": "NOT",
+            "image": "54.1-right",
+            "houseNumber": 3,
+            "pricePerM2": 8500000,
+            "price": 459850000
+          },
+          {
+            "room": 2,
+            "size": 61.64,
+            "status": "NOT",
+            "image": "61.64-right",
+            "houseNumber": 2,
+            "pricePerM2": 8500000,
+            "price": 523940000
+          },
+          {
+            "room": 2,
+            "size": 44.51,
+            "status": "NOT",
+            "image": "44.51",
+            "houseNumber": 1,
+            "pricePerM2": 8500000,
+            "price": 378335000
+          }
+        ]
+      ]
+    }
+  }
+}

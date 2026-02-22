@@ -1,6 +1,7 @@
 import {
   Edit,
   Edit2,
+  Plus,
   PlusCircle,
   PlusCircleIcon,
   RefreshCcw,
@@ -8,6 +9,17 @@ import {
   Trash,
 } from "lucide-react";
 import { Button } from "../components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import {
   Drawer,
   DrawerContent,
@@ -27,6 +39,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "../components/ui/tooltip";
+import { useLoadingBar } from "react-top-loading-bar";
 
 export default function Admin() {
   const { user } = useAppStore();
@@ -40,6 +53,10 @@ export default function Admin() {
   const [error, setError] = useState(null);
 
   // Loadings
+  const { start, complete } = useLoadingBar({
+    color: "#5ea500",
+    height: 3,
+  });
   const [getLoading, setGetLoading] = useState(false);
   const [addLoading, setAddLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
@@ -52,8 +69,6 @@ export default function Admin() {
   // ======= CRUD =======
   // Create
   async function add(data) {
-    console.log(data);
-
     let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
 
@@ -104,6 +119,7 @@ export default function Admin() {
 
   // Read
   async function get() {
+    start();
     let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
     setGetLoading(true);
@@ -122,15 +138,16 @@ export default function Admin() {
 
     if (req) {
       if (req.status === 200) {
-        const { safeUsers } = await req.json();
+        const { users } = await req.json();
 
-        setAdmins(safeUsers);
+        setAdmins(users);
       } else {
         setError("Xatolik yuz berdi qayta urunib ko'ring!");
       }
     }
 
     setGetLoading(false);
+    complete();
   }
 
   // Update
@@ -275,13 +292,7 @@ export default function Admin() {
   function handleDelete(id) {
     const foundAdmin = admins.find((adm) => adm.id === id);
     setDeletingAdmin(foundAdmin);
-    const check = confirm(
-      `Rostan ham <${foundAdmin.email}> ni o'chirib yubormoqchimisiz? Keyin bu operatsiyani orqaga qaytarib bo'lmaydi!`
-    );
-
-    if (check) {
-      remove(id);
-    }
+    remove(id);
   }
 
   function handleEdit(id) {
@@ -303,7 +314,7 @@ export default function Admin() {
   if (user) {
     if (getLoading) {
       return (
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center absolute bg-background z-50 inset-0">
           <div className="flex gap-4 items-center animate-pulse">
             <img
               className="w-20 h-20 rounded shadow"
@@ -377,20 +388,48 @@ export default function Admin() {
 
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <Button
-                            onClick={() => {
-                              handleDelete(id);
-                            }}
-                            disabled={deletingAdmin?.id === id && removeLoading}
-                            variant="destructive"
-                            size="icon-sm"
-                          >
-                            {deletingAdmin?.id === id && removeLoading ? (
-                              <RefreshCcw className="animate-spin" />
-                            ) : (
-                              <Trash />
-                            )}
-                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                disabled={
+                                  deletingAdmin?.id === id && removeLoading
+                                }
+                                variant="destructive"
+                                size="icon-sm"
+                              >
+                                {deletingAdmin?.id === id && removeLoading ? (
+                                  <RefreshCcw className="animate-spin" />
+                                ) : (
+                                  <Trash />
+                                )}
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Rostan ham{" "}
+                                  <span className="font-mono">
+                                    {deletingAdmin.email}
+                                  </span>{" "}
+                                  ni o'chirib yubormoqchimisiz?
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  Keyin bu operatsiyani orqaga qaytarib
+                                  bo'lmaydi!
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Yo'q</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => {
+                                    handleDelete(id);
+                                  }}
+                                >
+                                  Ha
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>O'chirish</p>
@@ -405,14 +444,14 @@ export default function Admin() {
         ) : (
           <div className="w-full h-full flex justify-center items-center animate-fade-in">
             <div className="flex flex-col items-center text-center w-full max-w-sm">
-              <h3 className="text-2xl mb-3 font-medium">
-                Hali admin mavjud emas!
-              </h3>
-              <p className="text-muted-foreground mb-5">
-                Admin yaratishni istasangiz "Istayman" tugmasini bosing.
-              </p>
+              <img
+                className="w-50 object-center select-none mb-5"
+                src="/no-data.svg"
+                alt=""
+              />
+              <p className="mb-5">Hozircha ma'lumot yo'q</p>
               <Button onClick={handleAddModal} variant="secondary">
-                Istayman
+                <Plus /> Qo'shish
               </Button>
             </div>
           </div>

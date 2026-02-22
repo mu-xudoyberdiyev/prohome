@@ -15,7 +15,6 @@ import {
   normalizePeriod,
 } from "../lib/utils";
 import { Spinner } from "./ui/spinner";
-import HomeGallery from "./HomeGallery";
 import { NoiseBackground } from "./ui/noise-background";
 import { useEffect, useState } from "react";
 import {
@@ -35,10 +34,14 @@ import {
   CalendarDays,
   CircleCheckBig,
   CircleDollarSign,
+  CircleMinus,
+  CirclePlus,
   HandCoins,
   X,
 } from "lucide-react";
 import { Button, buttonVariants } from "./ui/button";
+import { PhotoProvider, PhotoView } from "react-photo-view";
+import { toast } from "sonner";
 
 const states = {
   BOX: "Karobka",
@@ -63,7 +66,7 @@ const actionButtons = [
   {
     code: "SOLD",
     title: "Sotish",
-    bg: "bg-red-500",
+    bg: "bg-green-500",
   },
   {
     code: "RESERVED",
@@ -84,7 +87,7 @@ const actionButtons = [
 
 const paymentPeriods = [12, 24, 36, 48, 60];
 
-export default function CalculatorTool({ activeHome }) {
+export default function CalculatorTool({ home }) {
   const [open, setOpen] = useState(
     window.location.search.includes("details=") &&
       window.location.hash === "#calculator"
@@ -99,6 +102,10 @@ export default function CalculatorTool({ activeHome }) {
   const [period, setPeriod] = useState(60);
   const [downPayment, setDownPayment] = useState(0);
   const [discount, setDiscount] = useState("");
+
+  const [galleryShow, setGalleryShow] = useState(false);
+
+  // Loadings
   const [calcLoading, setCalcLoading] = useState(false);
 
   //   API
@@ -113,17 +120,22 @@ export default function CalculatorTool({ activeHome }) {
         },
       });
     } catch {
-      setError("Tizimda nosozlik!");
+      toast.error("Tizimda nosozlik!", { position: "bottom-left" });
     }
 
     if (req) {
       if (req.status === 200) {
         const data = await req.json();
-        console.log(data);
-
         setCalcResult(data);
+      } else if (req.status === 400) {
+        toast.error(
+          "Boshlang'ich to'lov uyning umumiy summasidan katta bo'lishi mumkin emas!",
+          { position: "bottom-left" }
+        );
       } else {
-        setError("Xatolik yuz berdi qayta urunib ko'ring!");
+        toast.error("Xatolik yuz berdi qayta urunib ko'ring!", {
+          position: "bottom-left",
+        });
       }
     }
 
@@ -145,6 +157,7 @@ export default function CalculatorTool({ activeHome }) {
     setPeriod(60);
     setDiscount("");
     setShowDiscount(false);
+    setCalcLoading(false);
 
     const url = new URL(window.location.href);
     url.hash = "";
@@ -208,8 +221,8 @@ export default function CalculatorTool({ activeHome }) {
     <Drawer
       open={open}
       onOpenChange={(v) => {
-        handleOpen();
-        if (v === false) {
+        if (v === false && galleryShow === false) {
+          handleOpen();
           handleClose();
         }
       }}
@@ -230,7 +243,7 @@ export default function CalculatorTool({ activeHome }) {
         <div className="py-15 px-10 h-full flex gap-10">
           <div
             className={`w-[65%] h-full overflow-y-auto no-scrollbar relative transition-opacity ${
-              calcLoading ? "opacity-50" : ""
+              calcLoading ? "opacity-50 pointer-events-none" : ""
             }`}
           >
             {calcLoading && (
@@ -239,7 +252,7 @@ export default function CalculatorTool({ activeHome }) {
               </div>
             )}
 
-            <div className="animate-fade-in">
+            <div className="animate-fade-in mb-5">
               <div className="border px-3 py-6 rounded animate-fade-in w-full sticky top-2 bg-background mb-8 z-10">
                 <h3 className="absolute left-5 top-0 -translate-y-2/4 bg-background text-muted-foreground px-2 flex gap-2 rounded">
                   Oyiga
@@ -321,10 +334,50 @@ export default function CalculatorTool({ activeHome }) {
               </div>
             </div>
 
-            <HomeGallery />
+            <PhotoProvider
+              onVisibleChange={(visible) => {
+                setGalleryShow(visible);
+              }}
+              toolbarRender={({ onScale, scale }) => {
+                return (
+                  <div className="flex mr-5">
+                    <div className="w-11 h-11 p-2.5 group">
+                      <CircleMinus
+                        className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
+                        onClick={() => {
+                          onScale(scale - 1);
+                        }}
+                      />
+                    </div>
+                    <div className="w-11 h-11 p-2.5 group">
+                      <CirclePlus
+                        className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
+                        onClick={() => {
+                          onScale(scale + 1);
+                        }}
+                      />
+                    </div>
+                  </div>
+                );
+              }}
+            >
+              <PhotoView src={`/gallery/jpg/${home.image}.jpg`}>
+                <picture>
+                  <source
+                    srcset={`/gallery/avif/${home.image}.avif`}
+                    type="image/avif"
+                  />
+                  <img
+                    className="w-full shadow"
+                    src={`/gallery/jpg/${home.image}.jpg`}
+                    alt={home.image}
+                  />
+                </picture>
+              </PhotoView>
+            </PhotoProvider>
           </div>
 
-          <div className="w-[35%] h-full overflow-y-auto flex flex-col justify-between no-scrollbar">
+          <div className="w-[35%] h-full overflow-y-auto flex flex-col justify-between no-scrollbar px-1">
             <form
               onSubmit={handleCalc}
               className="w-full mx-auto flex flex-col gap-5"
@@ -468,10 +521,10 @@ export default function CalculatorTool({ activeHome }) {
             </form>
 
             <div className="py-10 flex flex-col gap-2">
-              {activeHome &&
+              {home &&
                 actionButtons.map(({ bg, title, code }, index) => {
                   return (
-                    code !== activeHome.status && (
+                    code !== home.status && (
                       <Button
                         className={`${bg} hover:${bg} hover:opacity-90  text-primary-foreground hover:text-primary-foreground`}
                         size="sm"

@@ -2,6 +2,17 @@ import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { useAppStore } from "../lib/zustand";
 import { Button, buttonVariants } from "../components/ui/button";
 import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import {
   ArrowLeft,
   CircleCheck,
   CircleQuestionMark,
@@ -34,6 +45,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "../components/ui/tooltip";
+import { useLoadingBar } from "react-top-loading-bar";
 
 export default function CompanyDetails() {
   const { user } = useAppStore();
@@ -54,9 +66,14 @@ export default function CompanyDetails() {
   const [statusLoading, setStatusLoading] = useState(false);
   const [editLoading, setEditLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+  const { start, complete } = useLoadingBar({
+    color: "#5ea500",
+    height: 3,
+  });
 
   // ===== CRUD =====
   async function get(id) {
+    start();
     let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
     setGetLoading(true);
@@ -81,13 +98,14 @@ export default function CompanyDetails() {
         setLogo((prev) => {
           return { ...prev, src: data.logo };
         });
-      } else if (req.status === 404) {
+      } else if (req.status === 404 || req.status === 400) {
         setNotFound(true);
       } else {
         setError("Xatolik yuz berdi qayta urunib ko'ring!");
       }
     }
 
+    complete();
     setGetLoading(false);
   }
 
@@ -163,7 +181,7 @@ export default function CompanyDetails() {
         );
         setDetails(data);
         handleEditMode();
-      } else if (req.status === 404) {
+      } else if (req.status === 404 || req.status === 400) {
         setNotFound(true);
       } else {
         setError("Xatolik yuz berdi qayta urunib ko'ring!");
@@ -276,13 +294,7 @@ export default function CompanyDetails() {
   }
 
   function handleDelete() {
-    const check = confirm(
-      `Rostan ham ${details?.name} kompaniyasini o'chirib yubormoqchimisiz? Yaxshilab o'ylab ko'ring, bu jarayonni ortga qaytarish imkonsiz!`
-    );
-
-    if (check) {
-      remove(id);
-    }
+    remove(id);
   }
 
   useEffect(() => {
@@ -292,7 +304,7 @@ export default function CompanyDetails() {
   if (user) {
     if (getLoading) {
       return (
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center fixed bg-background z-50">
           <div className="flex gap-4 items-center animate-pulse">
             <img
               className="w-20 h-20 rounded shadow"
@@ -401,23 +413,46 @@ export default function CompanyDetails() {
                 >
                   <Power /> {details.status ? "To'xtatish" : "Faollashtirish"}
                 </Button>
-                <Button
-                  onClick={handleDelete}
-                  disabled={deleteLoading || editLoading || statusLoading}
-                  variant="destructive"
-                >
-                  {deleteLoading ? (
-                    <>
-                      <RefreshCcw className="animate-spin" />
-                      O'chirilmoqda...
-                    </>
-                  ) : (
-                    <>
-                      <Trash />
-                      O'chirish
-                    </>
-                  )}
-                </Button>
+
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      disabled={deleteLoading || editLoading || statusLoading}
+                      variant="destructive"
+                    >
+                      {deleteLoading ? (
+                        <>
+                          <RefreshCcw className="animate-spin" />
+                          O'chirilmoqda...
+                        </>
+                      ) : (
+                        <>
+                          <Trash />
+                          O'chirish
+                        </>
+                      )}
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>
+                        Rostan ham{" "}
+                        <span className="font-mono">{details?.name}</span>{" "}
+                        kompaniyasini o'chirib yubormoqchimisiz?
+                      </AlertDialogTitle>
+                      <AlertDialogDescription>
+                        Yaxshilab o'ylab ko'ring, bu jarayonni ortga qaytarish
+                        imkonsiz!
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Yo'q</AlertDialogCancel>
+                      <AlertDialogAction onClick={handleDelete}>
+                        Ha
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </div>
           </div>
@@ -498,7 +533,7 @@ export default function CompanyDetails() {
                   <Input
                     className={"w-full"}
                     id="name"
-                    name="name" 
+                    name="name"
                     type="text"
                     placeholder="Kompaniya nomini kiriting"
                     defaultValue={details.name}
@@ -519,7 +554,6 @@ export default function CompanyDetails() {
                       editMode === false || editLoading || statusLoading
                     }
                   />
-                  f
                 </div>
                 <div className="grid gap-2 w-full col-start-1 col-end-3">
                   <Label htmlFor="phoneNumber">Telefon raqami*</Label>

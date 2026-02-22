@@ -7,10 +7,12 @@ import {
   ArrowRight,
   CircleCheck,
   CircleXIcon,
+  Plus,
   PlusCircleIcon,
   SearchAlert,
 } from "lucide-react";
 import { Badge } from "../components/ui/badge";
+import { useLoadingBar } from "react-top-loading-bar";
 
 export default function Company() {
   const { user } = useAppStore();
@@ -23,10 +25,15 @@ export default function Company() {
 
   // Loadings
   const [getLoading, setGetLoading] = useState(false);
+  const { start, complete } = useLoadingBar({
+    color: "#5ea500",
+    height: 3,
+  });
 
   // ======= CRUD =======
   // Read
   async function get() {
+    start();
     let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
     setGetLoading(true);
@@ -51,6 +58,7 @@ export default function Company() {
     }
 
     setGetLoading(false);
+    complete();
   }
 
   // ===== Funtions =====
@@ -73,7 +81,7 @@ export default function Company() {
   if (user) {
     if (getLoading) {
       return (
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center absolute bg-background z-50 inset-0">
           <div className="flex gap-4 items-center animate-pulse">
             <img
               className="w-20 h-20 rounded shadow"
@@ -159,14 +167,14 @@ export default function Company() {
     ) : (
       <div className="w-full h-full flex justify-center items-center animate-fade-in">
         <div className="flex flex-col items-center text-center w-full max-w-sm">
-          <h3 className="text-2xl mb-3 font-medium">
-            Hali kompaniya mavjud emas!
-          </h3>
-          <p className="text-muted-foreground mb-5">
-            Kompaniya yaratishni istasangiz "Istayman" tugmasini bosing.
-          </p>
+          <img
+            className="w-50 object-center select-none mb-5"
+            src="/no-data.svg"
+            alt=""
+          />
+          <p className="mb-5">Hozircha ma'lumot yo'q</p>
           <Button onClick={handleAdd} variant="secondary">
-            Istayman
+            <Plus /> Qo'shish
           </Button>
         </div>
       </div>

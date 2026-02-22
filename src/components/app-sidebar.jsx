@@ -9,6 +9,17 @@ import { useAppStore } from "../lib/zustand";
 import { Button, buttonVariants } from "./ui/button";
 import { BrickWall, Building2, HomeIcon, LogOut, User } from "lucide-react";
 import { toast } from "sonner";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 
 const routes = {
   SUPERADMIN: [
@@ -42,11 +53,8 @@ export function AppSidebar({ ...props }) {
   const currentPath = useLocation().pathname;
 
   function handleLogout() {
-    const check = confirm("Tizimni tark etishni istaysiz-mi?");
-    if (check) {
-      setUser(null);
-      toast.info("Tizimdan chiqdingiz!");
-    }
+    setUser(null);
+    toast.info("Tizimdan chiqdingiz!");
   }
 
   return (
@@ -82,13 +90,29 @@ export function AppSidebar({ ...props }) {
                 </Link>
               );
             })}
-          <Button
-            onClick={handleLogout}
-            className="w-full mt-auto"
-            variant="outline"
-          >
-            <LogOut /> Chiqish
-          </Button>
+
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <Button className="w-full mt-auto" variant="outline">
+                <LogOut /> Chiqish
+              </Button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>
+                  Rostan ham tizimni tark etmoqchimisiz?
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  Tizimdan chiqsangiz, boshqa amalarni bajarish uchun yana
+                  tizimga kirshingiz talab etiladi.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Yo'q</AlertDialogCancel>
+                <AlertDialogAction onClick={handleLogout}>Ha</AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
         </div>
       </SidebarContent>
       <SidebarRail />

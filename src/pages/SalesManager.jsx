@@ -1,6 +1,7 @@
 import {
   Edit,
   Edit2,
+  Plus,
   PlusCircle,
   PlusCircleIcon,
   RefreshCcw,
@@ -8,6 +9,17 @@ import {
   Trash,
 } from "lucide-react";
 import { Button } from "../components/ui/button";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
 import {
   Drawer,
   DrawerContent,
@@ -32,6 +44,7 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "../components/ui/tooltip";
+import { useLoadingBar } from "react-top-loading-bar";
 
 export default function SalesManager() {
   const { user } = useAppStore();
@@ -51,6 +64,10 @@ export default function SalesManager() {
   const [editLoading, setEditLoading] = useState(false);
   const [removeLoading, setRemoveLoading] = useState(false);
   const [companiesLoading, setCompaniesLoading] = useState(false);
+  const { start, complete } = useLoadingBar({
+    color: "#5ea500",
+    height: 3,
+  });
 
   // Permanently states
   const [deletingSalesManager, setDeletingSalesManager] = useState(null);
@@ -137,6 +154,7 @@ export default function SalesManager() {
 
   // Read
   async function get() {
+    start();
     let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
     setGetLoading(true);
@@ -163,6 +181,7 @@ export default function SalesManager() {
       }
     }
     setGetLoading(false);
+    complete();
   }
 
   // Update
@@ -309,13 +328,7 @@ export default function SalesManager() {
   function handleDelete(id) {
     const foundSalesManager = salesManagers.find((sm) => sm.id === id);
     setDeletingSalesManager(foundSalesManager);
-    const check = confirm(
-      `Rostan ham <${foundSalesManager.email}> ni o'chirib yubormoqchimisiz? Keyin bu operatsiyani orqaga qaytarib bo'lmaydi!`
-    );
-
-    if (check) {
-      remove(id);
-    }
+    remove(id);
   }
 
   function handleEdit(id) {
@@ -338,7 +351,7 @@ export default function SalesManager() {
   if (user) {
     if (getLoading) {
       return (
-        <div className="w-full h-full flex items-center justify-center">
+        <div className="w-full h-full flex items-center justify-center absolute bg-background z-50 inset-0">
           <div className="flex gap-4 items-center animate-pulse">
             <img
               className="w-20 h-20 rounded shadow"
@@ -412,23 +425,47 @@ export default function SalesManager() {
 
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <Button
-                            onClick={() => {
-                              handleDelete(id);
-                            }}
-                            disabled={
-                              deletingSalesManager?.id === id && removeLoading
-                            }
-                            variant="destructive"
-                            size="icon-sm"
-                          >
-                            {deletingSalesManager?.id === id &&
-                            removeLoading ? (
-                              <RefreshCcw className="animate-spin" />
-                            ) : (
-                              <Trash />
-                            )}
-                          </Button>
+                          <AlertDialog>
+                            <AlertDialogTrigger asChild>
+                              <Button
+                                disabled={
+                                  deletingSalesManager?.id === id &&
+                                  removeLoading
+                                }
+                                variant="destructive"
+                                size="icon-sm"
+                              >
+                                {deletingSalesManager?.id === id &&
+                                removeLoading ? (
+                                  <RefreshCcw className="animate-spin" />
+                                ) : (
+                                  <Trash />
+                                )}
+                              </Button>
+                            </AlertDialogTrigger>
+                            <AlertDialogContent>
+                              <AlertDialogHeader>
+                                <AlertDialogTitle>
+                                  Are you absolutely sure?
+                                </AlertDialogTitle>
+                                <AlertDialogDescription>
+                                  This action cannot be undone. This will
+                                  permanently delete your account from our
+                                  servers.
+                                </AlertDialogDescription>
+                              </AlertDialogHeader>
+                              <AlertDialogFooter>
+                                <AlertDialogCancel>Yo'q</AlertDialogCancel>
+                                <AlertDialogAction
+                                  onClick={() => {
+                                    handleDelete(id);
+                                  }}
+                                >
+                                  Ha
+                                </AlertDialogAction>
+                              </AlertDialogFooter>
+                            </AlertDialogContent>
+                          </AlertDialog>
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>O'chirish</p>
@@ -443,15 +480,14 @@ export default function SalesManager() {
         ) : (
           <div className="w-full h-full flex justify-center items-center animate-fade-in">
             <div className="flex flex-col items-center text-center w-full max-w-sm">
-              <h3 className="text-2xl mb-3 font-medium">
-                Hali sotuv operatori mavjud emas!
-              </h3>
-              <p className="text-muted-foreground mb-5">
-                Sotuv operatori yaratishni istasangiz "Istayman" tugmasini
-                bosing.
-              </p>
+              <img
+                className="w-50 object-center select-none mb-5"
+                src="/no-data.svg"
+                alt=""
+              />
+              <p className="mb-5">Hozircha ma'lumot yo'q</p>
               <Button onClick={handleAddModal} variant="secondary">
-                Istayman
+                <Plus /> Qo'shish
               </Button>
             </div>
           </div>
