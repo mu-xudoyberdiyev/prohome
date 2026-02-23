@@ -14,8 +14,8 @@ export function getFormData(form) {
   return result;
 }
 
-export function formatNumber(num) {
-  const cleaned = num?.toString().replace(/^0+(?=\d)/, "");
+export function formatNumber(num = 0) {
+  const cleaned = num?.toString()?.replace(/^0+(?=\d)/, "");
 
   return cleaned.replace(/\B(?=(\d{3})+(?!\d))/g, " ");
 }

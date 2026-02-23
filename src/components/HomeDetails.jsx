@@ -77,6 +77,7 @@ export default function HomeDetails() {
     if (req) {
       if (req.status === 200) {
         const data = await req.json();
+        console.log(data);
 
         setHome(data);
       } else if (req.status === 404 || req.status === 400) {
@@ -119,6 +120,8 @@ export default function HomeDetails() {
       });
   }
 
+  console.log(home);
+
   return (
     <>
       <div
@@ -156,7 +159,7 @@ export default function HomeDetails() {
                   <i className="font-mono">№ {home.houseNumber}</i>
 
                   <span className="bg-primary text-primary-foreground px-2 py-1 leading-none text-xs">
-                    {formatNumber(home.totalPrice)} UZS
+                    {formatNumber(home.pricePerMetr * home.size)} UZS
                   </span>
                 </div>
               </div>

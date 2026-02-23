@@ -304,7 +304,7 @@ export default function CompanyDetails() {
   if (user) {
     if (getLoading) {
       return (
-        <div className="w-full h-full flex items-center justify-center fixed bg-background z-50">
+        <div className="w-full h-full flex items-center justify-center absolute bg-background z-50 inset-0">
           <div className="flex gap-4 items-center animate-pulse">
             <img
               className="w-20 h-20 rounded shadow"

@@ -55,13 +55,6 @@ const statuses = {
   NOT: "bg-slate-400",
 };
 
-const uzebekTranslate = {
-  SOLD: "Sotilgan",
-  RESERVED: "Band qilingan",
-  EMPTY: "Bo'sh",
-  NOT: "Sotilmaydi",
-};
-
 const actionButtons = [
   {
     code: "SOLD",
@@ -126,6 +119,8 @@ export default function CalculatorTool({ home }) {
     if (req) {
       if (req.status === 200) {
         const data = await req.json();
+        console.log(data);
+
         setCalcResult(data);
       } else if (req.status === 400) {
         toast.error(
@@ -179,7 +174,7 @@ export default function CalculatorTool({ home }) {
   function handleCalc(evt) {
     evt.preventDefault();
     const url = new URL(
-      import.meta.env.VITE_BASE_URL + `/api/v1/room/${1}/calculate`
+      import.meta.env.VITE_BASE_URL + `/api/v1/room/${home.id}/calculate`
     );
     const formData = getFormData(evt.currentTarget);
 

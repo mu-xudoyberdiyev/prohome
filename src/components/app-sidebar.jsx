@@ -66,7 +66,7 @@ export function AppSidebar({ ...props }) {
             src="/logo.png"
             alt="Logo"
           />
-          <strong className="font-medium">{user?.role}</strong>
+          <strong className="font-medium">{user?.user?.role}</strong>
         </Link>
       </SidebarHeader>
       <SidebarContent>
