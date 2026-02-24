@@ -7,7 +7,6 @@ import {
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { NativeSelect, NativeSelectOption } from "./ui/native-select";
-import { Switch } from "./ui/switch";
 import {
   formatNumber,
   formatNumberWithPercent,
@@ -16,7 +15,7 @@ import {
 } from "../lib/utils";
 import { Spinner } from "./ui/spinner";
 import { NoiseBackground } from "./ui/noise-background";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Field,
   FieldContent,
@@ -36,23 +35,27 @@ import {
   CircleDollarSign,
   CircleMinus,
   CirclePlus,
+  Grid2X2,
   HandCoins,
+  Ribbon,
   X,
 } from "lucide-react";
 import { Button, buttonVariants } from "./ui/button";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import { toast } from "sonner";
+import confetti from "canvas-confetti";
+import useSound from "../hooks/use-sound";
 
 const states = {
   BOX: "Karobka",
   READY: "Ta'mirlangan",
 };
 
-const statuses = {
-  SOLD: "bg-red-500",
-  RESERVED: "bg-yellow-500",
-  EMPTY: "bg-green-500",
-  NOT: "bg-slate-400",
+const uzbekTranslate = {
+  refrigerator: "Muzlatgich",
+  "gas-stove": "Gaz plita",
+  "washing-machine": "Kir yuvish mashinasi",
+  "electric-plate": "Elektr plita",
 };
 
 const actionButtons = [
@@ -63,7 +66,7 @@ const actionButtons = [
   },
   {
     code: "RESERVED",
-    title: "Band qilish",
+    title: "Bron qilish",
     bg: "bg-yellow-500",
   },
   {
@@ -73,7 +76,7 @@ const actionButtons = [
   },
   {
     code: "EMPTY",
-    title: "Chiqarish",
+    title: "Sotuvga chiqarish",
     bg: "bg-green-500",
   },
 ];
@@ -81,6 +84,8 @@ const actionButtons = [
 const paymentPeriods = [12, 24, 36, 48, 60];
 
 export default function CalculatorTool({ home }) {
+  const timerRef = useRef();
+  const { sound } = useSound("/win.mp3");
   const [open, setOpen] = useState(
     window.location.search.includes("details=") &&
       window.location.hash === "#calculator"
@@ -89,6 +94,7 @@ export default function CalculatorTool({ home }) {
     monthlyPayment: 0,
     downPayment: 0,
     months: 60,
+    bonus: [],
   });
   const [showDiscount, setShowDiscount] = useState(false);
   const [discountType, setDiscountType] = useState("discountPerM2");
@@ -122,6 +128,8 @@ export default function CalculatorTool({ home }) {
         console.log(data);
 
         setCalcResult(data);
+
+        if (data.bonus.length > 0) win();
       } else if (req.status === 400) {
         toast.error(
           "Boshlang'ich to'lov uyning umumiy summasidan katta bo'lishi mumkin emas!",
@@ -146,6 +154,7 @@ export default function CalculatorTool({ home }) {
       monthlyPayment: 0,
       downPayment: 0,
       months: 60,
+      bonus: [],
     });
 
     setDownPayment(0);
@@ -158,13 +167,6 @@ export default function CalculatorTool({ home }) {
     url.hash = "";
 
     history.replaceState(null, "", url);
-  }
-
-  function handleChangeDiscount() {
-    setShowDiscount(!showDiscount);
-    if (showDiscount === false) {
-      setDiscount("");
-    }
   }
 
   function handleChangeDiscountType(value) {
@@ -201,6 +203,15 @@ export default function CalculatorTool({ home }) {
     setDiscount(value);
   }
 
+  function win() {
+    confetti({
+      particleCount: 100,
+      spread: 70,
+      origin: { y: 0.6 },
+    });
+    sound();
+  }
+
   useEffect(() => {
     window.addEventListener("hashchange", (evt) => {
       const url = new URL(evt.newURL);
@@ -210,6 +221,33 @@ export default function CalculatorTool({ home }) {
         setOpen(false);
       }
     });
+  }, []);
+
+  // Discount
+  useEffect(() => {
+    function handleKeyDown(e) {
+      if (e.keyCode === 68 && !timerRef.current) {
+        timerRef.current = setTimeout(() => {
+          setShowDiscount((prev) => !prev);
+          timerRef.current = null;
+        }, 2500);
+      }
+    }
+
+    function handleKeyUp(e) {
+      if (e.keyCode === 68) {
+        clearTimeout(timerRef.current);
+        timerRef.current = null;
+      }
+    }
+
+    window.addEventListener("keydown", handleKeyDown);
+    window.addEventListener("keyup", handleKeyUp);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+      window.removeEventListener("keyup", handleKeyUp);
+    };
   }, []);
 
   return (
@@ -257,6 +295,67 @@ export default function CalculatorTool({ home }) {
                 </h2>
               </div>
 
+              {calcResult.bonus.length > 0 && (
+                <div className="w-full rounded overflow-hidden text-primary-foreground mb-5 flex border-3 border-green-500 animate-fade-in">
+                  <div className="bg-green-500 p-2 flex items-center justify-center font-bold text-7xl">
+                    Bonus:
+                  </div>
+
+                  <div className="w-2/4 px-10 py-2 flex gap-5">
+                    <PhotoProvider
+                      onVisibleChange={(visible) => {
+                        setGalleryShow(visible);
+                      }}
+                      toolbarRender={({ onScale, scale }) => {
+                        return (
+                          <div className="flex mr-5">
+                            <div className="w-11 h-11 p-2.5 group">
+                              <CircleMinus
+                                className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
+                                onClick={() => {
+                                  onScale(scale - 1);
+                                }}
+                              />
+                            </div>
+                            <div className="w-11 h-11 p-2.5 group">
+                              <CirclePlus
+                                className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
+                                onClick={() => {
+                                  onScale(scale + 1);
+                                }}
+                              />
+                            </div>
+                          </div>
+                        );
+                      }}
+                    >
+                      {calcResult.bonus.map((b) => {
+                        return (
+                          <PhotoView src={`/bonus/png/${b}.png`}>
+                            <div className="flex flex-col items-center gap-1">
+                              <picture>
+                                <source
+                                  srcset={`/bonus/avif/${b}.avif`}
+                                  type="image/avif"
+                                />
+                                <img
+                                  className="w-25 object-cover"
+                                  src={`/bonus/png/${b}.png`}
+                                  alt={b}
+                                />
+                              </picture>
+                              <span className="text-foreground text-xs">
+                                {uzbekTranslate[b]}
+                              </span>
+                            </div>
+                          </PhotoView>
+                        );
+                      })}
+                    </PhotoProvider>
+                  </div>
+                </div>
+              )}
+
               {calcResult.totalDiscount ? (
                 <NoiseBackground
                   containerClassName="w-full p-4 rounded mb-10"
@@ -285,8 +384,8 @@ export default function CalculatorTool({ home }) {
                     </span>
                   </div>
                   <h4 className="text-lg font-mono font-medium">
-                    {calcResult?.totalPrice
-                      ? formatNumber(calcResult.totalPrice)
+                    {calcResult.price
+                      ? formatNumber(calcResult.price * calcResult.size)
                       : "---"}{" "}
                   </h4>
                 </div>
@@ -304,6 +403,22 @@ export default function CalculatorTool({ home }) {
                 {states[calcResult.state] && (
                   <div className="border p-2 w-full rounded bg-primary/2">
                     <div className="flex items-center gap-1 mb-2">
+                      <Grid2X2 />
+                      <span className="text-muted-foreground text-xs">
+                        O'lchami
+                      </span>
+                    </div>
+                    <h4 className="text-lg font-mono font-medium">
+                      {calcResult.size} m<sup>2</sup>
+                    </h4>
+                  </div>
+                )}
+              </div>
+
+              <div className="grid grid-cols-[1fr_3fr] gap-2 mb-2">
+                {states[calcResult.state] && (
+                  <div className="border p-2 w-full rounded bg-primary/2">
+                    <div className="flex items-center gap-1 mb-2">
                       <Bolt />
                       <span className="text-muted-foreground text-xs">
                         Holati
@@ -314,18 +429,17 @@ export default function CalculatorTool({ home }) {
                     </h4>
                   </div>
                 )}
-              </div>
-
-              <div className="border p-2 w-full rounded bg-primary/2">
-                <div className="flex items-center gap-1 mb-2">
-                  <HandCoins />
-                  <span className="text-muted-foreground text-xs">
-                    Boshlang'ich to'lov
-                  </span>
+                <div className="border p-2 w-full rounded bg-primary/2">
+                  <div className="flex items-center gap-1 mb-2">
+                    <HandCoins />
+                    <span className="text-muted-foreground text-xs">
+                      Boshlang'ich to'lov
+                    </span>
+                  </div>
+                  <h4 className="text-lg font-mono font-medium">
+                    {formatNumber(calcResult.downPayment)}
+                  </h4>
                 </div>
-                <h4 className="text-lg font-mono font-medium">
-                  {formatNumber(calcResult.downPayment)}
-                </h4>
               </div>
             </div>
 
@@ -377,44 +491,37 @@ export default function CalculatorTool({ home }) {
               onSubmit={handleCalc}
               className="w-full mx-auto flex flex-col gap-5"
             >
-              <div className="flex items-center space-x-2 mb-3">
-                <Switch
-                  onCheckedChange={handleChangeDiscount}
-                  defaultChecked={showDiscount}
-                  id="discount"
-                />
-                <Label htmlFor="discount">Chegirma beramiz-mi?</Label>
-              </div>
-
               {showDiscount && (
-                <div className="border border-primary relative px-3 py-6 rounded animate-fade-in">
-                  <h3 className="absolute left-5 top-0 -translate-y-2/4  font-bold px-2 text-white flex gap-2 bg-primary p-0.5 rounded">
-                    <BadgePercent /> Chegirma
-                  </h3>
-                  <div className="flex w-full gap-5">
-                    <Input
-                      placeholder="100 yoki 5%"
-                      onChange={handleDiscount}
-                      value={discount}
-                      autoFocus={true}
-                      autoComplete="off"
-                      name={discountType}
-                    />
-                    <NativeSelect
-                      className={"w-45"}
-                      onChange={(evt) => {
-                        handleChangeDiscountType(evt.target.value);
-                      }}
-                      value={discountType}
-                      defaultValue={discountType}
-                    >
-                      <NativeSelectOption value={"discountPerM2"}>
-                        Kvadrat metrdan
-                      </NativeSelectOption>
-                      <NativeSelectOption value={"discountTotal"}>
-                        Umumiy summadan
-                      </NativeSelectOption>
-                    </NativeSelect>
+                <div className="py-5">
+                  <div className="border border-primary relative px-3 py-6 rounded animate-fade-in">
+                    <h3 className="absolute left-5 top-0 -translate-y-2/4  font-bold px-2 text-white flex gap-2 bg-primary p-0.5 rounded">
+                      <BadgePercent /> Chegirma
+                    </h3>
+                    <div className="flex w-full gap-5">
+                      <Input
+                        placeholder="100 yoki 5%"
+                        onChange={handleDiscount}
+                        value={discount}
+                        autoFocus={true}
+                        autoComplete="off"
+                        name={discountType}
+                      />
+                      <NativeSelect
+                        className={"w-30"}
+                        onChange={(evt) => {
+                          handleChangeDiscountType(evt.target.value);
+                        }}
+                        value={discountType}
+                        defaultValue={discountType}
+                      >
+                        <NativeSelectOption value={"discountPerM2"}>
+                          m2
+                        </NativeSelectOption>
+                        <NativeSelectOption value={"discountTotal"}>
+                          Summa
+                        </NativeSelectOption>
+                      </NativeSelect>
+                    </div>
                   </div>
                 </div>
               )}

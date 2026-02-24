@@ -25,6 +25,7 @@ import { Badge } from "../components/ui/badge";
 import CalculatorTool from "../components/CalculatorTool";
 import HomeDetails from "../components/HomeDetails";
 import { useLoadingBar } from "react-top-loading-bar";
+import { formatNumber } from "../lib/utils";
 
 const statuses = {
   SOLD: "bg-red-500",
@@ -35,7 +36,7 @@ const statuses = {
 
 const uzebekTranslate = {
   SOLD: "Sotilgan",
-  RESERVED: "Band qilingan",
+  RESERVED: "Bron qilingan",
   EMPTY: "Bo'sh",
   NOT: "Sotilmaydi",
 };
@@ -260,7 +261,11 @@ export default function TjmDetails() {
                                                 <h4 className="font-bold">
                                                   Narxi:
                                                 </h4>
-                                                {h.price} mln so'm
+                                                <span className="font-mono">
+                                                  {formatNumber(
+                                                    h.price * h.size
+                                                  )}
+                                                </span>
                                               </div>
                                             </div>
                                           </TooltipContent>

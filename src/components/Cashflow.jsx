@@ -64,7 +64,7 @@ export default function Cashflow() {
             Aktiv kontraktlar
           </span>
         </div>
-        <SparklesText className="text-2xl" sparklesCount={3}>
+        <SparklesText className="text-2xl" sparklesCount={4}>
           {cashflow ? formatNumber(cashflow.activeContractsAmount) : "-------"}{" "}
           UZS
         </SparklesText>
@@ -76,10 +76,10 @@ export default function Cashflow() {
             Bugun
           </TabsTrigger>
           <TabsTrigger className={"text-xs"} value="last7DaysAmount">
-            Haftalik
+            Hafta
           </TabsTrigger>
           <TabsTrigger className={"text-xs"} value="last30DaysAmount">
-            Oylik
+            Oy
           </TabsTrigger>
         </TabsList>
         <TabsContent value="todayAmount">

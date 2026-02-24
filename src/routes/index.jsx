@@ -11,6 +11,7 @@ import CompanyDetails from "../pages/CompanyDetails";
 import AddCompany from "../pages/AddCompany";
 import Tjm from "../pages/Tjm";
 import TjmDetails from "../pages/TjmDetails";
+import Dashboard from "../pages/Dashboard";
 
 export default createBrowserRouter([
   {
@@ -49,6 +50,10 @@ export default createBrowserRouter([
       {
         path: "/company/:id",
         element: <CompanyDetails />,
+      },
+      {
+        path: "/dashboard",
+        element: <Dashboard />,
       },
     ],
   },

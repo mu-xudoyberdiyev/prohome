@@ -1,7 +1,6 @@
 import {
   Edit,
   Edit2,
-  Plus,
   PlusCircle,
   PlusCircleIcon,
   RefreshCcw,
@@ -9,17 +8,6 @@ import {
   Trash,
 } from "lucide-react";
 import { Button } from "../components/ui/button";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
 import {
   Drawer,
   DrawerContent,
@@ -37,48 +25,97 @@ import {
 } from "../components/ui/native-select";
 import { getFormData } from "../lib/utils";
 import { toast } from "sonner";
-import { useEffect, useState } from "react";
+import { useEffect, useReducer, useState } from "react";
 import { Skeleton } from "../components/ui/skeleton";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
 } from "../components/ui/tooltip";
-import { useLoadingBar } from "react-top-loading-bar";
+
+const initialState = {
+  addModal: false,
+  editModal: false,
+  salesManagers: [],
+  companies: [],
+  error: null,
+  getLoading: false,
+  addLoading: false,
+  editLoading: false,
+  removeLoading: false,
+  companiesLoading: false,
+  deletingSalesManager: null,
+  editingSalesManager: null,
+};
+
+// function
+function reducerFunction(state, { action, payload }) {
+  if (action === "COMPANIES_LOADING") {
+    return { ...state, companiesLoading: payload };
+  }
+  if (action === "COMPANIES") {
+    return { ...state, companies: payload };
+  }
+  if (action === "ERROR") {
+    return { ...state, error: payload };
+  }
+  if (action === "ADD_LOADING") {
+    return { ...state, addLoading: payload };
+  }
+  if (action === "GET_LOADING") {
+    return { ...state, getLoading: payload };
+  }
+  if (action === "SALES_MANAGER") {
+    return { ...state, salesManagers: payload };
+  }
+  if (action === "EDIT_LOADING") {
+    return { ...state, editLoading: payload };
+  }
+  if (action === "REMOVE_LOADING") {
+    return { ...state, removeLoading: payload };
+  }
+  if (action === "DELETING_SALES_MANAGER") {
+    return { ...state, deletingSalesManager: payload };
+  }
+  if (action === "EDITING_SALES_MANAGER") {
+    return { ...state, editingSalesManager: payload };
+  }
+  if (action === "ADD_MODAL") {
+    return { ...state, addModal: payload };
+  }
+  if (action === "EDIT_MODAL") {
+    return { ...state, editModal: payload };
+  }
+
+  return state;
+}
 
 export default function SalesManager() {
   const { user } = useAppStore();
 
-  // Modals
-  const [addModal, setAddModal] = useState(false);
-  const [editModal, setEditModal] = useState(false);
-  const [salesManagers, setSalesManagers] = useState([]);
-  const [companies, setCompanies] = useState([]);
+  const [state, dispach] = useReducer(reducerFunction, initialState);
 
-  // Errors
-  const [error, setError] = useState(null);
-
-  // Loadings
-  const [getLoading, setGetLoading] = useState(false);
-  const [addLoading, setAddLoading] = useState(false);
-  const [editLoading, setEditLoading] = useState(false);
-  const [removeLoading, setRemoveLoading] = useState(false);
-  const [companiesLoading, setCompaniesLoading] = useState(false);
-  const { start, complete } = useLoadingBar({
-    color: "#5ea500",
-    height: 3,
-  });
-
-  // Permanently states
-  const [deletingSalesManager, setDeletingSalesManager] = useState(null);
-  const [editingSalesManager, setEditingSalesManager] = useState(null);
-
+  // Distructuring
+  const {
+    addModal,
+    editModal,
+    salesManagers,
+    companies,
+    error,
+    getLoading,
+    addLoading,
+    editLoading,
+    removeLoading,
+    companiesLoading,
+    deletingSalesManager,
+    editingSalesManager,
+  } = state;
   // ======= CRUD =======
 
   async function getCompanies() {
     let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
-    setCompaniesLoading(true);
+    dispach({ action: "COMPANIES_LOADING", payload: true });
     try {
       req = await fetch(import.meta.env.VITE_BASE_URL + `/api/v1/company/all`, {
         headers: {
@@ -86,27 +123,30 @@ export default function SalesManager() {
         },
       });
     } catch {
-      setError("Tizimda nosozlik!");
+      dispach({ action: "ERROR", payload: "Tizimda nosozlik!" });
     }
 
     if (req) {
       if (req.status === 200) {
         const { data } = await req.json();
 
-        setCompanies(data);
+        dispach({ action: "COMPANIES", payload: data });
       } else {
-        setError("Xatolik yuz berdi qayta urunib ko'ring!");
+        dispach({
+          action: "ERROR",
+          payload: "Xatolik yuz berdi qayta urunib ko'ring!",
+        });
       }
     }
 
-    setCompaniesLoading(false);
+    dispach({ action: "COMPANIES_LOADING", payload: false });
   }
   // Create
   async function add(data) {
     let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
 
-    setAddLoading(true);
+    dispach({ action: "ADD_LOADING", payload: true });
     try {
       req = await fetch(
         import.meta.env.VITE_BASE_URL + "/api/v1/user/sales-manager",
@@ -128,9 +168,9 @@ export default function SalesManager() {
     if (req) {
       if (req.status === 201) {
         const { safeSalesManager } = await req.json();
-
-        setSalesManagers((prev) => {
-          return [safeSalesManager, ...prev];
+        dispach({
+          action: "SALES_MANAGER",
+          payload: [safeSalesManager, ...state.salesManagers],
         });
 
         handleAddModal();
@@ -149,15 +189,15 @@ export default function SalesManager() {
       }
     }
 
-    setAddLoading(false);
+    dispach({ action: "ADD_LOADING", payload: false });
   }
 
   // Read
   async function get() {
-    start();
     let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
-    setGetLoading(true);
+
+    dispach({ action: "GET_LOADING", payload: true });
     try {
       req = await fetch(
         import.meta.env.VITE_BASE_URL + `/api/v1/user/all/sales-manager`,
@@ -168,20 +208,23 @@ export default function SalesManager() {
         }
       );
     } catch {
-      setError("Tizimda nosozlik!");
+      dispach({ action: "ERROR", payload: "Tizimda nosozlik!" });
     }
 
     if (req) {
       if (req.status === 200) {
         const { safeUsers } = await req.json();
 
-        setSalesManagers(safeUsers);
+        dispach({ action: "SALES_MANAGER", payload: safeUsers });
       } else {
-        setError("Xatolik yuz berdi, qayta urunib ko'ring!");
+        dispach({
+          action: "ERROR",
+          payload: "Xatolik yuz berdi, qayta urunib ko'ring!",
+        });
       }
     }
-    setGetLoading(false);
-    complete();
+
+    dispach({ action: "GET_LOADING", payload: false });
   }
 
   // Update
@@ -189,7 +232,7 @@ export default function SalesManager() {
     let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
 
-    setEditLoading(true);
+    dispach({ action: "EDIT_LOADING", payload: true });
     try {
       req = await fetch(
         import.meta.env.VITE_BASE_URL +
@@ -221,7 +264,7 @@ export default function SalesManager() {
           }
         });
 
-        setSalesManagers(result);
+        dispach({ action: "SALES_MANAGER", payload: result });
 
         handleEditModal();
 
@@ -239,14 +282,15 @@ export default function SalesManager() {
       }
     }
 
-    setEditLoading(false);
+    dispach({ action: "EDIT_LOADING", payload: false });
   }
 
   // Delete
   async function remove(id) {
     let req;
     const token = JSON.parse(localStorage.getItem("user")).accessToken;
-    setRemoveLoading(true);
+
+    dispach({ action: "REMOVE_LOADING", payload: true });
     try {
       req = await fetch(
         import.meta.env.VITE_BASE_URL +
@@ -265,7 +309,8 @@ export default function SalesManager() {
     if (req) {
       if (req.status === 200) {
         const result = salesManagers.filter((sm) => sm.id !== id);
-        setSalesManagers(result);
+
+        dispach({ action: "SALES_MANAGER", payload: result });
         toast.success(`${deletingSalesManager.email} o'chirildi!`);
       } else {
         toast.error(
@@ -274,8 +319,9 @@ export default function SalesManager() {
       }
     }
 
-    setRemoveLoading(false);
-    setDeletingSalesManager(null);
+    dispach({ action: "REMOVE_LOADING", payload: false });
+
+    dispach({ action: "DELETING_SALES_MANAGER", payload: null });
   }
 
   // ===== Funtions =====
@@ -318,40 +364,48 @@ export default function SalesManager() {
   }
 
   function handleAddModal() {
-    setAddModal(!addModal);
+    dispach({ action: "ADD_MODAL", payload: !addModal });
   }
 
   function handleEditModal() {
-    setEditModal(!editModal);
+    dispach({ action: "EDIT_MODAL", payload: !editModal });
   }
 
   function handleDelete(id) {
     const foundSalesManager = salesManagers.find((sm) => sm.id === id);
-    setDeletingSalesManager(foundSalesManager);
-    remove(id);
+
+    dispach({ action: "DELETING_SALES_MANAGER", payload: null });
+    const check = confirm(
+      `Rostan ham <${foundSalesManager.email}> ni o'chirib yubormoqchimisiz? Keyin bu operatsiyani orqaga qaytarib bo'lmaydi!`
+    );
+
+    if (check) {
+      remove(id);
+    }
   }
 
   function handleEdit(id) {
     const foundSalesManager = salesManagers.find((sm) => sm.id === id);
-    setEditingSalesManager(foundSalesManager);
+
+    dispach({ action: "EDITING_SALES_MANAGER", payload: foundSalesManager });
 
     handleEditModal();
   }
 
   function handleError() {
-    setError(null);
+    dispach({ action: "ERROR", payload: null });
   }
 
   useEffect(() => {
     get();
     getCompanies();
-  }, [error]);
+  }, []);
 
   // ====== Render ======
   if (user) {
     if (getLoading) {
       return (
-        <div className="w-full h-full flex items-center justify-center absolute bg-background z-50 inset-0">
+        <div className="w-full h-full flex items-center justify-center">
           <div className="flex gap-4 items-center animate-pulse">
             <img
               className="w-20 h-20 rounded shadow"
@@ -425,47 +479,23 @@ export default function SalesManager() {
 
                       <Tooltip>
                         <TooltipTrigger asChild>
-                          <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                              <Button
-                                disabled={
-                                  deletingSalesManager?.id === id &&
-                                  removeLoading
-                                }
-                                variant="destructive"
-                                size="icon-sm"
-                              >
-                                {deletingSalesManager?.id === id &&
-                                removeLoading ? (
-                                  <RefreshCcw className="animate-spin" />
-                                ) : (
-                                  <Trash />
-                                )}
-                              </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>
-                                  Are you absolutely sure?
-                                </AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  This action cannot be undone. This will
-                                  permanently delete your account from our
-                                  servers.
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Yo'q</AlertDialogCancel>
-                                <AlertDialogAction
-                                  onClick={() => {
-                                    handleDelete(id);
-                                  }}
-                                >
-                                  Ha
-                                </AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
+                          <Button
+                            onClick={() => {
+                              handleDelete(id);
+                            }}
+                            disabled={
+                              deletingSalesManager?.id === id && removeLoading
+                            }
+                            variant="destructive"
+                            size="icon-sm"
+                          >
+                            {deletingSalesManager?.id === id &&
+                            removeLoading ? (
+                              <RefreshCcw className="animate-spin" />
+                            ) : (
+                              <Trash />
+                            )}
+                          </Button>
                         </TooltipTrigger>
                         <TooltipContent>
                           <p>O'chirish</p>
@@ -480,14 +510,15 @@ export default function SalesManager() {
         ) : (
           <div className="w-full h-full flex justify-center items-center animate-fade-in">
             <div className="flex flex-col items-center text-center w-full max-w-sm">
-              <img
-                className="w-50 object-center select-none mb-5"
-                src="/no-data.svg"
-                alt=""
-              />
-              <p className="mb-5">Hozircha ma'lumot yo'q</p>
+              <h3 className="text-2xl mb-3 font-medium">
+                Hali sotuv operatori mavjud emas!
+              </h3>
+              <p className="text-muted-foreground mb-5">
+                Sotuv operatori yaratishni istasangiz "Istayman" tugmasini
+                bosing.
+              </p>
               <Button onClick={handleAddModal} variant="secondary">
-                <Plus /> Qo'shish
+                Istayman
               </Button>
             </div>
           </div>

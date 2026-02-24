@@ -33,7 +33,7 @@ const statuses = {
 
 const uzebekTranslate = {
   SOLD: "Sotilgan",
-  RESERVED: "Band qilingan",
+  RESERVED: "Bron qilingan",
   EMPTY: "Bo'sh",
   NOT: "Sotilmaydi",
 };
@@ -55,6 +55,8 @@ export default function HomeDetails() {
     color: "#5ea500",
     height: 3,
   });
+
+  console.log(home);
 
   async function get(id) {
     start();
@@ -159,7 +161,7 @@ export default function HomeDetails() {
                   <i className="font-mono">№ {home.houseNumber}</i>
 
                   <span className="bg-primary text-primary-foreground px-2 py-1 leading-none text-xs">
-                    {formatNumber(home.pricePerMetr * home.size)} UZS
+                    {formatNumber(home.price * home.size)} UZS
                   </span>
                 </div>
               </div>
@@ -191,15 +193,15 @@ export default function HomeDetails() {
                   );
                 }}
               >
-                <PhotoView src={`/gallery/jpg/${home.size}.jpg`}>
+                <PhotoView src={`/gallery/jpg/${home.image}.jpg`}>
                   <picture>
                     <source
-                      srcset={`/gallery/avif/${home.size}.avif`}
+                      srcset={`/gallery/avif/${home.image}.avif`}
                       type="image/avif"
                     />
                     <img
                       className="w-full h-45 shadow"
-                      src={`/gallery/jpg/${home.size}.jpg`}
+                      src={`/gallery/jpg/${home.image}.jpg`}
                       alt={home.size}
                     />
                   </picture>
@@ -207,7 +209,7 @@ export default function HomeDetails() {
               </PhotoProvider>
             </div>
 
-            <div className="px-2 mb-5">
+            <div className="px-2 mb-10">
               <NoiseBackground
                 className={"rounded p-2"}
                 gradientColors={["bg-accent"]}
@@ -217,11 +219,11 @@ export default function HomeDetails() {
                 <dl className="flex flex-col gap-2 font-mono">
                   <div className="flex justify-between flex-row-reverse items-center py-1 px-3 bg-background rounded shadow">
                     <dt className="text-xs">BLOK</dt>
-                    <dd className="font-medium">B</dd>
+                    <dd className="font-medium">{home.block}</dd>
                   </div>
                   <div className="flex justify-between flex-row-reverse items-center py-1 px-3 bg-background rounded shadow">
                     <dt className="text-xs">QAVAT</dt>
-                    <dd className="font-medium">7</dd>
+                    <dd className="font-medium">{home.floorNumber}</dd>
                   </div>
                   <div className="flex justify-between flex-row-reverse items-center py-1 px-3 bg-background rounded shadow">
                     <dt className="text-xs">MAYDON</dt>
@@ -237,7 +239,7 @@ export default function HomeDetails() {
               </NoiseBackground>
             </div>
 
-            <div className="px-2 mb-15">
+            <div className="px-2">
               <a
                 className={`${buttonVariants({
                   variant: "secondary",
