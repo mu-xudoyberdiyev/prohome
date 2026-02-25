@@ -626,10 +626,7 @@ export default function CalculatorTool({ home }) {
               </Button>
             </form>
 
-            <div className="py-10 flex flex-col gap-2 relative">
-              <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-white">
-                Jarayonda..
-              </div>
+            <div className="py-10 flex flex-col gap-2">
               {home &&
                 actionButtons.map(({ bg, title, code }, index) => {
                   return (

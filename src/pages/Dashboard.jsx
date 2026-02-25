@@ -72,10 +72,7 @@ export default function Dashboard() {
 
   if (user) {
     return (
-      <section className="animate-fade-in h-full p-2 relative">
-        <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-white z-40">
-          Jarayonda..
-        </div>
+      <section className="animate-fade-in h-full p-2">
         <div className="border relative px-3 py-6 rounded gap-5 select-none w-full">
           <h3 className="absolute left-5 top-0 -translate-y-2/4 bg-background font-bold px-2 flex gap-2 z-50">
             <Rocket /> Holat
