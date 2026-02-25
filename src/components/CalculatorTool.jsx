@@ -181,6 +181,8 @@ export default function CalculatorTool({ home }) {
     const formData = getFormData(evt.currentTarget);
 
     Object.entries(formData).forEach(([key, value]) => {
+      console.log(key, value.replaceAll(" ", ""));
+
       url.searchParams.append(key, value.replaceAll(/\s+/g, ""));
     });
 
