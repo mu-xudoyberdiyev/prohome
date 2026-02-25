@@ -181,8 +181,10 @@ export default function CalculatorTool({ home }) {
     const formData = getFormData(evt.currentTarget);
 
     Object.entries(formData).forEach(([key, value]) => {
-      url.searchParams.append(key, value.replaceAll(" ", ""));
+      url.searchParams.append(key, value.replaceAll(/\s+/g, ""));
     });
+
+    console.log(url.href);
 
     calc(url.href);
   }
