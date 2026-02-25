@@ -30,31 +30,25 @@ const chartConfig = {
 
 export default function StatsPieChart() {
   return (
-    <div className="border relative px-3 py-6 rounded gap-5 select-none">
-      <h3 className="absolute left-5 top-0 -translate-y-2/4 bg-background font-bold px-2 flex gap-2 z-50">
-        <TrendingUp /> Statistika
-      </h3>
-
-      <ChartContainer
-        config={chartConfig}
-        className="[&_.recharts-text]:fill-background aspect-square h-80"
-      >
-        <PieChart>
-          <Pie data={chartData} nameKey="state">
-            <LabelList
-              dataKey="value"
-              className="fill-background"
-              stroke="none"
-              fontSize={12}
-            />
-          </Pie>
-
-          <ChartLegend
-            content={<ChartLegendContent nameKey="state" />}
-            className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
+    <ChartContainer
+      config={chartConfig}
+      className="[&_.recharts-text]:fill-background aspect-square h-80"
+    >
+      <PieChart>
+        <Pie data={chartData} nameKey="state">
+          <LabelList
+            dataKey="value"
+            className="fill-background"
+            stroke="none"
+            fontSize={12}
           />
-        </PieChart>
-      </ChartContainer>
-    </div>
+        </Pie>
+
+        <ChartLegend
+          content={<ChartLegendContent nameKey="state" />}
+          className="-translate-y-2 flex-wrap gap-2 *:basis-1/4 *:justify-center"
+        />
+      </PieChart>
+    </ChartContainer>
   );
 }

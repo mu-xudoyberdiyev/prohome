@@ -12,6 +12,7 @@ import AddCompany from "../pages/AddCompany";
 import Tjm from "../pages/Tjm";
 import TjmDetails from "../pages/TjmDetails";
 import Dashboard from "../pages/Dashboard";
+import Crm from "../pages/Crm";
 
 export default createBrowserRouter([
   {
@@ -54,6 +55,10 @@ export default createBrowserRouter([
       {
         path: "/dashboard",
         element: <Dashboard />,
+      },
+      {
+        path: "/crm",
+        element: <Crm />,
       },
     ],
   },

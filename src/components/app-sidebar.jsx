@@ -14,6 +14,7 @@ import {
   HomeIcon,
   LogOut,
   User,
+  UsersRound,
 } from "lucide-react";
 import { toast } from "sonner";
 import {
@@ -37,6 +38,7 @@ const routes = {
     { url: "/rop", text: "Boshqaruvchilar", icon: <User /> },
     { url: "/salesmanager", text: "Sotuv menejerlari", icon: <User /> },
     { url: "/tjm", text: "TJM", icon: <BrickWall /> },
+    { url: "/crm", text: "CRM", icon: <UsersRound /> },
   ],
   ADMIN: [
     { url: "/", text: "Bosh sahifa", icon: <HomeIcon /> },
@@ -45,16 +47,19 @@ const routes = {
     { url: "/rop", text: "Boshqaruvchilar", icon: <User /> },
     { url: "/salesmanager", text: "Sotuv menejerlari", icon: <User /> },
     { url: "/tjm", text: "TJM", icon: <BrickWall /> },
+    { url: "/crm", text: "CRM", icon: <UsersRound /> },
   ],
   ROP: [
     { url: "/", text: "Bosh sahifa", icon: <HomeIcon /> },
     { url: "/dashboard", text: "Dashboard", icon: <Gauge /> },
     { url: "/salesmanager", text: "Sotuv menejerlari", icon: <User /> },
     { url: "/tjm", text: "TJM", icon: <BrickWall /> },
+    { url: "/crm", text: "CRM", icon: <UsersRound /> },
   ],
   SALESMANAGER: [
     { url: "/", text: "Bosh sahifa", icon: <HomeIcon /> },
     { url: "/tjm", text: "TJM", icon: <BrickWall /> },
+    { url: "/crm", text: "CRM", icon: <UsersRound /> },
   ],
 };
 

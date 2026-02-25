@@ -370,7 +370,7 @@ export default function CalculatorTool({ home }) {
                     <SparklesText className="text-5xl" sparklesCount={5}>
                       {formatNumber(calcResult.totalDiscount)}
                     </SparklesText>
-                    <p>so'm foydadasiz afandim!</p>
+                    <p>so'm foydadasiz hurmatli mijoz!</p>
                   </div>
                 </NoiseBackground>
               ) : null}
@@ -622,7 +622,10 @@ export default function CalculatorTool({ home }) {
               </Button>
             </form>
 
-            <div className="py-10 flex flex-col gap-2">
+            <div className="py-10 flex flex-col gap-2 relative">
+              <div className="absolute inset-0 bg-black/50 flex items-center justify-center text-white">
+                Jarayonda..
+              </div>
               {home &&
                 actionButtons.map(({ bg, title, code }, index) => {
                   return (
