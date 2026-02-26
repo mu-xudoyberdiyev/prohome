@@ -235,6 +235,12 @@ export default function HomeDetails() {
                     <dt className="text-xs">XONA</dt>
                     <dd className="font-medium">{home.room}</dd>
                   </div>
+                  <div className="flex justify-between flex-row-reverse items-center py-1 px-3 bg-background rounded shadow">
+                    <dt className="text-xs">
+                      M<sup>2</sup>
+                    </dt>
+                    <dd className="font-medium">{formatNumber(home.price)}</dd>
+                  </div>
                 </dl>
               </NoiseBackground>
             </div>

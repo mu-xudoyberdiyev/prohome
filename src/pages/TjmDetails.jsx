@@ -267,6 +267,14 @@ export default function TjmDetails() {
                                                   )}
                                                 </span>
                                               </div>
+                                              <div className="flex gap-1">
+                                                <h4 className="font-bold">
+                                                  m<sup>2</sup>:
+                                                </h4>
+                                                <span className="font-mono">
+                                                  {formatNumber(h.price)}
+                                                </span>
+                                              </div>
                                             </div>
                                           </TooltipContent>
                                         </Tooltip>

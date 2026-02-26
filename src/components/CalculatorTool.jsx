@@ -7,6 +7,7 @@ import {
 import { Label } from "./ui/label";
 import { Input } from "./ui/input";
 import { NativeSelect, NativeSelectOption } from "./ui/native-select";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   formatNumber,
   formatNumberWithPercent,
@@ -31,12 +32,14 @@ import {
   Bolt,
   Calculator,
   CalendarDays,
+  CheckCircle2Icon,
   CircleCheckBig,
   CircleDollarSign,
   CircleMinus,
   CirclePlus,
   Grid2X2,
   HandCoins,
+  Layers2,
   Ribbon,
   X,
 } from "lucide-react";
@@ -289,16 +292,16 @@ export default function CalculatorTool({ home }) {
               </div>
             )}
 
-            <div className="animate-fade-in mb-5">
-              <div className="border px-3 py-6 rounded animate-fade-in w-full sticky top-2 bg-background mb-8 z-10">
-                <h3 className="absolute left-5 top-0 -translate-y-2/4 bg-background text-muted-foreground px-2 flex gap-2 rounded">
-                  Oyiga
-                </h3>
-                <h2 className={"text-4xl font-mono font-bold"}>
-                  {formatNumber(calcResult.monthlyPayment)}
-                </h2>
-              </div>
+            <div className="border px-3 py-6 rounded animate-fade-in w-full bg-background mb-8 sticky top-2 z-10">
+              <h3 className="absolute left-5 top-0 -translate-y-2/4 bg-background text-muted-foreground px-2 flex gap-2 rounded">
+                Oyiga
+              </h3>
+              <h2 className={"text-4xl font-mono font-bold"}>
+                {formatNumber(calcResult.monthlyPayment)}
+              </h2>
+            </div>
 
+            <div className="animate-fade-in mb-5">
               {calcResult.bonus.length > 0 && (
                 <div className="w-full rounded overflow-hidden text-primary-foreground mb-5 flex border-3 border-green-500 animate-fade-in">
                   <div className="bg-green-500 p-2 flex items-center justify-center font-bold text-7xl">
@@ -419,7 +422,7 @@ export default function CalculatorTool({ home }) {
                 )}
               </div>
 
-              <div className="grid grid-cols-[1fr_3fr] gap-2 mb-2">
+              <div className="grid grid-cols-[1fr_3fr_2fr] gap-2 mb-2">
                 {states[calcResult.state] && (
                   <div className="border p-2 w-full rounded bg-primary/2">
                     <div className="flex items-center gap-1 mb-2">
@@ -444,8 +447,48 @@ export default function CalculatorTool({ home }) {
                     {formatNumber(calcResult.downPayment)}
                   </h4>
                 </div>
+                <div className="border p-2 w-full rounded bg-primary/2">
+                  <div className="flex items-center gap-1 mb-2">
+                    <Grid2X2 />
+                    <span className="text-muted-foreground text-xs">
+                      M<sup>2</sup>
+                    </span>
+                  </div>
+                  <h4 className="text-lg font-mono font-medium">
+                    {formatNumber(home.price)}
+                  </h4>
+                </div>
               </div>
             </div>
+
+            <Alert className="mb-5 border-amber-300 bg-amber-50 dark:border-amber-800 dark:bg-amber-950">
+              <Layers2 className="text-amber-600 dark:text-amber-400" />
+              <AlertTitle className="text-amber-900 dark:text-amber-100">
+                Infra tuzilma
+              </AlertTitle>
+              <AlertDescription className="text-amber-800 dark:text-amber-200 mb-3">
+                Bino maktab, bog'cha, masjid va 10 dan ziyod savdo-sotiq
+                do'konlariga judayam yaqin joylashgan.
+              </AlertDescription>
+              <AlertDescription className="text-amber-800 dark:text-amber-200 flex items-center">
+                <CircleCheckBig size={12} /> Maktab
+              </AlertDescription>
+              <AlertDescription className="text-amber-800 dark:text-amber-200 flex items-center">
+                <CircleCheckBig size={12} /> Masjid
+              </AlertDescription>
+              <AlertDescription className="text-amber-800 dark:text-amber-200 flex items-center">
+                <CircleCheckBig size={12} /> Bog'cha
+              </AlertDescription>
+              <AlertDescription className="text-amber-800 dark:text-amber-200 flex items-center">
+                <CircleCheckBig size={12} /> Do'konlar
+              </AlertDescription>
+              <AlertDescription className="text-amber-800 dark:text-amber-200 flex items-center">
+                <CircleCheckBig size={12} /> Yonilg'i shaxobchasi
+              </AlertDescription>
+              <AlertDescription className="text-amber-800 dark:text-amber-200 flex items-center">
+                <CircleCheckBig size={12} /> Mashina yuvish joyi
+              </AlertDescription>
+            </Alert>
 
             <PhotoProvider
               onVisibleChange={(visible) => {
