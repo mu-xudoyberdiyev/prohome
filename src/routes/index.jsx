@@ -53,6 +53,10 @@ export default createBrowserRouter([
         element: <CompanyDetails />,
       },
       {
+        path: "/tjm",
+        element: <Tjm />,
+      },
+      {
         path: "/dashboard",
         element: <Dashboard />,
       },
@@ -65,10 +69,6 @@ export default createBrowserRouter([
   {
     path: "/login",
     element: <Login />,
-  },
-  {
-    path: "/tjm",
-    element: <Tjm />,
   },
   {
     path: "/tjm/:id",

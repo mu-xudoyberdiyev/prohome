@@ -61,7 +61,7 @@ export default function Tjm() {
   if (user) {
     if (getLoading) {
       return (
-        <div className="w-full h-full flex items-center justify-center fixed bg-background z-50">
+        <div className="w-full h-full flex items-center justify-center bg-background">
           <div className="flex gap-4 items-center animate-pulse">
             <img
               className="w-20 h-20 rounded shadow"
@@ -75,7 +75,7 @@ export default function Tjm() {
     }
 
     return (
-      <section className="animate-fade-in h-full p-15">
+      <section className="animate-fade-in h-full">
         <Link
           className={`${buttonVariants({
             size: "icon",
