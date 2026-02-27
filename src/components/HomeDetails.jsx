@@ -7,13 +7,22 @@ import {
   CirclePlus,
   DollarSignIcon,
   Handshake,
+  Info,
   Lock,
   RefreshCcw,
   Square,
+  User,
   X,
 } from "lucide-react";
 import { Button, buttonVariants } from "../components/ui/button";
-
+import {
+  Popover,
+  PopoverContent,
+  PopoverDescription,
+  PopoverHeader,
+  PopoverTitle,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -157,6 +166,29 @@ export default function HomeDetails() {
               </div>
 
               <div className="p-2">
+                {home.customer && (
+                  <div className="mb-5 animate-fade-in">
+                    <Popover>
+                      <PopoverTrigger asChild>
+                        <Button
+                          className={"w-full"}
+                          variant="secondary"
+                          size="sm"
+                        >
+                          <Info />
+                          Info
+                        </Button>
+                      </PopoverTrigger>
+                      <PopoverContent>
+                        {home.status === "NOT" && home.description && (
+                          <p className="text-muted-foreground text-xs">
+                            {home.description}
+                          </p>
+                        )}
+                      </PopoverContent>
+                    </Popover>
+                  </div>
+                )}
                 <div className="flex items-center justify-between">
                   <i className="font-mono">№ {home.houseNumber}</i>
 
@@ -209,7 +241,7 @@ export default function HomeDetails() {
               </PhotoProvider>
             </div>
 
-            <div className="px-2 mb-10">
+            <div className="px-2 mb-5">
               <NoiseBackground
                 className={"rounded p-2"}
                 gradientColors={["bg-accent"]}

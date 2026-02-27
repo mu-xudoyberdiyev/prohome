@@ -460,8 +460,51 @@ export default function CalculatorTool({ home }) {
                 </div>
               </div>
             </div>
+            <div className="mb-5">
+              <PhotoProvider
+                onVisibleChange={(visible) => {
+                  setGalleryShow(visible);
+                }}
+                toolbarRender={({ onScale, scale }) => {
+                  return (
+                    <div className="flex mr-5">
+                      <div className="w-11 h-11 p-2.5 group">
+                        <CircleMinus
+                          className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
+                          onClick={() => {
+                            onScale(scale - 1);
+                          }}
+                        />
+                      </div>
+                      <div className="w-11 h-11 p-2.5 group">
+                        <CirclePlus
+                          className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
+                          onClick={() => {
+                            onScale(scale + 1);
+                          }}
+                        />
+                      </div>
+                    </div>
+                  );
+                }}
+              >
+                <PhotoView src={`/gallery/jpg/${home.image}.jpg`}>
+                  <picture>
+                    <source
+                      srcset={`/gallery/avif/${home.image}.avif`}
+                      type="image/avif"
+                    />
+                    <img
+                      className="w-full shadow"
+                      src={`/gallery/jpg/${home.image}.jpg`}
+                      alt={home.image}
+                    />
+                  </picture>
+                </PhotoView>
+              </PhotoProvider>
+            </div>
 
-            <Alert className="mb-5 border-amber-300 bg-amber-50 dark:border-amber-800 dark:bg-amber-950">
+            <Alert className="border-amber-300 bg-amber-50 dark:border-amber-800 dark:bg-amber-950">
               <Layers2 className="text-amber-600 dark:text-amber-400" />
               <AlertTitle className="text-amber-900 dark:text-amber-100">
                 Infra tuzilma
@@ -489,48 +532,6 @@ export default function CalculatorTool({ home }) {
                 <CircleCheckBig size={12} /> Mashina yuvish joyi
               </AlertDescription>
             </Alert>
-
-            <PhotoProvider
-              onVisibleChange={(visible) => {
-                setGalleryShow(visible);
-              }}
-              toolbarRender={({ onScale, scale }) => {
-                return (
-                  <div className="flex mr-5">
-                    <div className="w-11 h-11 p-2.5 group">
-                      <CircleMinus
-                        className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
-                        onClick={() => {
-                          onScale(scale - 1);
-                        }}
-                      />
-                    </div>
-                    <div className="w-11 h-11 p-2.5 group">
-                      <CirclePlus
-                        className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
-                        onClick={() => {
-                          onScale(scale + 1);
-                        }}
-                      />
-                    </div>
-                  </div>
-                );
-              }}
-            >
-              <PhotoView src={`/gallery/jpg/${home.image}.jpg`}>
-                <picture>
-                  <source
-                    srcset={`/gallery/avif/${home.image}.avif`}
-                    type="image/avif"
-                  />
-                  <img
-                    className="w-full shadow"
-                    src={`/gallery/jpg/${home.image}.jpg`}
-                    alt={home.image}
-                  />
-                </picture>
-              </PhotoView>
-            </PhotoProvider>
           </div>
 
           <div className="w-[35%] h-full overflow-y-auto flex flex-col justify-between no-scrollbar px-1">
