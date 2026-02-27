@@ -37,6 +37,7 @@ import {
   CircleDollarSign,
   CircleMinus,
   CirclePlus,
+  Coins,
   Grid2X2,
   HandCoins,
   Layers2,
@@ -48,6 +49,7 @@ import { PhotoProvider, PhotoView } from "react-photo-view";
 import { toast } from "sonner";
 import confetti from "canvas-confetti";
 import useSound from "../hooks/use-sound";
+import AppartmentTimeLine from "./AppartmentTimeLine";
 
 const states = {
   BOX: "Karobka",
@@ -304,11 +306,11 @@ export default function CalculatorTool({ home }) {
             <div className="animate-fade-in mb-5">
               {calcResult.bonus.length > 0 && (
                 <div className="w-full rounded overflow-hidden text-primary-foreground mb-5 flex border-3 border-green-500 animate-fade-in">
-                  <div className="bg-green-500 p-2 flex items-center justify-center font-bold text-7xl">
+                  <div className="bg-green-500 p-2 flex items-center justify-center font-bold text-4xl">
                     Bonus:
                   </div>
 
-                  <div className="w-2/4 px-10 py-2 flex gap-5">
+                  <div className="w-full px-10 py-2 flex gap-5">
                     <PhotoProvider
                       onVisibleChange={(visible) => {
                         setGalleryShow(visible);
@@ -339,14 +341,14 @@ export default function CalculatorTool({ home }) {
                       {calcResult.bonus.map((b) => {
                         return (
                           <PhotoView src={`/bonus/png/${b}.png`}>
-                            <div className="flex flex-col items-center gap-1">
+                            <div className="flex flex-col items-center gap-1 w-2/4">
                               <picture>
                                 <source
                                   srcset={`/bonus/avif/${b}.avif`}
                                   type="image/avif"
                                 />
                                 <img
-                                  className="w-25 object-cover"
+                                  className="w-full"
                                   src={`/bonus/png/${b}.png`}
                                   alt={b}
                                 />
@@ -449,7 +451,7 @@ export default function CalculatorTool({ home }) {
                 </div>
                 <div className="border p-2 w-full rounded bg-primary/2">
                   <div className="flex items-center gap-1 mb-2">
-                    <Grid2X2 />
+                    <Coins />
                     <span className="text-muted-foreground text-xs">
                       M<sup>2</sup>
                     </span>
@@ -504,7 +506,7 @@ export default function CalculatorTool({ home }) {
               </PhotoProvider>
             </div>
 
-            <Alert className="border-amber-300 bg-amber-50 dark:border-amber-800 dark:bg-amber-950">
+            <Alert className="border-amber-300 bg-amber-50 dark:border-amber-800 dark:bg-amber-950 mb-10">
               <Layers2 className="text-amber-600 dark:text-amber-400" />
               <AlertTitle className="text-amber-900 dark:text-amber-100">
                 Infra tuzilma
@@ -532,6 +534,9 @@ export default function CalculatorTool({ home }) {
                 <CircleCheckBig size={12} /> Mashina yuvish joyi
               </AlertDescription>
             </Alert>
+
+            {/* Timeline  */}
+            <AppartmentTimeLine />
           </div>
 
           <div className="w-[35%] h-full overflow-y-auto flex flex-col justify-between no-scrollbar px-1">
