@@ -1,20 +1,24 @@
 import {
   Box,
   Calculator,
+  Check,
   CircleAlert,
   CircleMinus,
   CirclePause,
   CirclePlus,
+  Copy,
   DollarSignIcon,
   Handshake,
   Info,
   Lock,
+  MessageSquareWarning,
   RefreshCcw,
   Square,
   User,
   X,
 } from "lucide-react";
 import { Button, buttonVariants } from "../components/ui/button";
+import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Popover,
   PopoverContent,
@@ -32,6 +36,7 @@ import { NoiseBackground } from "./ui/noise-background";
 import { useLoadingBar } from "react-top-loading-bar";
 import { Spinner } from "./ui/spinner";
 import CalculatorTool from "./CalculatorTool";
+import { useClipboard } from "../hooks/use-clipboard";
 
 const statuses = {
   SOLD: "bg-red-500",
@@ -51,6 +56,9 @@ export default function HomeDetails() {
   const l = useLocation();
   const { id } = useParams();
   const navigate = useNavigate();
+  const { copied, copy } = useClipboard({
+    copiedDuring: 1000,
+  });
 
   const [home, setHome] = useState(null);
 
@@ -113,6 +121,10 @@ export default function HomeDetails() {
     }
   }, [l.search]);
 
+  function handleCopyPhoneNumber(phone) {
+    copy(phone);
+  }
+
   function handleClick() {
     setPdfLoading(true);
     fetch("http://localhost:3030/save-as-pdf")
@@ -130,8 +142,6 @@ export default function HomeDetails() {
         setPdfLoading(false);
       });
   }
-
-  console.log(home);
 
   return (
     <>
@@ -152,6 +162,7 @@ export default function HomeDetails() {
                 <Badge className={statuses[home.status]}>
                   {uzebekTranslate[home.status]}
                 </Badge>
+
                 <Button
                   className={"border shadow"}
                   onClick={() => {
@@ -179,12 +190,47 @@ export default function HomeDetails() {
                           Info
                         </Button>
                       </PopoverTrigger>
-                      <PopoverContent>
-                        {home.status === "NOT" && home.description && (
-                          <p className="text-muted-foreground text-xs">
-                            {home.description}
-                          </p>
-                        )}
+                      <PopoverContent align="start">
+                        <NoiseBackground
+                          className={"rounded p-2"}
+                          gradientColors={["bg-accent"]}
+                          animating={false}
+                          noiseIntensity={0.3}
+                        >
+                          <dl className="flex flex-col gap-2 font-mono text-xs">
+                            <div className="flex justify-between flex-row-reverse items-center py-1 px-3 bg-background rounded shadow">
+                              <dt>ISM</dt>
+                              <dd className="font-medium">
+                                {home.customer.firstName}
+                              </dd>
+                            </div>
+                            <div className="flex justify-between flex-row-reverse items-center py-1 px-3 bg-background rounded shadow">
+                              <dt>FAMILIYA</dt>
+                              <dd className="font-medium">
+                                {home.customer.lastName}
+                              </dd>
+                            </div>
+                            <div className="flex justify-between flex-row-reverse items-center py-1 px-3 bg-background rounded shadow">
+                              <dt>TEL</dt>
+                              <dd className="font-medium relative flex items-center gap-1 select-none">
+                                {home.customer.phone}
+                                <Button
+                                  onClick={() => {
+                                    handleCopyPhoneNumber(home.customer.phone);
+                                  }}
+                                  size="sm"
+                                  variant="ghost"
+                                >
+                                  {copied ? (
+                                    <Check className="size-3" />
+                                  ) : (
+                                    <Copy className="size-3" />
+                                  )}
+                                </Button>
+                              </dd>
+                            </div>
+                          </dl>
+                        </NoiseBackground>
                       </PopoverContent>
                     </Popover>
                   </div>
@@ -275,6 +321,22 @@ export default function HomeDetails() {
                   </div>
                 </dl>
               </NoiseBackground>
+            </div>
+
+            <div className="px-2 mb-5">
+              {home.status === "NOT" && (
+                <Alert className="border-slate-300 bg-slate-100 dark:border-slate-700 dark:bg-slate-900 mb-10 relative">
+                  <MessageSquareWarning className="text-slate-600 dark:text-slate-400" />
+                  <AlertTitle className="text-slate-900 dark:text-slate-100">
+                    Ushbu uy sotilmaydi
+                  </AlertTitle>
+                  <AlertDescription className="text-slate-700 dark:text-slate-300 mb-3 text-xs">
+                    {home.description
+                      ? home.description
+                      : "Ushbu uy NTJ yoki boshqa sababga ko'ra sotilmaydi"}
+                  </AlertDescription>
+                </Alert>
+              )}
             </div>
 
             <div className="px-2">

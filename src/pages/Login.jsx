@@ -15,6 +15,7 @@ import { getFormData } from "../lib/utils";
 import { toast } from "sonner";
 import { useState } from "react";
 import { RefreshCw } from "lucide-react";
+import { Spinner } from "../components/ui/spinner";
 
 export default function Login() {
   const { user, setUser } = useAppStore();
@@ -120,7 +121,7 @@ export default function Login() {
                 <>
                   {loading ? (
                     <>
-                      <RefreshCw className="animate-spin" />
+                      <Spinner />
                       Kirilmoqda...
                     </>
                   ) : (

@@ -105,14 +105,7 @@ export default function Settings() {
               <h3 className="absolute left-5 top-0 -translate-y-2/4 bg-background font-bold px-2 text-muted-foreground flex gap-2">
                 <Palette /> Mavzu
               </h3>
-              <div className="flex items-center space-x-2">
-                <Switch
-                  onCheckedChange={handleChange}
-                  defaultChecked={dark}
-                  id="dark-mode"
-                />
-                <Label htmlFor="dark-mode">Qorong'u rejim</Label>
-              </div>
+              Tez kunda..
             </div>
 
             {/* Privacy */}

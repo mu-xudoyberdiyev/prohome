@@ -5,12 +5,22 @@ import App from "./App.jsx";
 import { Toaster } from "sonner";
 import Offline from "./pages/Offline.jsx";
 import { LoadingBarContainer } from "react-top-loading-bar";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const online = (
-  <LoadingBarContainer>
-    <App />
-    <Toaster closeButton richColors position="bottom-right" visibleToasts={3} />
-  </LoadingBarContainer>
+  <QueryClientProvider client={queryClient}>
+    <LoadingBarContainer>
+      <App />
+      <Toaster
+        closeButton
+        richColors
+        position="bottom-right"
+        visibleToasts={3}
+      />
+    </LoadingBarContainer>
+  </QueryClientProvider>
 );
 
 const offline = <Offline />;

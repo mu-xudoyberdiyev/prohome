@@ -41,6 +41,7 @@ import {
   Grid2X2,
   HandCoins,
   Layers2,
+  Lock,
   Ribbon,
   X,
 } from "lucide-react";
@@ -50,6 +51,8 @@ import { toast } from "sonner";
 import confetti from "canvas-confetti";
 import useSound from "../hooks/use-sound";
 import AppartmentTimeLine from "./AppartmentTimeLine";
+import { Badge } from "./ui/badge";
+import { Pointer } from "./ui/pointer";
 
 const states = {
   BOX: "Karobka",
@@ -195,6 +198,8 @@ export default function CalculatorTool({ home }) {
 
     calc(url.href);
   }
+
+  console.log(home);
 
   function handlePeriod(p) {
     setPeriod(p);
@@ -384,81 +389,83 @@ export default function CalculatorTool({ home }) {
                 </NoiseBackground>
               ) : null}
 
-              <div className="grid grid-cols-[6fr_2fr_3fr] gap-2 mb-2">
-                <div className="border p-2 w-full rounded bg-primary/2">
-                  <div className="flex items-center gap-1 mb-2">
-                    <CircleDollarSign />
-                    <span className="text-muted-foreground text-xs">
-                      Umumiy narx
-                    </span>
-                  </div>
-                  <h4 className="text-lg font-mono font-medium">
-                    {calcResult.price
-                      ? formatNumber(calcResult.price * calcResult.size)
-                      : "---"}{" "}
-                  </h4>
-                </div>
-                <div className="border p-2 w-full rounded bg-primary/2">
-                  <div className="flex items-center gap-1 mb-2">
-                    <CalendarDays />
-                    <span className="text-muted-foreground text-xs">
-                      Muddat
-                    </span>
-                  </div>
-                  <h4 className="text-lg font-mono font-medium">
-                    {calcResult.months} oy
-                  </h4>
-                </div>
-                {states[calcResult.state] && (
+              <div id="shu">
+                <div className="grid grid-cols-[6fr_2fr_3fr] gap-2 mb-2">
                   <div className="border p-2 w-full rounded bg-primary/2">
                     <div className="flex items-center gap-1 mb-2">
-                      <Grid2X2 />
+                      <CircleDollarSign />
                       <span className="text-muted-foreground text-xs">
-                        O'lchami
+                        Umumiy narx
                       </span>
                     </div>
                     <h4 className="text-lg font-mono font-medium">
-                      {calcResult.size} m<sup>2</sup>
+                      {calcResult.price
+                        ? formatNumber(calcResult.price * calcResult.size)
+                        : "---"}{" "}
                     </h4>
                   </div>
-                )}
-              </div>
+                  <div className="border p-2 w-full rounded bg-primary/2">
+                    <div className="flex items-center gap-1 mb-2">
+                      <CalendarDays />
+                      <span className="text-muted-foreground text-xs">
+                        Muddat
+                      </span>
+                    </div>
+                    <h4 className="text-lg font-mono font-medium">
+                      {calcResult.months} oy
+                    </h4>
+                  </div>
+                  {states[calcResult.state] && (
+                    <div className="border p-2 w-full rounded bg-primary/2">
+                      <div className="flex items-center gap-1 mb-2">
+                        <Grid2X2 />
+                        <span className="text-muted-foreground text-xs">
+                          O'lchami
+                        </span>
+                      </div>
+                      <h4 className="text-lg font-mono font-medium">
+                        {calcResult.size} m<sup>2</sup>
+                      </h4>
+                    </div>
+                  )}
+                </div>
 
-              <div className="grid grid-cols-[1fr_3fr_2fr] gap-2 mb-2">
-                {states[calcResult.state] && (
+                <div className="grid grid-cols-[1fr_3fr_2fr] gap-2 mb-2">
+                  {states[calcResult.state] && (
+                    <div className="border p-2 w-full rounded bg-primary/2">
+                      <div className="flex items-center gap-1 mb-2">
+                        <Bolt />
+                        <span className="text-muted-foreground text-xs">
+                          Holati
+                        </span>
+                      </div>
+                      <h4 className="text-lg font-mono font-medium">
+                        {states[calcResult.state]}
+                      </h4>
+                    </div>
+                  )}
                   <div className="border p-2 w-full rounded bg-primary/2">
                     <div className="flex items-center gap-1 mb-2">
-                      <Bolt />
+                      <HandCoins />
                       <span className="text-muted-foreground text-xs">
-                        Holati
+                        Boshlang'ich to'lov
                       </span>
                     </div>
                     <h4 className="text-lg font-mono font-medium">
-                      {states[calcResult.state]}
+                      {formatNumber(calcResult.downPayment)}
                     </h4>
                   </div>
-                )}
-                <div className="border p-2 w-full rounded bg-primary/2">
-                  <div className="flex items-center gap-1 mb-2">
-                    <HandCoins />
-                    <span className="text-muted-foreground text-xs">
-                      Boshlang'ich to'lov
-                    </span>
+                  <div className="border p-2 w-full rounded bg-primary/2">
+                    <div className="flex items-center gap-1 mb-2">
+                      <Coins />
+                      <span className="text-muted-foreground text-xs">
+                        M<sup>2</sup>
+                      </span>
+                    </div>
+                    <h4 className="text-lg font-mono font-medium">
+                      {formatNumber(home.price)}
+                    </h4>
                   </div>
-                  <h4 className="text-lg font-mono font-medium">
-                    {formatNumber(calcResult.downPayment)}
-                  </h4>
-                </div>
-                <div className="border p-2 w-full rounded bg-primary/2">
-                  <div className="flex items-center gap-1 mb-2">
-                    <Coins />
-                    <span className="text-muted-foreground text-xs">
-                      M<sup>2</sup>
-                    </span>
-                  </div>
-                  <h4 className="text-lg font-mono font-medium">
-                    {formatNumber(home.price)}
-                  </h4>
                 </div>
               </div>
             </div>
@@ -506,7 +513,7 @@ export default function CalculatorTool({ home }) {
               </PhotoProvider>
             </div>
 
-            <Alert className="border-amber-300 bg-amber-50 dark:border-amber-800 dark:bg-amber-950 mb-10">
+            <Alert className="border-amber-300 bg-amber-50 dark:border-amber-800 dark:bg-amber-950 mb-10 relative">
               <Layers2 className="text-amber-600 dark:text-amber-400" />
               <AlertTitle className="text-amber-900 dark:text-amber-100">
                 Infra tuzilma
@@ -542,7 +549,7 @@ export default function CalculatorTool({ home }) {
           <div className="w-[35%] h-full overflow-y-auto flex flex-col justify-between no-scrollbar px-1">
             <form
               onSubmit={handleCalc}
-              className="w-full mx-auto flex flex-col gap-5"
+              className="w-full mx-auto flex flex-col gap-5 pb-10"
             >
               {showDiscount && (
                 <div className="py-5">
@@ -675,13 +682,24 @@ export default function CalculatorTool({ home }) {
               </Button>
             </form>
 
-            <div className="py-10 flex flex-col gap-2">
+            <div className="flex flex-col gap-2">
+              {home.customer && home.customer.canBeSold === false && (
+                <Pointer>
+                  <Badge className={"bg-black"}>
+                    <Lock /> Ushbu uy ustida amal bajara olmaysiz
+                  </Badge>
+                </Pointer>
+              )}
               {home &&
                 actionButtons.map(({ bg, title, code }, index) => {
                   return (
                     code !== home.status && (
                       <Button
-                        className={`${bg} hover:${bg} hover:opacity-90  text-primary-foreground hover:text-primary-foreground`}
+                        className={`${bg} hover:${bg} hover:opacity-90  text-primary-foreground hover:text-primary-foreground ${
+                          home.customer && home.customer.canBeSold === false
+                            ? "pointer-events-none"
+                            : ""
+                        }`}
                         size="sm"
                         key={index}
                       >

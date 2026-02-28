@@ -10,6 +10,14 @@ import {
 } from "lucide-react";
 import { Button } from "../components/ui/button";
 import {
+  Field,
+  FieldContent,
+  FieldDescription,
+  FieldGroup,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field";
+import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -31,6 +39,7 @@ import { useAppStore } from "../lib/zustand";
 import { Navigate } from "react-router-dom";
 import { Label } from "../components/ui/label";
 import { Input } from "../components/ui/input";
+import { Checkbox } from "../components/ui/checkbox";
 import { getFormData } from "../lib/utils";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
@@ -40,6 +49,7 @@ import {
   TooltipTrigger,
 } from "../components/ui/tooltip";
 import { useLoadingBar } from "react-top-loading-bar";
+import { Spinner } from "../components/ui/spinner";
 
 export default function Admin() {
   const { user } = useAppStore();
@@ -67,6 +77,7 @@ export default function Admin() {
   const [editingAdmin, setEditingAdmin] = useState(null);
 
   // ======= CRUD =======
+
   // Create
   async function add(data) {
     let req;
@@ -248,9 +259,15 @@ export default function Admin() {
   // ===== Funtions =====
   function handleAddSubmit(evt) {
     evt.preventDefault();
-    const result = getFormData(evt.currentTarget);
+    const result = {
+      ...getFormData(evt.currentTarget),
+      permissions: new FormData(evt.currentTarget).getAll("permissions"),
+    };
 
-    if (result.email.trim() === "") {
+    if (result.fullName.trim() === "") {
+      evt.currentTarget.fullName.focus();
+      toast.info("FISHni kiriting!", { position: "top-center" });
+    } else if (result.email.trim() === "") {
       evt.currentTarget.email.focus();
       toast.info("Email kiriting!", { position: "top-center" });
     } else if (result.password.trim() === "") {
@@ -261,8 +278,12 @@ export default function Admin() {
       toast.info("Parol eng kamida 6 ta belgi bo'lishi kerak!", {
         position: "top-center",
       });
+    } else if (result.permissions.length === 0) {
+      toast.info("Ruxsatlarni belgilang!", {
+        position: "top-center",
+      });
     } else {
-      result.companyId = Number(user.campanyId);
+      result.companyId = 1;
 
       add(result);
     }
@@ -308,7 +329,7 @@ export default function Admin() {
 
   useEffect(() => {
     get();
-  }, [error]);
+  }, []);
 
   // ====== Render ======
   if (user) {
@@ -398,7 +419,7 @@ export default function Admin() {
                                 size="icon-sm"
                               >
                                 {deletingAdmin?.id === id && removeLoading ? (
-                                  <RefreshCcw className="animate-spin" />
+                                  <Spinner />
                                 ) : (
                                   <Trash />
                                 )}
@@ -409,7 +430,7 @@ export default function Admin() {
                                 <AlertDialogTitle>
                                   Rostan ham{" "}
                                   <span className="font-mono">
-                                    {deletingAdmin.email}
+                                    {deletingAdmin?.email}
                                   </span>{" "}
                                   ni o'chirib yubormoqchimisiz?
                                 </AlertDialogTitle>
@@ -472,6 +493,15 @@ export default function Admin() {
               className="max-w-sm w-full mx-auto flex flex-col gap-5 p-5"
             >
               <div className="grid w-full items-center gap-3">
+                <Label htmlFor="fullName">FISH*</Label>
+                <Input
+                  type="text"
+                  id="fullName"
+                  name="fullName"
+                  placeholder="To'liq ismingizni yozing"
+                />
+              </div>
+              <div className="grid w-full items-center gap-3">
                 <Label htmlFor="email">Email*</Label>
                 <Input
                   type="email"
@@ -490,14 +520,44 @@ export default function Admin() {
                 />
               </div>
 
+              <div className="grid w-full items-center gap-3">
+                <Label htmlFor="password">Ruxsatlar*</Label>
+                <div className="flex gap-5">
+                  <FieldLabel>
+                    <Field orientation="horizontal">
+                      <Checkbox
+                        id="permissions-prohome"
+                        name="permissions"
+                        value="PROHOME"
+                      />
+                      <FieldContent>
+                        <FieldTitle>PROHOME</FieldTitle>
+                      </FieldContent>
+                    </Field>
+                  </FieldLabel>
+                  <FieldLabel>
+                    <Field orientation="horizontal">
+                      <Checkbox
+                        id="permissions-crm"
+                        name="permissions"
+                        value="CRM"
+                      />
+                      <FieldContent>
+                        <FieldTitle>CRM</FieldTitle>
+                      </FieldContent>
+                    </Field>
+                  </FieldLabel>
+                </div>
+              </div>
+
               <Button disabled={addLoading} type="submit">
                 {addLoading ? (
                   <>
-                    <RefreshCcw className="animate-spin" /> Qo'shilmoqda...
+                    <Spinner /> Qo'shilmoqda...
                   </>
                 ) : (
                   <>
-                    <PlusCircle /> Qo'shish
+                    <Plus /> Qo'shish
                   </>
                 )}
               </Button>
