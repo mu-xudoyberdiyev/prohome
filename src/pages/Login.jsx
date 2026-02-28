@@ -14,12 +14,15 @@ import { Input } from "../components/ui/input";
 import { getFormData } from "../lib/utils";
 import { toast } from "sonner";
 import { useState } from "react";
-import { RefreshCw } from "lucide-react";
+import { Eye, EyeClosed, RefreshCw } from "lucide-react";
 import { Spinner } from "../components/ui/spinner";
+import { useBoolean } from "../hooks/use-boolean";
 
 export default function Login() {
   const { user, setUser } = useAppStore();
   const [loading, setLoading] = useState(false);
+
+  const [passwordShow, { toggle }] = useBoolean();
 
   async function login(userData) {
     let req;
@@ -107,12 +110,23 @@ export default function Login() {
                   <div className="flex items-center">
                     <Label htmlFor="password">Parol</Label>
                   </div>
-                  <Input
-                    id="password"
-                    name="password"
-                    placeholder="********"
-                    type="password"
-                  />
+                  <div className="relative">
+                    <Input
+                      id="password"
+                      name="password"
+                      placeholder="********"
+                      type={passwordShow ? "text" : "password"}
+                    />
+                    <Button
+                      onClick={toggle}
+                      className={"absolute right-0"}
+                      size="icon"
+                      type="button"
+                      variant="ghost"
+                    >
+                      {passwordShow ? <Eye /> : <EyeClosed />}
+                    </Button>
+                  </div>
                 </div>
               </div>
             </CardContent>
