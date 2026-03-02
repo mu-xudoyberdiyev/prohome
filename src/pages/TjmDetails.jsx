@@ -1,168 +1,155 @@
-import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
-import { buttonVariants } from "../components/ui/button";
-import {
-  Cuboid,
-  RectangleHorizontal,
-  Search,
-  Square,
-  XIcon,
-} from "lucide-react";
-import { useAppStore } from "../lib/zustand";
-import {
-  Tabs,
-  TabsContent,
-  TabsList,
-  TabsTrigger,
-} from "../components/ui/tabs";
+import { Search, XIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
+import { Badge } from '../components/ui/badge'
+import { buttonVariants } from '../components/ui/button'
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "../components/ui/tooltip";
-import { useEffect, useState } from "react";
-import { Badge } from "../components/ui/badge";
+} from '../components/ui/tooltip'
+import { useAppStore } from '../zustand'
 
-import CalculatorTool from "../components/CalculatorTool";
-import HomeDetails from "../components/HomeDetails";
-import { useLoadingBar } from "react-top-loading-bar";
-import { formatNumber } from "../lib/utils";
+import { useLoadingBar } from 'react-top-loading-bar'
+import HomeDetails from '../components/HomeDetails'
+import { formatNumber } from '../lib/utils'
 
 const statuses = {
-  SOLD: "bg-red-500",
-  RESERVED: "bg-yellow-500",
-  EMPTY: "bg-green-500",
-  NOT: "bg-slate-400",
-};
+  SOLD: 'bg-red-500',
+  RESERVED: 'bg-yellow-500',
+  EMPTY: 'bg-green-500',
+  NOT: 'bg-slate-400',
+}
 
 const uzebekTranslate = {
-  SOLD: "Sotilgan",
-  RESERVED: "Bron qilingan",
+  SOLD: 'Sotilgan',
+  RESERVED: 'Bron qilingan',
   EMPTY: "Bo'sh",
-  NOT: "Sotilmaydi",
-};
+  NOT: 'Sotilmaydi',
+}
 
 export default function TjmDetails() {
-  const { id } = useParams();
-  const navigate = useNavigate();
-  const { user } = useAppStore();
-  const [home, setHome] = useState(null);
+  const { id } = useParams()
+  const navigate = useNavigate()
+  const { user } = useAppStore()
+  const [home, setHome] = useState(null)
 
   // Errors
 
-  const [notFound, setNotFound] = useState(null);
-  const [error, setError] = useState(null);
+  const [notFound, setNotFound] = useState(null)
+  const [error, setError] = useState(null)
 
   // Loadings
-  const [getLoading, setGetLoading] = useState(false);
+  const [getLoading, setGetLoading] = useState(false)
   const { start, complete } = useLoadingBar({
-    color: "#5ea500",
+    color: '#5ea500',
     height: 3,
-  });
+  })
 
   // API
   async function get() {
-    start();
-    let req;
-    const token = JSON.parse(localStorage.getItem("user")).accessToken;
-    setGetLoading(true);
+    start()
+    let req
+    const token = JSON.parse(localStorage.getItem('user')).accessToken
+    setGetLoading(true)
     try {
       req = await fetch(
         import.meta.env.VITE_BASE_URL + `/api/v1/projects/${id}/structure`,
         {
           headers: {
-            Authorization: "Bearer " + token,
+            Authorization: 'Bearer ' + token,
           },
-        }
-      );
+        },
+      )
     } catch {
-      setError("Tizimda nosozlik!");
+      setError('Tizimda nosozlik!')
     }
 
     if (req) {
       if (req.status === 200) {
-        const data = await req.json();
+        const data = await req.json()
 
-        setHome(data);
+        setHome(data)
       } else if (req.status === 404 || req.status === 400) {
-        setNotFound(true);
+        setNotFound(true)
       } else {
-        setError("Xatolik yuz berdi qayta urunib ko'ring!");
+        setError("Xatolik yuz berdi qayta urunib ko'ring!")
       }
     }
 
-    complete();
-    setGetLoading(false);
+    complete()
+    setGetLoading(false)
   }
 
   useEffect(() => {
-    get();
-  }, []);
+    get()
+  }, [])
 
   function handleActiveHome(id) {
-    navigate(`?details=${id}`);
+    navigate(`?details=${id}`)
   }
 
   if (user) {
     if (getLoading) {
       return (
-        <div className="w-full h-full flex items-center justify-center fixed bg-background z-50">
-          <div className="flex gap-4 items-center animate-pulse">
+        <div className="bg-background fixed z-50 flex h-full w-full items-center justify-center">
+          <div className="flex animate-pulse items-center gap-4">
             <img
-              className="w-20 h-20 rounded shadow"
+              className="h-20 w-20 rounded shadow"
               src="/logo.png"
               aria-hidden={true}
             />
             <p className="text-xl">prohome.uz</p>
           </div>
         </div>
-      );
+      )
     }
 
     if (error) {
       return (
-        <div className="w-full h-full flex items-center justify-center animate-fade-in">
-          <div className="flex flex-col w-full max-w-sm">
-            <h3 className="text-2xl mb-3 font-medium">{error}</h3>
+        <div className="animate-fade-in flex h-full w-full items-center justify-center">
+          <div className="flex w-full max-w-sm flex-col">
+            <h3 className="mb-3 text-2xl font-medium">{error}</h3>
             <p className="text-muted-foreground mb-5">
               Havotirlanmang, barchasi joyida. Ba'zida shunday xatoliklar ham
               bo'lib turadi. Agar bu davomli bo'lsa, admin bilan aloqaga chiqing
             </p>
           </div>
         </div>
-      );
+      )
     }
 
     if (notFound) {
       return (
-        <div className="w-full h-full flex items-center justify-center animate-fade-in">
-          <div className="flex flex-col items-center tex-center w-full max-w-sm">
-            <h3 className="text-2xl mb-3 font-medium">404</h3>
+        <div className="animate-fade-in flex h-full w-full items-center justify-center">
+          <div className="tex-center flex w-full max-w-sm flex-col items-center">
+            <h3 className="mb-3 text-2xl font-medium">404</h3>
             <p className="text-muted-foreground mb-5">
               Bunday turar joy majmuosi mavjud emas!
             </p>
             <Link
-              className={buttonVariants({ variant: "secondary" })}
-              to={"/tjm"}
+              className={buttonVariants({ variant: 'secondary' })}
+              to={'/tjm'}
             >
               <Search /> Mavjud turar joylar
             </Link>
           </div>
         </div>
-      );
+      )
     }
 
     return (
       home && (
-        <section className="animate-fade-in max-h-screen h-full w-full flex flex-col">
+        <section className="animate-fade-in flex h-full max-h-screen w-full flex-col">
           {/* Back  */}
           <Tooltip>
             <TooltipTrigger asChild>
               <Link
                 className={`${buttonVariants({
-                  size: "icon",
-                  variant: "destructive",
-                })} rounded-none fixed top-0 right-0 z-50`}
-                to={"/tjm"}
+                  size: 'icon',
+                  variant: 'destructive',
+                })} fixed top-0 right-0 z-50 rounded-none`}
+                to={'/tjm'}
               >
                 <XIcon />
               </Link>
@@ -174,41 +161,41 @@ export default function TjmDetails() {
 
           {/* Parts */}
           <section className="h-full w-full">
-            <div className="w-full h-30 flex flex-col">
-              <div className="mt-auto p-3 flex justify-between items-center">
+            <div className="flex h-30 w-full flex-col">
+              <div className="mt-auto flex items-center justify-between p-3">
                 <div className="flex gap-3">
                   {Object.entries(statuses).map(([key, value]) => {
                     return (
                       <Badge className={`text-primary-foreground ${value}`}>
                         {uzebekTranslate[key]}
                       </Badge>
-                    );
+                    )
                   })}
                 </div>
               </div>
             </div>
 
-            <div className="w-full flex overflow-hidden h-[calc(100%-120px)]">
-              <div className="h-full w-full overflow-auto no-scrollbar">
-                <div className="flex mx-10 min-w-max mb-10 sticky top-0 z-10 gap-20 bg-background">
+            <div className="flex h-[calc(100%-120px)] w-full overflow-hidden">
+              <div className="no-scrollbar h-full w-full overflow-auto">
+                <div className="bg-background sticky top-0 z-10 mx-10 mb-10 flex min-w-max gap-20">
                   {Object.keys(home?.blocks).map((b) => {
                     return (
-                      <div className="sticky left-10 w-58 text-xs text-muted-foreground p-1 bg-background">
+                      <div className="text-muted-foreground bg-background sticky left-10 w-58 p-1 text-xs">
                         <h3>{b}</h3>
                       </div>
-                    );
+                    )
                   })}
                 </div>
-                <div className="min-w-max flex flex-col">
+                <div className="flex min-w-max flex-col">
                   {Array.from(
                     { length: home.maxFloor },
-                    (_, index) => index + 1
+                    (_, index) => index + 1,
                   ).map((_, index, arr) => {
                     return (
-                      <div className="flex w-full min-h-10 hover:bg-accent transition-colors cursor-pointer relative group">
+                      <div className="hover:bg-accent group relative flex min-h-10 w-full cursor-pointer transition-colors">
                         {/* CHAP STICKY */}
-                        <div className="text-xs text-center text-muted-foreground w-10 flex items-center justify-center sticky left-0 bg-background group-hover:bg-primary z-20">
-                          <span className="group-hover:font-bold group-hover:scale-150 transition-transform group-hover:text-primary-foreground">
+                        <div className="text-muted-foreground bg-background group-hover:bg-primary sticky left-0 z-20 flex w-10 items-center justify-center text-center text-xs">
+                          <span className="group-hover:text-primary-foreground transition-transform group-hover:scale-150 group-hover:font-bold">
                             {arr.length - index}
                           </span>
                         </div>
@@ -229,24 +216,24 @@ export default function TjmDetails() {
                                           >
                                             <div
                                               onClick={() => {
-                                                handleActiveHome(h.id);
+                                                handleActiveHome(h.id)
                                               }}
-                                              className={`leading-none flex items-center justify-center min-w-8 shrink-0 min-h-8 text-white font-bold text-sm border-5 border-transparent rounded transition-colors duration-400 ${
+                                              className={`flex min-h-8 min-w-8 shrink-0 items-center justify-center rounded border-5 border-transparent text-sm leading-none font-bold text-white transition-colors duration-400 ${
                                                 statuses[h.status]
                                               } ${
                                                 h.id ==
                                                 new URL(
-                                                  location.href
-                                                ).searchParams.get("details")
-                                                  ? "border-destructive! shadow"
-                                                  : ""
+                                                  location.href,
+                                                ).searchParams.get('details')
+                                                  ? 'border-destructive! shadow'
+                                                  : ''
                                               }`}
                                             >
                                               {h.room}
                                             </div>
                                           </TooltipTrigger>
                                           <TooltipContent
-                                            className={"pointer-events-none"}
+                                            className={'pointer-events-none'}
                                           >
                                             <div className="flex flex-col">
                                               <div className="flex gap-1">
@@ -263,7 +250,7 @@ export default function TjmDetails() {
                                                 </h4>
                                                 <span className="font-mono">
                                                   {formatNumber(
-                                                    h.price * h.size
+                                                    h.price * h.size,
                                                   )}
                                                 </span>
                                               </div>
@@ -278,23 +265,23 @@ export default function TjmDetails() {
                                             </div>
                                           </TooltipContent>
                                         </Tooltip>
-                                      );
-                                    }
+                                      )
+                                    },
                                   )}
                                 </div>
                               )
-                            );
+                            )
                           })}
                         </div>
 
                         {/* O'NG STICKY */}
-                        <div className="ml-auto text-xs text-center text-muted-foreground w-10 flex items-center justify-center sticky right-0 bg-background z-20 group-hover:bg-primary">
-                          <span className="group-hover:font-bold group-hover:scale-150 transition-transform group-hover:text-primary-foreground">
+                        <div className="text-muted-foreground bg-background group-hover:bg-primary sticky right-0 z-20 ml-auto flex w-10 items-center justify-center text-center text-xs">
+                          <span className="group-hover:text-primary-foreground transition-transform group-hover:scale-150 group-hover:font-bold">
                             {arr.length - index}
                           </span>
                         </div>
                       </div>
-                    );
+                    )
                   })}
                 </div>
               </div>
@@ -303,8 +290,8 @@ export default function TjmDetails() {
           </section>
         </section>
       )
-    );
+    )
   } else {
-    return <Navigate to={"/login"} />;
+    return <Navigate to={'/login'} />
   }
 }

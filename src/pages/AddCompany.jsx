@@ -1,128 +1,121 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useAppStore } from "../lib/zustand";
-import { Button, buttonVariants } from "../components/ui/button";
-import { useState } from "react";
-import { getFormData } from "../lib/utils";
-import { toast } from "sonner";
-import { Label } from "../components/ui/label";
-import { Input } from "../components/ui/input";
+import { ArrowLeft, Plus, PlusCircle, RefreshCcw, Trash } from 'lucide-react'
+import { useState } from 'react'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { toast } from 'sonner'
+import { Button, buttonVariants } from '../components/ui/button'
+import { Input } from '../components/ui/input'
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
   InputGroupText,
-} from "../components/ui/input-group";
-import { Textarea } from "../components/ui/textarea";
-import {
-  ArrowLeft,
-  Plus,
-  PlusCircle,
-  RefreshCcw,
-  Trash,
-  X,
-} from "lucide-react";
+} from '../components/ui/input-group'
+import { Label } from '../components/ui/label'
+import { Textarea } from '../components/ui/textarea'
+import { getFormData } from '../lib/utils'
+import { useAppStore } from '../zustand'
 
 export default function AddCompany() {
-  const { user } = useAppStore();
-  const navigate = useNavigate();
+  const { user } = useAppStore()
+  const navigate = useNavigate()
 
   // States
-  const [logo, setLogo] = useState({ file: null, src: null });
+  const [logo, setLogo] = useState({ file: null, src: null })
 
   // Loadings
-  const [addLoading, setAddLoading] = useState(false);
+  const [addLoading, setAddLoading] = useState(false)
 
   // Add
   async function add(data) {
-    let req;
-    const token = JSON.parse(localStorage.getItem("user")).accessToken;
+    let req
+    const token = JSON.parse(localStorage.getItem('user')).accessToken
 
-    const formData = new FormData();
+    const formData = new FormData()
 
     Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
+      formData.append(key, value)
+    })
 
-    setAddLoading(true);
+    setAddLoading(true)
     try {
-      req = await fetch(import.meta.env.VITE_BASE_URL + "/api/v1/company", {
-        method: "POST",
+      req = await fetch(import.meta.env.VITE_BASE_URL + '/api/v1/company', {
+        method: 'POST',
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         },
         body: formData,
-      });
+      })
     } catch {
-      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!", {
-        position: "top-center",
-      });
+      toast.error('Tizimda nosozlik, adminga aloqaga chiqing!', {
+        position: 'top-center',
+      })
     }
 
     if (req) {
       if (req.status === 201) {
-        const data = await req.json();
-        toast.success(`${data.name} kompaniyasi qo'shildi!`);
-        navigate("/company");
+        const data = await req.json()
+        toast.success(`${data.name} kompaniyasi qo'shildi!`)
+        navigate('/company')
       } else if (req.status === 409) {
-        toast.error("Ushbu kompaniya ro'yhatdan o'tgan!");
+        toast.error("Ushbu kompaniya ro'yhatdan o'tgan!")
       } else {
         toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
-          position: "top-center",
-        });
+          position: 'top-center',
+        })
       }
     }
 
-    setAddLoading(false);
+    setAddLoading(false)
   }
 
   // Functions
   function handleSubmit(evt) {
-    evt.preventDefault();
-    const data = getFormData(evt.currentTarget);
+    evt.preventDefault()
+    const data = getFormData(evt.currentTarget)
 
     function isValidUzPhone(phone) {
-      const regex = /^\+998\d{9}$/;
-      return regex.test(phone);
+      const regex = /^\+998\d{9}$/
+      return regex.test(phone)
     }
 
-    if (data.name.trim() === "") {
-      toast.info("Kompaniya nomini kiriting!", { position: "top-right" });
-      evt.currentTarget.name.focus();
+    if (data.name.trim() === '') {
+      toast.info('Kompaniya nomini kiriting!', { position: 'top-right' })
+      evt.currentTarget.name.focus()
     } else if (isValidUzPhone(`+998${data.phoneNumber.trim()}`) === false) {
       toast.info("Telefon raqam +998xxxxxxxxx formatda bo'lishi kerak!", {
-        position: "top-right",
-      });
-      evt.currentTarget.phoneNumber.focus();
-    } else if (data.phoneNumber.trim() === "") {
-      toast.info("Telefon raqamni kiriting!", { position: "top-right" });
-      evt.currentTarget.phoneNumber.focus();
-    } else if (data.managerName.trim() === "") {
-      toast.info("Boshqaruvchi ismini kiriting!", {
-        position: "top-right",
-      });
-      evt.currentTarget.managerName.focus();
-    } else if (data.description.trim() === "") {
-      toast.info("Kompaniya uchun izoh yozing!", {
-        position: "top-right",
-      });
-      evt.currentTarget.description.focus();
+        position: 'top-right',
+      })
+      evt.currentTarget.phoneNumber.focus()
+    } else if (data.phoneNumber.trim() === '') {
+      toast.info('Telefon raqamni kiriting!', { position: 'top-right' })
+      evt.currentTarget.phoneNumber.focus()
+    } else if (data.managerName.trim() === '') {
+      toast.info('Boshqaruvchi ismini kiriting!', {
+        position: 'top-right',
+      })
+      evt.currentTarget.managerName.focus()
+    } else if (data.description.trim() === '') {
+      toast.info('Kompaniya uchun izoh yozing!', {
+        position: 'top-right',
+      })
+      evt.currentTarget.description.focus()
     } else {
       if (logo.file) {
-        data.logo = logo.file;
+        data.logo = logo.file
       } else {
-        data.logo = null;
+        data.logo = null
       }
-      data.phoneNumber = "+998" + data.phoneNumber;
+      data.phoneNumber = '+998' + data.phoneNumber
 
-      add(data);
+      add(data)
     }
   }
 
   function handleImage(file) {
-    const src = URL.createObjectURL(file);
+    const src = URL.createObjectURL(file)
     setLogo((prev) => {
-      return { ...prev, src, file };
-    });
+      return { ...prev, src, file }
+    })
   }
 
   function handleDeleteLogo() {
@@ -131,38 +124,38 @@ export default function AddCompany() {
         ...prev,
         file: null,
         src: null,
-      };
-    });
+      }
+    })
   }
 
   if (user) {
     return (
-      <section className="h-full animate-fade-in">
+      <section className="animate-fade-in h-full">
         <Link
-          className={`${buttonVariants({ variant: "outline" })} mb-10`}
-          to={"/company"}
+          className={`${buttonVariants({ variant: 'outline' })} mb-10`}
+          to={'/company'}
         >
           <ArrowLeft />
           Orqaga
         </Link>
         <div className="mb-5">
-          <h2 className="font-bold text-3xl mb-5">Yangi kompaniya qo'shish</h2>
+          <h2 className="mb-5 text-3xl font-bold">Yangi kompaniya qo'shish</h2>
           <p className="text-muted-foreground">
             Yangi kompaniya qo'shish uchun barcha ma'lumotlarni kiritishingiz
             kerak!
           </p>
         </div>
-        <div className="flex gap-10 items-start">
-          <div className="relative shrink-0 w-40 h-40">
+        <div className="flex items-start gap-10">
+          <div className="relative h-40 w-40 shrink-0">
             {logo.file === null ? (
               <label
-                className="w-full h-full inline-flex items-center justify-center border-4 border-dashed hover:border-primary transition-colors group cursor-pointer rounded-lg"
+                className="hover:border-primary group inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg border-4 border-dashed transition-colors"
                 htmlFor="logo"
               >
                 <input
                   onChange={(evt) => {
                     if (evt.target.files.length > 0) {
-                      handleImage(evt.target.files[0]);
+                      handleImage(evt.target.files[0])
                     }
                   }}
                   className="hidden"
@@ -173,27 +166,27 @@ export default function AddCompany() {
                 <Plus className="group-hover:text-primary transition-colors" />
               </label>
             ) : (
-              <div className="relative w-full h-full">
+              <div className="relative h-full w-full">
                 <img
-                  className="object-cover object-center w-full h-full inline-block rounded-lg"
+                  className="inline-block h-full w-full rounded-lg object-cover object-center"
                   src={logo.src}
                   alt="Company logo"
                 />
-                <div className="absolute bg-black/50 inset-0 rounded-lg flex">
+                <div className="absolute inset-0 flex rounded-lg bg-black/50">
                   <div
                     onClick={handleDeleteLogo}
-                    className="flex w-full h-full items-center justify-center group cursor-pointer"
+                    className="group flex h-full w-full cursor-pointer items-center justify-center"
                   >
-                    <Trash className="text-white group-hover:text-destructive" />
+                    <Trash className="group-hover:text-destructive text-white" />
                   </div>
                   <label
-                    className="inline-flex w-full h-full items-center justify-center group cursor-pointer"
+                    className="group inline-flex h-full w-full cursor-pointer items-center justify-center"
                     htmlFor="logo"
                   >
                     <input
                       onChange={(evt) => {
                         if (evt.target.files.length > 0) {
-                          handleImage(evt.target.files[0]);
+                          handleImage(evt.target.files[0])
                         }
                       }}
                       accept="image/*"
@@ -201,7 +194,7 @@ export default function AddCompany() {
                       id="logo"
                       type="file"
                     />
-                    <RefreshCcw className="text-white group-hover:opacity-80 transition-opacity" />
+                    <RefreshCcw className="text-white transition-opacity group-hover:opacity-80" />
                   </label>
                 </div>
               </div>
@@ -210,13 +203,13 @@ export default function AddCompany() {
           {/* Form  */}
           <form
             onSubmit={handleSubmit}
-            className="w-full flex flex-col relative"
+            className="relative flex w-full flex-col"
           >
-            <div className="grid grid-cols-2 gap-5 w-full mb-5">
+            <div className="mb-5 grid w-full grid-cols-2 gap-5">
               <div className="grid gap-2">
                 <Label htmlFor="name">Kompaniya nomi*</Label>
                 <Input
-                  className={"w-full"}
+                  className={'w-full'}
                   id="name"
                   name="name"
                   type="text"
@@ -224,7 +217,7 @@ export default function AddCompany() {
                   disabled={addLoading}
                 />
               </div>
-              <div className="grid gap-2 w-full">
+              <div className="grid w-full gap-2">
                 <Label htmlFor="managerName">Boshqaruvchi*</Label>
                 <Input
                   id="managerName"
@@ -234,7 +227,7 @@ export default function AddCompany() {
                   disabled={addLoading}
                 />
               </div>
-              <div className="grid gap-2 w-full col-start-1 col-end-3">
+              <div className="col-start-1 col-end-3 grid w-full gap-2">
                 <Label htmlFor="phoneNumber">Telefon raqami*</Label>
 
                 <InputGroup>
@@ -252,10 +245,10 @@ export default function AddCompany() {
                 </InputGroup>
               </div>
 
-              <div className="grid w-full gap-3 col-start-1 col-end-3">
+              <div className="col-start-1 col-end-3 grid w-full gap-3">
                 <Label htmlFor="description">Izoh*</Label>
                 <Textarea
-                  className={"max-h-16"}
+                  className={'max-h-16'}
                   placeholder="Kompaniya haqida izoh yozing"
                   id="description"
                   name="description"
@@ -265,7 +258,7 @@ export default function AddCompany() {
             </div>
 
             <div className="flex justify-end gap-3">
-              <Link className={buttonVariants({ variant: "outline" })}>
+              <Link className={buttonVariants({ variant: 'outline' })}>
                 Bekor qilish
               </Link>
               <Button disabled={addLoading} type="submit">
@@ -285,8 +278,8 @@ export default function AddCompany() {
           </form>
         </div>
       </section>
-    );
+    )
   } else {
-    return <Navigate to={"/login"} />;
+    return <Navigate to={'/login'} />
   }
 }

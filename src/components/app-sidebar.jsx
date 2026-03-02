@@ -1,23 +1,4 @@
 import {
-  Sidebar,
-  SidebarContent,
-  SidebarHeader,
-  SidebarRail,
-} from "@/components/ui/sidebar";
-import { Link, useLocation } from "react-router-dom";
-import { useAppStore } from "../lib/zustand";
-import { Button, buttonVariants } from "./ui/button";
-import {
-  BrickWall,
-  Building2,
-  Gauge,
-  HomeIcon,
-  LogOut,
-  User,
-  UsersRound,
-} from "lucide-react";
-import { toast } from "sonner";
-import {
   AlertDialog,
   AlertDialogAction,
   AlertDialogCancel,
@@ -28,6 +9,25 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarHeader,
+  SidebarRail,
+} from "@/components/ui/sidebar";
+import {
+  BrickWall,
+  Building2,
+  Gauge,
+  HomeIcon,
+  LogOut,
+  User,
+  UsersRound,
+} from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
+import { toast } from "sonner";
+import { useAppStore } from "../zustand";
+import { Button, buttonVariants } from "./ui/button";
 
 const routes = {
   SUPERADMIN: [
@@ -35,7 +35,7 @@ const routes = {
     { url: "/dashboard", text: "Dashboard", icon: <Gauge /> },
     { url: "/company", text: "Kompaniyalar", icon: <Building2 /> },
     { url: "/admin", text: "Adminlar", icon: <User /> },
-    { url: "/rop", text: "Boshqaruvchilar", icon: <User /> },
+    { url: "/rop", text: "Roplar", icon: <User /> },
     { url: "/salesmanager", text: "Sotuv menejerlari", icon: <User /> },
     { url: "/tjm", text: "TJM", icon: <BrickWall /> },
     { url: "/crm", text: "CRM", icon: <UsersRound /> },
@@ -44,7 +44,7 @@ const routes = {
     { url: "/", text: "Bosh sahifa", icon: <HomeIcon /> },
     { url: "/dashboard", text: "Dashboard", icon: <Gauge /> },
     { url: "/company", text: "Kompaniyalar", icon: <Building2 /> },
-    { url: "/rop", text: "Boshqaruvchilar", icon: <User /> },
+    { url: "/rop", text: "Roplar", icon: <User /> },
     { url: "/salesmanager", text: "Sotuv menejerlari", icon: <User /> },
     { url: "/tjm", text: "TJM", icon: <BrickWall /> },
     { url: "/crm", text: "CRM", icon: <UsersRound /> },
@@ -77,38 +77,37 @@ export function AppSidebar({ ...props }) {
       <SidebarHeader>
         <Link className="inline-flex items-center gap-3" to={"/"}>
           <img
-            className="w-10 h-10 object-center object-cover inline-flex rounded shadow"
+            className="inline-flex h-10 w-10 rounded object-cover object-center"
             src="/logo.png"
             alt="Logo"
           />
-          <strong className="font-medium">{user?.user?.role}</strong>
+          <strong className="font-medium">{user.role}</strong>
         </Link>
       </SidebarHeader>
       <SidebarContent>
-        <div className="h-full p-2 flex flex-col">
-          {user &&
-            routes[user.user.role].map(({ url, text, icon }, index) => {
-              return (
-                <Link
-                  className={`${buttonVariants({
-                    variant: "ghost",
-                  })} justify-start ${
-                    url === currentPath
-                      ? "bg-accent text-accent-foreground dark:bg-accent/50"
-                      : ""
-                  }`}
-                  key={index}
-                  to={url}
-                >
-                  {icon}
-                  {text}
-                </Link>
-              );
-            })}
+        <div className="flex h-full flex-col p-2">
+          {routes[user.role].map(({ url, text, icon }, index) => {
+            return (
+              <Link
+                className={`${buttonVariants({
+                  variant: "ghost",
+                })} justify-start ${
+                  url === currentPath
+                    ? "bg-accent text-accent-foreground dark:bg-accent/50"
+                    : ""
+                }`}
+                key={index}
+                to={url}
+              >
+                {icon}
+                {text}
+              </Link>
+            );
+          })}
 
           <AlertDialog>
             <AlertDialogTrigger asChild>
-              <Button className="w-full mt-auto" variant="outline">
+              <Button className="mt-auto w-full" variant="outline">
                 <LogOut /> Chiqish
               </Button>
             </AlertDialogTrigger>

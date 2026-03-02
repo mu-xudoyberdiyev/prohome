@@ -1,8 +1,3 @@
-import { Navigate, useNavigate } from "react-router-dom";
-import { useAppStore } from "../lib/zustand";
-import { useEffect, useState } from "react";
-import { Button } from "../components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
 import {
   ArrowRight,
   CircleCheck,
@@ -10,95 +5,100 @@ import {
   Plus,
   PlusCircleIcon,
   SearchAlert,
-} from "lucide-react";
-import { Badge } from "../components/ui/badge";
-import { useLoadingBar } from "react-top-loading-bar";
+} from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Navigate, useNavigate } from 'react-router-dom'
+import { useLoadingBar } from 'react-top-loading-bar'
+import { Avatar, AvatarFallback, AvatarImage } from '../components/ui/avatar'
+import { Badge } from '../components/ui/badge'
+import { Button } from '../components/ui/button'
+import { useAppStore } from '../zustand'
 
 export default function Company() {
-  const { user } = useAppStore();
-  const navigate = useNavigate();
+  const { user } = useAppStore()
+  const navigate = useNavigate()
 
-  const [companies, setCompanies] = useState([]);
+  const [companies, setCompanies] = useState([])
 
   // Errors
-  const [error, setError] = useState(null);
+  const [error, setError] = useState(null)
 
   // Loadings
-  const [getLoading, setGetLoading] = useState(false);
+  const [getLoading, setGetLoading] = useState(false)
   const { start, complete } = useLoadingBar({
-    color: "#5ea500",
+    color: '#5ea500',
     height: 3,
-  });
+  })
 
   // ======= CRUD =======
   // Read
   async function get() {
-    start();
-    let req;
-    const token = JSON.parse(localStorage.getItem("user")).accessToken;
-    setGetLoading(true);
+    start()
+    let req
+    const token = JSON.parse(localStorage.getItem('user')).accessToken
+    setGetLoading(true)
     try {
       req = await fetch(import.meta.env.VITE_BASE_URL + `/api/v1/company/all`, {
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         },
-      });
+      })
     } catch {
-      setError("Tizimda nosozlik!");
+      setError('Tizimda nosozlik!')
     }
 
     if (req) {
       if (req.status === 200) {
-        const { data } = await req.json();
+        const { data } = await req.json()
 
-        setCompanies(data);
+        setCompanies(data)
       } else {
-        setError("Xatolik yuz berdi qayta urunib ko'ring!");
+        setError("Xatolik yuz berdi qayta urunib ko'ring!")
       }
     }
 
-    setGetLoading(false);
-    complete();
+    setGetLoading(false)
+    complete()
   }
 
   // ===== Funtions =====
   function handleError() {
-    setError(null);
+    setError(null)
   }
 
   function handleAdd() {
-    navigate("/add/company");
+    navigate('/add/company')
   }
 
   function handleClick(id) {
-    navigate(`/company/${id}`);
+    navigate(`/company/${id}`)
   }
 
   useEffect(() => {
-    get();
-  }, [error]);
+    get()
+  }, [error])
 
   if (user) {
     if (getLoading) {
       return (
-        <div className="w-full h-full flex items-center justify-center absolute bg-background z-50 inset-0">
-          <div className="flex gap-4 items-center animate-pulse">
+        <div className="bg-background absolute inset-0 z-50 flex h-full w-full items-center justify-center">
+          <div className="flex animate-pulse items-center gap-4">
             <img
-              className="w-20 h-20 rounded shadow"
+              className="h-20 w-20 rounded shadow"
               src="/logo.png"
               aria-hidden={true}
             />
             <p className="text-xl">prohome.uz</p>
           </div>
         </div>
-      );
+      )
     }
 
     if (error) {
       return (
-        <div className="w-full h-full flex items-center justify-center animate-fade-in">
-          <div className="flex flex-col w-full max-w-sm">
-            <h3 className="text-2xl mb-3 font-medium">{error}</h3>
+        <div className="animate-fade-in flex h-full w-full items-center justify-center">
+          <div className="flex w-full max-w-sm flex-col">
+            <h3 className="mb-3 text-2xl font-medium">{error}</h3>
             <p className="text-muted-foreground mb-5">
               Havotirlanmang, barchasi joyida. Ba'zida shunday xatoliklar ham
               bo'lib turadi. Agar bu davomli bo'lsa, admin bilan aloqaga chiqing
@@ -108,25 +108,25 @@ export default function Company() {
             </Button>
           </div>
         </div>
-      );
+      )
     }
 
     return companies.length > 0 ? (
-      <section className="h-full animate-fade-in">
-        <div className="flex items-center justify-between mb-10">
-          <h2 className="font-bold text-3xl">Kompaniyalar</h2>
+      <section className="animate-fade-in h-full">
+        <div className="mb-10 flex items-center justify-between">
+          <h2 className="text-3xl font-bold">Kompaniyalar</h2>
           <Button onClick={handleAdd} variant="secondary">
             <PlusCircleIcon />
             Qo'shish
           </Button>
         </div>
-        <div className="grid grid-cols-2 gap-5 h-[60vh] items-start place-content-start">
+        <div className="grid h-[60vh] grid-cols-2 place-content-start items-start gap-5">
           {companies.map(({ id, name, logo, status }) => {
             return (
               <div
-                className="shadow relative rounded-sm p-4 flex gap-5 items-center text-center group cursor-pointer"
+                className="group relative flex cursor-pointer items-center gap-5 rounded-sm p-4 text-center shadow"
                 onClick={() => {
-                  handleClick(id);
+                  handleClick(id)
                 }}
                 key={id}
               >
@@ -144,9 +144,9 @@ export default function Company() {
                 <h2>{name}</h2>
                 <Badge
                   className={`absolute top-0 right-5 -translate-y-2/4 ${
-                    status === false ? "bg-background" : ""
+                    status === false ? 'bg-background' : ''
                   }`}
-                  variant={status ? "default" : "outline"}
+                  variant={status ? 'default' : 'outline'}
                 >
                   {status ? (
                     <>
@@ -158,17 +158,17 @@ export default function Company() {
                     </>
                   )}
                 </Badge>
-                <ArrowRight className="ml-auto opacity-0 group-hover:opacity-100 transition-opacity" />
+                <ArrowRight className="ml-auto opacity-0 transition-opacity group-hover:opacity-100" />
               </div>
-            );
+            )
           })}
         </div>
       </section>
     ) : (
-      <div className="w-full h-full flex justify-center items-center animate-fade-in">
-        <div className="flex flex-col items-center text-center w-full max-w-sm">
+      <div className="animate-fade-in flex h-full w-full items-center justify-center">
+        <div className="flex w-full max-w-sm flex-col items-center text-center">
           <img
-            className="w-50 object-center select-none mb-5"
+            className="mb-5 w-50 object-center select-none"
             src="/no-data.svg"
             alt=""
           />
@@ -178,8 +178,8 @@ export default function Company() {
           </Button>
         </div>
       </div>
-    );
+    )
   } else {
-    return <Navigate to={"/login"} />;
+    return <Navigate to={'/login'} />
   }
 }

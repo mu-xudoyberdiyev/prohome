@@ -1,40 +1,30 @@
-import { createRoot } from "react-dom/client";
-import "./index.css";
-import "react-photo-view/dist/react-photo-view.css";
-import App from "./App.jsx";
-import { Toaster } from "sonner";
-import Offline from "./pages/Offline.jsx";
-import { LoadingBarContainer } from "react-top-loading-bar";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-
-const queryClient = new QueryClient();
+import { createRoot } from 'react-dom/client'
+import 'react-photo-view/dist/react-photo-view.css'
+import { LoadingBarContainer } from 'react-top-loading-bar'
+import { Toaster } from 'sonner'
+import App from './App.jsx'
+import './index.css'
+import Offline from './pages/Offline.jsx'
 
 const online = (
-  <QueryClientProvider client={queryClient}>
-    <LoadingBarContainer>
-      <App />
-      <Toaster
-        closeButton
-        richColors
-        position="bottom-right"
-        visibleToasts={3}
-      />
-    </LoadingBarContainer>
-  </QueryClientProvider>
-);
+  <LoadingBarContainer>
+    <App />
+    <Toaster closeButton richColors position="bottom-right" visibleToasts={3} />
+  </LoadingBarContainer>
+)
 
-const offline = <Offline />;
+const offline = <Offline />
 
-const root = createRoot(document.getElementById("root"));
+const root = createRoot(document.getElementById('root'))
 
-root.render(online);
+root.render(online)
 
 // Online
-window.addEventListener("online", () => {
-  root.render(online);
-});
+window.addEventListener('online', () => {
+  root.render(online)
+})
 
 // Offline
-window.addEventListener("offline", () => {
-  root.render(offline);
-});
+window.addEventListener('offline', () => {
+  root.render(offline)
+})

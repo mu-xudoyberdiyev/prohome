@@ -1,87 +1,87 @@
-import { Link, Navigate, useNavigate } from "react-router-dom";
-import { Button, buttonVariants } from "../components/ui/button";
-import { ArrowLeft, ArrowRight, Folder, FolderOpen, Plus } from "lucide-react";
-import { useAppStore } from "../lib/zustand";
-import { useEffect, useState } from "react";
-import { useLoadingBar } from "react-top-loading-bar";
+import { ArrowLeft, ArrowRight, Folder, FolderOpen } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { useLoadingBar } from 'react-top-loading-bar'
+import { buttonVariants } from '../components/ui/button'
+import { useAppStore } from '../zustand'
 
 export default function Tjm() {
-  const { user } = useAppStore();
-  const navigate = useNavigate();
+  const { user } = useAppStore()
+  const navigate = useNavigate()
 
-  const [projects, setProjects] = useState([]);
-  const [error, setError] = useState(null);
+  const [projects, setProjects] = useState([])
+  const [error, setError] = useState(null)
 
   // Loadings
-  const [getLoading, setGetLoading] = useState(false);
+  const [getLoading, setGetLoading] = useState(false)
   const { start, complete } = useLoadingBar({
-    color: "#5ea500",
+    color: '#5ea500',
     height: 3,
-  });
+  })
 
   // API
   async function get() {
-    start();
-    let req;
-    const token = JSON.parse(localStorage.getItem("user")).accessToken;
-    setGetLoading(true);
+    start()
+    let req
+    const token = JSON.parse(localStorage.getItem('user')).accessToken
+    setGetLoading(true)
     try {
       req = await fetch(import.meta.env.VITE_BASE_URL + `/api/v1/projects`, {
         headers: {
-          Authorization: "Bearer " + token,
+          Authorization: 'Bearer ' + token,
         },
-      });
+      })
     } catch {
-      setError("Tizimda nosozlik!");
+      setError('Tizimda nosozlik!')
     }
 
     if (req) {
       if (req.status === 200) {
-        const data = await req.json();
-        console.log(data);
+        const data = await req.json()
+        console.log(data)
 
-        setProjects(data);
+        setProjects(data)
       } else {
-        setError("Xatolik yuz berdi qayta urunib ko'ring!");
+        setError("Xatolik yuz berdi qayta urunib ko'ring!")
       }
     }
 
-    setGetLoading(false);
-    complete();
+    setGetLoading(false)
+    complete()
   }
 
   function handleClick(slug) {
-    navigate(slug);
+    navigate(slug)
   }
 
   useEffect(() => {
-    get();
-  }, []);
+    get()
+  }, [])
 
   if (user) {
     if (getLoading) {
       return (
-        <div className="w-full h-full flex items-center justify-center bg-background">
-          <div className="flex gap-4 items-center animate-pulse">
+        <div className="bg-background flex h-full w-full items-center justify-center">
+          <div className="flex animate-pulse items-center gap-4">
             <img
-              className="w-20 h-20 rounded shadow"
+              className="h-20 w-20 rounded shadow"
               src="/logo.png"
               aria-hidden={true}
             />
             <p className="text-xl">prohome.uz</p>
           </div>
         </div>
-      );
+      )
     }
 
     return (
       <section className="animate-fade-in h-full">
         <Link
           className={`${buttonVariants({
-            size: "icon",
-            variant: "outline",
-          })} rounded-full! shadow bg-background fixed top-5 left-5`}
-          to={"/"}
+            size: 'icon',
+            variant: 'outline',
+          })} bg-background fixed top-5 left-5 rounded-full! shadow`}
+          to={'/'}
         >
           <ArrowLeft />
         </Link>
@@ -92,24 +92,24 @@ export default function Tjm() {
               return (
                 <div
                   onClick={() => {
-                    handleClick(`/tjm/${id}`);
+                    handleClick(`/tjm/${id}`)
                   }}
-                  className="border-2 flex gap-3 transition rounded p-3 hover:border-primary cursor-pointer group"
+                  className="hover:border-primary group flex cursor-pointer gap-3 rounded border-2 p-3 transition"
                   key={index}
                 >
-                  <Folder className="group-hover:hidden animate-fade-in" />
-                  <FolderOpen className="hidden group-hover:inline-block animate-fade-in" />
+                  <Folder className="animate-fade-in group-hover:hidden" />
+                  <FolderOpen className="animate-fade-in hidden group-hover:inline-block" />
                   <p>{name}</p>
-                  <ArrowRight className="ml-auto hidden group-hover:inline-block animate-fade-in" />
+                  <ArrowRight className="animate-fade-in ml-auto hidden group-hover:inline-block" />
                 </div>
-              );
+              )
             })}
           </div>
         ) : (
-          <div className="w-full h-full flex justify-center items-center animate-fade-in">
-            <div className="flex flex-col items-center text-center w-full max-w-sm">
+          <div className="animate-fade-in flex h-full w-full items-center justify-center">
+            <div className="flex w-full max-w-sm flex-col items-center text-center">
               <img
-                className="w-50 object-center select-none mb-5"
+                className="mb-5 w-50 object-center select-none"
                 src="/no-data.svg"
                 alt=""
               />
@@ -118,8 +118,8 @@ export default function Tjm() {
           </div>
         )}
       </section>
-    );
+    )
   } else {
-    return <Navigate to={"/login"} />;
+    return <Navigate to={'/login'} />
   }
 }

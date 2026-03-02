@@ -1,83 +1,66 @@
 import {
-  Edit,
-  Edit2,
-  Plus,
-  PlusCircle,
-  PlusCircleIcon,
-  RefreshCcw,
-  SearchAlert,
-  Trash,
-} from "lucide-react";
-import { Button } from "../components/ui/button";
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-  AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
-import {
   Drawer,
   DrawerContent,
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
 } from "@/components/ui/drawer";
-import { useAppStore } from "../lib/zustand";
-import { Navigate } from "react-router-dom";
-import { Label } from "../components/ui/label";
-import { Input } from "../components/ui/input";
-import { Skeleton } from "../components/ui/skeleton";
 import {
-  NativeSelect,
-  NativeSelectOption,
-} from "../components/ui/native-select";
-import { getFormData } from "../lib/utils";
-import { toast } from "sonner";
+  Field,
+  FieldContent,
+  FieldLabel,
+  FieldTitle,
+} from "@/components/ui/field";
+import { Check, Plus, Trash, X } from "lucide-react";
 import { useEffect, useState } from "react";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipTrigger,
-} from "../components/ui/tooltip";
 import { useLoadingBar } from "react-top-loading-bar";
+import { toast } from "sonner";
+import EmptyData from "../components/EmptyData";
+import GeneralError from "../components/error/GeneralError";
+import LogoLoader from "../components/loading/LogoLoader";
+import { Button } from "../components/ui/button";
+import { Checkbox } from "../components/ui/checkbox";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { Spinner } from "../components/ui/spinner";
+import { getFormData } from "../lib/utils";
+
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/optics/table";
+import { Badge } from "../components/ui/badge";
 
 export default function Rop() {
-  const { user } = useAppStore();
-
   // Modals
   const [addModal, setAddModal] = useState(false);
-  const [editModal, setEditModal] = useState(false);
   const [rops, setRops] = useState([]);
-  const [companies, setCompanies] = useState([]);
 
   // Errors
   const [error, setError] = useState(null);
 
   // Loadings
-  const [getLoading, setGetLoading] = useState(false);
-  const [addLoading, setAddLoading] = useState(false);
-  const [editLoading, setEditLoading] = useState(false);
-  const [removeLoading, setRemoveLoading] = useState(false);
-  const [companiesLoading, setCompaniesLoading] = useState(false);
   const { start, complete } = useLoadingBar({
     color: "#5ea500",
     height: 3,
   });
+  const [getLoading, setGetLoading] = useState(false);
+  const [addLoading, setAddLoading] = useState(false);
+  const [removeLoading, setRemoveLoading] = useState(false);
 
   // Permanently states
-  const [deletingRop, setDeletingRop] = useState(null);
-  const [editingRop, setEditingRop] = useState(null);
+  const [showConfirmation, setShowConfirmation] = useState(null);
 
   // ======= CRUD =======
+
   // Create
   async function add(data) {
     let req;
-    const token = JSON.parse(localStorage.getItem("user")).accessToken;
+    const token = localStorage.getItem("token");
 
     setAddLoading(true);
     try {
@@ -97,19 +80,17 @@ export default function Rop() {
 
     if (req) {
       if (req.status === 201) {
-        const { safeRop } = await req.json();
+        const newRop = await req.json();
 
         setRops((prev) => {
-          return [safeRop, ...prev];
+          return [newRop, ...prev];
         });
 
         handleAddModal();
 
-        toast.success(`${safeRop.email} qo'shildi!`, {
-          position: "top-center",
-        });
+        toast.success(`${newRop.fullName} qo'shildi!`);
       } else if (req.status === 409) {
-        toast.error("Bu email bilan boshqaruvchi ro'yhatdan o'tgan!", {
+        toast.error("Bu email bilan rop ro'yhatdan o'tgan!", {
           position: "top-center",
         });
       } else {
@@ -126,7 +107,8 @@ export default function Rop() {
   async function get() {
     start();
     let req;
-    const token = JSON.parse(localStorage.getItem("user")).accessToken;
+    const token = localStorage.getItem("token");
+
     setGetLoading(true);
     try {
       req = await fetch(
@@ -135,7 +117,7 @@ export default function Rop() {
           headers: {
             Authorization: "Bearer " + token,
           },
-        }
+        },
       );
     } catch {
       setError("Tizimda nosozlik!");
@@ -155,68 +137,10 @@ export default function Rop() {
     complete();
   }
 
-  // Update
-  async function edit(data) {
-    let req;
-    const token = JSON.parse(localStorage.getItem("user")).accessToken;
-
-    setEditLoading(true);
-    try {
-      req = await fetch(
-        import.meta.env.VITE_BASE_URL +
-          `/api/v1/user/update-rop/${editingRop.id}`,
-        {
-          method: "PATCH",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: "Bearer " + token,
-          },
-          body: JSON.stringify(data),
-        }
-      );
-    } catch {
-      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!", {
-        position: "top-center",
-      });
-    }
-
-    if (req) {
-      if (req.status === 200) {
-        const { safeRop } = await req.json();
-
-        const result = rops.map((rop) => {
-          if (rop.id === editingRop.id) {
-            return safeRop;
-          } else {
-            return rop;
-          }
-        });
-
-        setRops(result);
-
-        handleEditModal();
-
-        toast.success(`${safeRop.email} yangilandi!`, {
-          position: "top-center",
-        });
-      } else if (req.status === 409) {
-        toast.error("Bu email bilan boshqaruvchi ro'yhatdan o'tgan!", {
-          position: "top-center",
-        });
-      } else {
-        toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
-          position: "top-center",
-        });
-      }
-    }
-
-    setEditLoading(false);
-  }
-
   // Delete
   async function remove(id) {
     let req;
-    const token = JSON.parse(localStorage.getItem("user")).accessToken;
+    const token = localStorage.getItem("token");
     setRemoveLoading(true);
     try {
       req = await fetch(
@@ -226,7 +150,7 @@ export default function Rop() {
           headers: {
             Authorization: "Bearer " + token,
           },
-        }
+        },
       );
     } catch {
       toast.error("Tizimda nosozlik, adminga aloqaga chiqing!");
@@ -234,54 +158,33 @@ export default function Rop() {
 
     if (req) {
       if (req.status === 200) {
-        const result = rops.filter((rop) => rop.id !== id);
+        const result = rops.filter((rp) => rp.id !== id);
         setRops(result);
-        toast.success(`${deletingRop.email} o'chirildi!`);
+
+        toast.success(`Rop o'chirildi!`);
       } else {
         toast.error(
-          "Boshqaruvchini o'chirishda xatolik yuz berdi qayta urunib ko'ring!"
+          "Ropni o'chirishda xatolik yuz berdi qayta urunib ko'ring!",
         );
       }
     }
 
+    setShowConfirmation(null);
     setRemoveLoading(false);
-    setDeletingRop(null);
-  }
-
-  // Read
-  async function getCompanies() {
-    let req;
-    const token = JSON.parse(localStorage.getItem("user")).accessToken;
-    setCompaniesLoading(true);
-    try {
-      req = await fetch(import.meta.env.VITE_BASE_URL + `/api/v1/company/all`, {
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-      });
-    } catch {
-      setError("Tizimda nosozlik!");
-    }
-
-    if (req) {
-      if (req.status === 200) {
-        const { data } = await req.json();
-
-        setCompanies(data);
-      } else {
-        setError("Xatolik yuz berdi qayta urunib ko'ring!");
-      }
-    }
-
-    setCompaniesLoading(false);
   }
 
   // ===== Funtions =====
   function handleAddSubmit(evt) {
     evt.preventDefault();
-    const result = getFormData(evt.currentTarget);
+    const result = {
+      ...getFormData(evt.currentTarget),
+      permissions: new FormData(evt.currentTarget).getAll("permissions"),
+    };
 
-    if (result.email.trim() === "") {
+    if (result.fullName.trim() === "") {
+      evt.currentTarget.fullName.focus();
+      toast.info("FISHni kiriting!", { position: "top-center" });
+    } else if (result.email.trim() === "") {
       evt.currentTarget.email.focus();
       toast.info("Email kiriting!", { position: "top-center" });
     } else if (result.password.trim() === "") {
@@ -292,27 +195,14 @@ export default function Rop() {
       toast.info("Parol eng kamida 6 ta belgi bo'lishi kerak!", {
         position: "top-center",
       });
-    } else if ("companyId" in result === false) {
-      evt.currentTarget.companyId.focus();
-      toast.info("Kompaniyani tanlang!", {
+    } else if (result.permissions.length === 0) {
+      toast.info("Ruxsatlarni belgilang!", {
         position: "top-center",
       });
     } else {
-      result.companyId = Number(result.companyId);
+      result.companyId = 1;
+
       add(result);
-    }
-  }
-
-  function handleEditSubmit(evt) {
-    evt.preventDefault();
-    const result = getFormData(evt.currentTarget);
-
-    if (result.email.trim() === "") {
-      evt.currentTarget.email.focus();
-      toast.info("Email kiriting!", { position: "top-center" });
-    } else {
-      result.companyId = Number(result.companyId);
-      edit(result);
     }
   }
 
@@ -320,295 +210,206 @@ export default function Rop() {
     setAddModal(!addModal);
   }
 
-  function handleEditModal() {
-    setEditModal(!editModal);
-  }
-
   function handleDelete(id) {
-    const foundRop = rops.find((rop) => rop.id === id);
-    setDeletingRop(foundRop);
-
     remove(id);
-  }
-
-  function handleEdit(id) {
-    const foundRop = rops.find((rop) => rop.id === id);
-    setEditingRop(foundRop);
-
-    handleEditModal();
-  }
-
-  function handleError() {
-    setError(null);
   }
 
   useEffect(() => {
     get();
-    getCompanies();
-  }, [error]);
+  }, []);
 
   // ====== Render ======
-  if (user) {
-    if (getLoading) {
-      return (
-        <div className="w-full h-full flex items-center justify-center absolute bg-background z-50 inset-0">
-          <div className="flex gap-4 items-center animate-pulse">
-            <img
-              className="w-20 h-20 rounded shadow"
-              src="/logo.png"
-              aria-hidden={true}
-            />
-            <p className="text-xl">prohome.uz</p>
-          </div>
-        </div>
-      );
-    }
+  if (getLoading) {
+    return <LogoLoader />;
+  }
 
-    if (error) {
-      return (
-        <div className="w-full h-full flex items-center justify-center animate-fade-in">
-          <div className="flex flex-col w-full max-w-sm">
-            <h3 className="text-2xl mb-3 font-medium">{error}</h3>
-            <p className="text-muted-foreground mb-5">
-              Havotirlanmang, barchasi joyida. Ba'zida shunday xatoliklar ham
-              bo'lib turadi. Agar bu davomli bo'lsa, admin bilan aloqaga chiqing
-            </p>
-            <Button onClick={handleError} variant="secondary">
-              <SearchAlert /> Qayta urunib ko'rish
-            </Button>
-          </div>
-        </div>
-      );
-    }
+  if (error) {
+    return <GeneralError />;
+  }
 
-    return (
-      <>
-        {rops.length > 0 ? (
-          <section className="h-full animate-fade-in">
-            <div className="flex items-center justify-between mb-10">
-              <h2 className="font-bold text-3xl">Boshqaruvchilar</h2>
+  return (
+    <>
+      <section className="animate-fade-in relative h-full">
+        {/* Header  */}
+        <header className="bg-primary/2 mb-10 flex items-center justify-between rounded border p-3">
+          <h2 className="text-2xl font-bold">Roplar</h2>
 
-              <Button onClick={handleAddModal} variant="secondary">
-                <PlusCircleIcon />
-                Qo'shish
-              </Button>
-            </div>
+          <Button
+            onClick={handleAddModal}
+            disabled={getLoading || addLoading}
+            variant="secondary"
+            size="sm"
+          >
+            <Plus />
+            Qo'shish
+          </Button>
+        </header>
 
-            <div className="flex flex-col w-full gap-4 h-full max-h-75 overflow-y-auto pr-2">
-              {rops.map(({ id, email }, index) => {
-                return (
-                  <div
-                    className="p-2 border rounded grid grid-cols-[100px_3fr_1fr] place-content-center"
-                    key={id}
-                  >
-                    <div className="font-medium text-muted-foreground">
-                      #{index + 1}
-                    </div>
-                    <p className="underline">{email}</p>
-                    <div className="flex gap-2 justify-end pr-2">
-                      <Tooltip>
-                        <TooltipTrigger asChild>
+        <div className="flex h-full max-h-75 w-full flex-col gap-4 overflow-y-auto pr-2">
+          {rops.length > 0 ? (
+            <Table className="w-full">
+              <TableHeader className="bg-background sticky top-0">
+                <TableRow>
+                  <TableHead>№</TableHead>
+                  <TableHead>Ism</TableHead>
+                  <TableHead>Email</TableHead>
+                  <TableHead>Ruxsatlar</TableHead>
+                  <TableHead className="text-end">Harakatlar</TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {rops.map((rp, index) => {
+                  return (
+                    <TableRow className="group">
+                      <TableCell>{index + 1}</TableCell>
+                      <TableCell className="font-medium">
+                        {rp.fullName}
+                      </TableCell>
+                      <TableCell>{rp.email}</TableCell>
+                      <TableCell>
+                        <div className="flex gap-0.5">
+                          {rp.permission.PROHOME && (
+                            <Badge variant={"outline"}>Prohome</Badge>
+                          )}
+                          {rp.permission.CRM && (
+                            <Badge variant={"outline"}>CRM</Badge>
+                          )}
+                        </div>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex w-full min-w-37.5 items-center justify-end gap-1">
+                          {showConfirmation === rp.id && (
+                            <Badge
+                              onClick={() => {
+                                handleDelete(rp.id);
+                              }}
+                              className={`animate-fade-in cursor-pointer hover:opacity-80 ${removeLoading ? "pointer-events-none opacity-60" : ""}`}
+                            >
+                              {removeLoading ? (
+                                <>
+                                  <Spinner /> O'chirilmoqda...
+                                </>
+                              ) : (
+                                <>
+                                  <Check /> Tasdiqlang
+                                </>
+                              )}
+                            </Badge>
+                          )}
                           <Button
                             onClick={() => {
-                              handleEdit(id);
+                              if (showConfirmation === rp.id) {
+                                setShowConfirmation(null);
+                              } else {
+                                setShowConfirmation(rp.id);
+                              }
                             }}
-                            variant="secondary"
+                            variant="ghost"
                             size="icon-sm"
                           >
-                            <Edit />
+                            {showConfirmation === rp.id ? <X /> : <Trash />}
                           </Button>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>Tahrirlash</p>
-                        </TooltipContent>
-                      </Tooltip>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </Table>
+          ) : (
+            <EmptyData text="Hozircha roplar yo'q" />
+          )}
+        </div>
+      </section>
 
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <AlertDialog>
-                            <AlertDialogTrigger asChild>
-                              <Button
-                                disabled={
-                                  deletingRop?.id === id && removeLoading
-                                }
-                                variant="destructive"
-                                size="icon-sm"
-                              >
-                                {deletingRop?.id === id && removeLoading ? (
-                                  <RefreshCcw className="animate-spin" />
-                                ) : (
-                                  <Trash />
-                                )}
-                              </Button>
-                            </AlertDialogTrigger>
-                            <AlertDialogContent>
-                              <AlertDialogHeader>
-                                <AlertDialogTitle>
-                                  Rostan ham o'chirib yubormoqchimisiz?
-                                </AlertDialogTitle>
-                                <AlertDialogDescription>
-                                  Keyin bu operatsiyani orqaga qaytarib
-                                  bo'lmaydi!
-                                </AlertDialogDescription>
-                              </AlertDialogHeader>
-                              <AlertDialogFooter>
-                                <AlertDialogCancel>Yo'q</AlertDialogCancel>
-                                <AlertDialogAction
-                                  onClick={() => {
-                                    handleDelete(id);
-                                  }}
-                                >
-                                  Ha
-                                </AlertDialogAction>
-                              </AlertDialogFooter>
-                            </AlertDialogContent>
-                          </AlertDialog>
-                        </TooltipTrigger>
-                        <TooltipContent>
-                          <p>O'chirish</p>
-                        </TooltipContent>
-                      </Tooltip>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </section>
-        ) : (
-          <div className="w-full h-full flex justify-center items-center animate-fade-in">
-            <div className="flex flex-col items-center text-center w-full max-w-sm">
-              <img
-                className="w-50 object-center select-none mb-5"
-                src="/no-data.svg"
-                alt=""
+      {/* Add modal  */}
+      <Drawer open={addModal} onOpenChange={handleAddModal}>
+        <DrawerContent>
+          <DrawerHeader>
+            <DrawerTitle>Yangi rop qo'shish.</DrawerTitle>
+            <DrawerDescription>
+              Rop qo'shish uchun barcha ma'lumotlarni to'ldiring
+            </DrawerDescription>
+          </DrawerHeader>
+
+          <form
+            onSubmit={handleAddSubmit}
+            className="mx-auto flex w-full max-w-sm flex-col gap-5 p-5"
+          >
+            <div className="grid w-full items-center gap-3">
+              <Label htmlFor="fullName">FISH*</Label>
+              <Input
+                type="text"
+                id="fullName"
+                name="fullName"
+                placeholder="To'liq ismingizni yozing"
               />
-              <p className="mb-5">Hozircha ma'lumot yo'q</p>
-              <Button onClick={handleAddModal} variant="secondary">
-                <Plus /> Qo'shish
-              </Button>
             </div>
-          </div>
-        )}
+            <div className="grid w-full items-center gap-3">
+              <Label htmlFor="email">Email*</Label>
+              <Input
+                type="email"
+                id="email"
+                name="email"
+                autoComplete="username"
+                placeholder="Email"
+              />
+            </div>
+            <div className="grid w-full items-center gap-3">
+              <Label htmlFor="password">Parol*</Label>
+              <Input
+                type="password"
+                id="password"
+                name="password"
+                autoComplete="current-password"
+                placeholder="********"
+              />
+            </div>
 
-        {/* Add modal  */}
-        <Drawer open={addModal} onOpenChange={handleAddModal}>
-          <DrawerContent>
-            <DrawerHeader>
-              <DrawerTitle>Yangi boshqaruvchi qo'shish.</DrawerTitle>
-              <DrawerDescription>
-                Boshqaruvchi qo'shish uchun barcha ma'lumotlarni to'ldiring
-              </DrawerDescription>
-            </DrawerHeader>
-
-            <form
-              onSubmit={handleAddSubmit}
-              className="max-w-sm w-full mx-auto flex flex-col gap-5 p-5"
-            >
-              <div className="grid w-full items-center gap-3">
-                <Label htmlFor="email">Email*</Label>
-                <Input
-                  type="email"
-                  id="email"
-                  name="email"
-                  placeholder="Email"
-                />
+            <div className="grid w-full items-center gap-3">
+              <Label htmlFor="password">Ruxsatlar*</Label>
+              <div className="flex gap-5">
+                <FieldLabel>
+                  <Field orientation="horizontal">
+                    <Checkbox
+                      id="permissions-prohome"
+                      name="permissions"
+                      value="PROHOME"
+                    />
+                    <FieldContent>
+                      <FieldTitle>PROHOME</FieldTitle>
+                    </FieldContent>
+                  </Field>
+                </FieldLabel>
+                <FieldLabel>
+                  <Field orientation="horizontal">
+                    <Checkbox
+                      id="permissions-crm"
+                      name="permissions"
+                      value="CRM"
+                    />
+                    <FieldContent>
+                      <FieldTitle>CRM</FieldTitle>
+                    </FieldContent>
+                  </Field>
+                </FieldLabel>
               </div>
-              <div className="grid w-full items-center gap-3">
-                <Label htmlFor="password">Parol*</Label>
-                <Input
-                  type="password"
-                  id="password"
-                  name="password"
-                  placeholder="********"
-                />
-              </div>
-              <div className="grid w-full items-center gap-3">
-                <Label htmlFor="companyId">Kompaniya*</Label>
-                {companiesLoading ? (
-                  <Skeleton className={"w-86 h-9"} />
-                ) : (
-                  <NativeSelect
-                    className={"w-86"}
-                    id="companyId"
-                    name="companyId"
-                    defaultValue=""
-                  >
-                    <NativeSelectOption disabled value="">
-                      Kompaniya nomini tanlang
-                    </NativeSelectOption>
-                    {companies.map(({ name, id }) => {
-                      return (
-                        <NativeSelectOption value={id} key={id}>
-                          {name}
-                        </NativeSelectOption>
-                      );
-                    })}
-                  </NativeSelect>
-                )}
-              </div>
+            </div>
 
-              <Button disabled={addLoading} type="submit">
-                {addLoading ? (
-                  <>
-                    <RefreshCcw className="animate-spin" /> Qo'shilmoqda...
-                  </>
-                ) : (
-                  <>
-                    <PlusCircle /> Qo'shish
-                  </>
-                )}
-              </Button>
-            </form>
-          </DrawerContent>
-        </Drawer>
-
-        {/* Edit modal  */}
-        {editingRop && (
-          <Drawer open={editModal} onOpenChange={handleEditModal}>
-            <DrawerContent>
-              <DrawerHeader>
-                <DrawerTitle>
-                  <b>{editingRop.email}</b>ni yangilash.
-                </DrawerTitle>
-                <DrawerDescription>
-                  Boshqaruvchini yangilashda ham barcha ma'lumotlarni to'liq
-                  to'ldirishingiz kerak!
-                </DrawerDescription>
-              </DrawerHeader>
-
-              <form
-                onSubmit={handleEditSubmit}
-                className="max-w-sm w-full mx-auto flex flex-col gap-5 p-5"
-              >
-                <div className="grid w-full items-center gap-3">
-                  <Label htmlFor="email">Email*</Label>
-                  <Input
-                    type="email"
-                    id="email"
-                    name="email"
-                    defaultValue={editingRop.email}
-                    placeholder="Email"
-                  />
-                </div>
-
-                <Button disabled={editLoading} type="submit">
-                  {editLoading ? (
-                    <>
-                      <RefreshCcw className="animate-spin" /> Tahrirlanmoqda...
-                    </>
-                  ) : (
-                    <>
-                      <Edit2 /> Tahrirlash
-                    </>
-                  )}
-                </Button>
-              </form>
-            </DrawerContent>
-          </Drawer>
-        )}
-      </>
-    );
-  } else {
-    return <Navigate to={"/login"} />;
-  }
+            <Button disabled={addLoading} type="submit">
+              {addLoading ? (
+                <>
+                  <Spinner /> Qo'shilmoqda...
+                </>
+              ) : (
+                <>
+                  <Plus /> Qo'shish
+                </>
+              )}
+            </Button>
+          </form>
+        </DrawerContent>
+      </Drawer>
+    </>
+  );
 }
