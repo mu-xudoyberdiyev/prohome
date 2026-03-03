@@ -128,9 +128,9 @@ export default function SalesManager() {
 
     if (req) {
       if (req.status === 200) {
-        const { safeUsers } = await req.json();
+        const { users } = await req.json();
 
-        setSalesmanagers(safeUsers);
+        setSalesmanagers(users);
       } else {
         setError("Xatolik yuz berdi qayta urunib ko'ring!");
       }

@@ -1,92 +1,92 @@
-import { Search, XIcon } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { Link, Navigate, useNavigate, useParams } from 'react-router-dom'
-import { Badge } from '../components/ui/badge'
-import { buttonVariants } from '../components/ui/button'
+import { Search, XIcon } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { Badge } from "../components/ui/badge";
+import { buttonVariants } from "../components/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from '../components/ui/tooltip'
-import { useAppStore } from '../zustand'
+} from "../components/ui/tooltip";
+import { useAppStore } from "../zustand";
 
-import { useLoadingBar } from 'react-top-loading-bar'
-import HomeDetails from '../components/HomeDetails'
-import { formatNumber } from '../lib/utils'
+import { useLoadingBar } from "react-top-loading-bar";
+import HomeDetails from "../components/HomeDetails";
+import { formatNumber } from "../lib/utils";
 
 const statuses = {
-  SOLD: 'bg-red-500',
-  RESERVED: 'bg-yellow-500',
-  EMPTY: 'bg-green-500',
-  NOT: 'bg-slate-400',
-}
+  SOLD: "bg-red-500",
+  RESERVED: "bg-yellow-500",
+  EMPTY: "bg-green-500",
+  NOT: "bg-slate-400",
+};
 
 const uzebekTranslate = {
-  SOLD: 'Sotilgan',
-  RESERVED: 'Bron qilingan',
+  SOLD: "Sotilgan",
+  RESERVED: "Bron qilingan",
   EMPTY: "Bo'sh",
-  NOT: 'Sotilmaydi',
-}
+  NOT: "Sotilmaydi",
+};
 
 export default function TjmDetails() {
-  const { id } = useParams()
-  const navigate = useNavigate()
-  const { user } = useAppStore()
-  const [home, setHome] = useState(null)
+  const { id } = useParams();
+  const navigate = useNavigate();
+  const { user } = useAppStore();
+  const [home, setHome] = useState(null);
 
   // Errors
 
-  const [notFound, setNotFound] = useState(null)
-  const [error, setError] = useState(null)
+  const [notFound, setNotFound] = useState(null);
+  const [error, setError] = useState(null);
 
   // Loadings
-  const [getLoading, setGetLoading] = useState(false)
+  const [getLoading, setGetLoading] = useState(false);
   const { start, complete } = useLoadingBar({
-    color: '#5ea500',
+    color: "#5ea500",
     height: 3,
-  })
+  });
 
   // API
   async function get() {
-    start()
-    let req
-    const token = JSON.parse(localStorage.getItem('user')).accessToken
-    setGetLoading(true)
+    start();
+    let req;
+    const token = localStorage.getItem("token");
+    setGetLoading(true);
     try {
       req = await fetch(
         import.meta.env.VITE_BASE_URL + `/api/v1/projects/${id}/structure`,
         {
           headers: {
-            Authorization: 'Bearer ' + token,
+            Authorization: "Bearer " + token,
           },
         },
-      )
+      );
     } catch {
-      setError('Tizimda nosozlik!')
+      setError("Tizimda nosozlik!");
     }
 
     if (req) {
       if (req.status === 200) {
-        const data = await req.json()
+        const data = await req.json();
 
-        setHome(data)
+        setHome(data);
       } else if (req.status === 404 || req.status === 400) {
-        setNotFound(true)
+        setNotFound(true);
       } else {
-        setError("Xatolik yuz berdi qayta urunib ko'ring!")
+        setError("Xatolik yuz berdi qayta urunib ko'ring!");
       }
     }
 
-    complete()
-    setGetLoading(false)
+    complete();
+    setGetLoading(false);
   }
 
   useEffect(() => {
-    get()
-  }, [])
+    get();
+  }, []);
 
   function handleActiveHome(id) {
-    navigate(`?details=${id}`)
+    navigate(`?details=${id}`);
   }
 
   if (user) {
@@ -102,7 +102,7 @@ export default function TjmDetails() {
             <p className="text-xl">prohome.uz</p>
           </div>
         </div>
-      )
+      );
     }
 
     if (error) {
@@ -116,7 +116,7 @@ export default function TjmDetails() {
             </p>
           </div>
         </div>
-      )
+      );
     }
 
     if (notFound) {
@@ -128,14 +128,14 @@ export default function TjmDetails() {
               Bunday turar joy majmuosi mavjud emas!
             </p>
             <Link
-              className={buttonVariants({ variant: 'secondary' })}
-              to={'/tjm'}
+              className={buttonVariants({ variant: "secondary" })}
+              to={"/tjm"}
             >
               <Search /> Mavjud turar joylar
             </Link>
           </div>
         </div>
-      )
+      );
     }
 
     return (
@@ -146,10 +146,10 @@ export default function TjmDetails() {
             <TooltipTrigger asChild>
               <Link
                 className={`${buttonVariants({
-                  size: 'icon',
-                  variant: 'destructive',
+                  size: "icon",
+                  variant: "destructive",
                 })} fixed top-0 right-0 z-50 rounded-none`}
-                to={'/tjm'}
+                to={"/tjm"}
               >
                 <XIcon />
               </Link>
@@ -169,7 +169,7 @@ export default function TjmDetails() {
                       <Badge className={`text-primary-foreground ${value}`}>
                         {uzebekTranslate[key]}
                       </Badge>
-                    )
+                    );
                   })}
                 </div>
               </div>
@@ -183,7 +183,7 @@ export default function TjmDetails() {
                       <div className="text-muted-foreground bg-background sticky left-10 w-58 p-1 text-xs">
                         <h3>{b}</h3>
                       </div>
-                    )
+                    );
                   })}
                 </div>
                 <div className="flex min-w-max flex-col">
@@ -216,7 +216,7 @@ export default function TjmDetails() {
                                           >
                                             <div
                                               onClick={() => {
-                                                handleActiveHome(h.id)
+                                                handleActiveHome(h.id);
                                               }}
                                               className={`flex min-h-8 min-w-8 shrink-0 items-center justify-center rounded border-5 border-transparent text-sm leading-none font-bold text-white transition-colors duration-400 ${
                                                 statuses[h.status]
@@ -224,16 +224,16 @@ export default function TjmDetails() {
                                                 h.id ==
                                                 new URL(
                                                   location.href,
-                                                ).searchParams.get('details')
-                                                  ? 'border-destructive! shadow'
-                                                  : ''
+                                                ).searchParams.get("details")
+                                                  ? "border-destructive! shadow"
+                                                  : ""
                                               }`}
                                             >
                                               {h.room}
                                             </div>
                                           </TooltipTrigger>
                                           <TooltipContent
-                                            className={'pointer-events-none'}
+                                            className={"pointer-events-none"}
                                           >
                                             <div className="flex flex-col">
                                               <div className="flex gap-1">
@@ -265,12 +265,12 @@ export default function TjmDetails() {
                                             </div>
                                           </TooltipContent>
                                         </Tooltip>
-                                      )
+                                      );
                                     },
                                   )}
                                 </div>
                               )
-                            )
+                            );
                           })}
                         </div>
 
@@ -281,7 +281,7 @@ export default function TjmDetails() {
                           </span>
                         </div>
                       </div>
-                    )
+                    );
                   })}
                 </div>
               </div>
@@ -290,8 +290,8 @@ export default function TjmDetails() {
           </section>
         </section>
       )
-    )
+    );
   } else {
-    return <Navigate to={'/login'} />
+    return <Navigate to={"/login"} />;
   }
 }

@@ -1,42 +1,30 @@
-import {
-  Box,
-  Calculator,
-  Check,
-  CircleAlert,
-  CircleMinus,
-  CirclePause,
-  CirclePlus,
-  Copy,
-  DollarSignIcon,
-  Handshake,
-  Info,
-  Lock,
-  MessageSquareWarning,
-  RefreshCcw,
-  Square,
-  User,
-  X,
-} from "lucide-react";
-import { Button, buttonVariants } from "../components/ui/button";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
 import {
   Popover,
   PopoverContent,
-  PopoverDescription,
-  PopoverHeader,
-  PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { PhotoProvider, PhotoView } from "react-photo-view";
+import {
+  Calculator,
+  Check,
+  CircleMinus,
+  CirclePlus,
+  Copy,
+  Info,
+  MessageSquareWarning,
+  X,
+} from "lucide-react";
 import { useEffect, useState } from "react";
+import { PhotoProvider, PhotoView } from "react-photo-view";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { Badge } from "./ui/badge";
-import { formatNumber } from "../lib/utils";
-import { NoiseBackground } from "./ui/noise-background";
 import { useLoadingBar } from "react-top-loading-bar";
-import { Spinner } from "./ui/spinner";
-import CalculatorTool from "./CalculatorTool";
+import { Button, buttonVariants } from "../components/ui/button";
 import { useClipboard } from "../hooks/use-clipboard";
+import { formatNumber } from "../lib/utils";
+import CalculatorTool from "./CalculatorTool";
+import { Badge } from "./ui/badge";
+import { NoiseBackground } from "./ui/noise-background";
+import { Spinner } from "./ui/spinner";
 
 const statuses = {
   SOLD: "bg-red-500",
@@ -73,12 +61,10 @@ export default function HomeDetails() {
     height: 3,
   });
 
-  console.log(home);
-
   async function get(id) {
     start();
     let req;
-    const token = JSON.parse(localStorage.getItem("user")).accessToken;
+    const token = localStorage.getItem("token");
     setGetLoading(true);
     try {
       req = await fetch(
@@ -87,7 +73,7 @@ export default function HomeDetails() {
           headers: {
             Authorization: "Bearer " + token,
           },
-        }
+        },
       );
     } catch {
       setError("Tizimda nosozlik!");
@@ -146,19 +132,19 @@ export default function HomeDetails() {
   return (
     <>
       <div
-        className={`bg-background relative transition-all duration-400 h-full overflow-y-scroll no-scrollbar ${
-          home ? "translate-x-0 w-112.5" : "translate-x-112.5 w-0"
-        } ${getLoading ? "opacity-50 pointer-events-none" : ""}`}
+        className={`bg-background no-scrollbar relative h-full overflow-y-scroll transition-all duration-400 ${
+          home ? "w-112.5 translate-x-0" : "w-0 translate-x-112.5"
+        } ${getLoading ? "pointer-events-none opacity-50" : ""}`}
       >
         {getLoading && (
-          <div className="inset-0 absolute z-10 flex items-center justify-center">
+          <div className="absolute inset-0 z-10 flex items-center justify-center">
             <Spinner />
           </div>
         )}
         {home && (
           <div className="pb-10">
-            <div className="bg-background sticky top-0 border-b z-10">
-              <div className="flex justify-between items-center pb-5 px-2">
+            <div className="bg-background sticky top-0 z-10 border-b">
+              <div className="flex items-center justify-between px-2 pb-5">
                 <Badge className={statuses[home.status]}>
                   {uzebekTranslate[home.status]}
                 </Badge>
@@ -178,7 +164,7 @@ export default function HomeDetails() {
 
               <div className="p-2">
                 {home.customer && (
-                  <div className="mb-5 animate-fade-in">
+                  <div className="animate-fade-in mb-5">
                     <Popover>
                       <PopoverTrigger asChild>
                         <Button
@@ -198,21 +184,21 @@ export default function HomeDetails() {
                           noiseIntensity={0.3}
                         >
                           <dl className="flex flex-col gap-2 font-mono text-xs">
-                            <div className="flex justify-between flex-row-reverse items-center py-1 px-3 bg-background rounded shadow">
+                            <div className="bg-background flex flex-row-reverse items-center justify-between rounded px-3 py-1 shadow">
                               <dt>ISM</dt>
                               <dd className="font-medium">
                                 {home.customer.firstName}
                               </dd>
                             </div>
-                            <div className="flex justify-between flex-row-reverse items-center py-1 px-3 bg-background rounded shadow">
+                            <div className="bg-background flex flex-row-reverse items-center justify-between rounded px-3 py-1 shadow">
                               <dt>FAMILIYA</dt>
                               <dd className="font-medium">
                                 {home.customer.lastName}
                               </dd>
                             </div>
-                            <div className="flex justify-between flex-row-reverse items-center py-1 px-3 bg-background rounded shadow">
+                            <div className="bg-background flex flex-row-reverse items-center justify-between rounded px-3 py-1 shadow">
                               <dt>TEL</dt>
-                              <dd className="font-medium relative flex items-center gap-1 select-none">
+                              <dd className="relative flex items-center gap-1 font-medium select-none">
                                 {home.customer.phone}
                                 <Button
                                   onClick={() => {
@@ -238,7 +224,7 @@ export default function HomeDetails() {
                 <div className="flex items-center justify-between">
                   <i className="font-mono">№ {home.houseNumber}</i>
 
-                  <span className="bg-primary text-primary-foreground px-2 py-1 leading-none text-xs">
+                  <span className="bg-primary text-primary-foreground px-2 py-1 text-xs leading-none">
                     {formatNumber(home.price * home.size)} UZS
                   </span>
                 </div>
@@ -246,22 +232,22 @@ export default function HomeDetails() {
             </div>
 
             {/* Images */}
-            <div className="p-2 mb-5">
+            <div className="mb-5 p-2">
               <PhotoProvider
                 toolbarRender={({ onScale, scale }) => {
                   return (
-                    <div className="flex mr-5">
-                      <div className="w-11 h-11 p-2.5 group">
+                    <div className="mr-5 flex">
+                      <div className="group h-11 w-11 p-2.5">
                         <CircleMinus
-                          className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
+                          className="cursor-pointer opacity-70 transition-opacity group-hover:opacity-100"
                           onClick={() => {
                             onScale(scale - 1);
                           }}
                         />
                       </div>
-                      <div className="w-11 h-11 p-2.5 group">
+                      <div className="group h-11 w-11 p-2.5">
                         <CirclePlus
-                          className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
+                          className="cursor-pointer opacity-70 transition-opacity group-hover:opacity-100"
                           onClick={() => {
                             onScale(scale + 1);
                           }}
@@ -278,7 +264,7 @@ export default function HomeDetails() {
                       type="image/avif"
                     />
                     <img
-                      className="w-full h-45 shadow"
+                      className="h-45 w-full shadow"
                       src={`/gallery/jpg/${home.image}.jpg`}
                       alt={home.size}
                     />
@@ -287,7 +273,7 @@ export default function HomeDetails() {
               </PhotoProvider>
             </div>
 
-            <div className="px-2 mb-5">
+            <div className="mb-5 px-2">
               <NoiseBackground
                 className={"rounded p-2"}
                 gradientColors={["bg-accent"]}
@@ -295,25 +281,25 @@ export default function HomeDetails() {
                 noiseIntensity={0.3}
               >
                 <dl className="flex flex-col gap-2 font-mono">
-                  <div className="flex justify-between flex-row-reverse items-center py-1 px-3 bg-background rounded shadow">
+                  <div className="bg-background flex flex-row-reverse items-center justify-between rounded px-3 py-1 shadow">
                     <dt className="text-xs">BLOK</dt>
                     <dd className="font-medium">{home.block}</dd>
                   </div>
-                  <div className="flex justify-between flex-row-reverse items-center py-1 px-3 bg-background rounded shadow">
+                  <div className="bg-background flex flex-row-reverse items-center justify-between rounded px-3 py-1 shadow">
                     <dt className="text-xs">QAVAT</dt>
                     <dd className="font-medium">{home.floorNumber}</dd>
                   </div>
-                  <div className="flex justify-between flex-row-reverse items-center py-1 px-3 bg-background rounded shadow">
+                  <div className="bg-background flex flex-row-reverse items-center justify-between rounded px-3 py-1 shadow">
                     <dt className="text-xs">MAYDON</dt>
                     <dd className="font-medium">
                       {home.size} m <sup>2</sup>
                     </dd>
                   </div>
-                  <div className="flex justify-between flex-row-reverse items-center py-1 px-3 bg-background rounded shadow">
+                  <div className="bg-background flex flex-row-reverse items-center justify-between rounded px-3 py-1 shadow">
                     <dt className="text-xs">XONA</dt>
                     <dd className="font-medium">{home.room}</dd>
                   </div>
-                  <div className="flex justify-between flex-row-reverse items-center py-1 px-3 bg-background rounded shadow">
+                  <div className="bg-background flex flex-row-reverse items-center justify-between rounded px-3 py-1 shadow">
                     <dt className="text-xs">
                       M<sup>2</sup>
                     </dt>
@@ -323,14 +309,14 @@ export default function HomeDetails() {
               </NoiseBackground>
             </div>
 
-            <div className="px-2 mb-5">
+            <div className="mb-5 px-2">
               {home.status === "NOT" && (
-                <Alert className="border-slate-300 bg-slate-100 dark:border-slate-700 dark:bg-slate-900 mb-10 relative">
+                <Alert className="relative mb-10 border-slate-300 bg-slate-100 dark:border-slate-700 dark:bg-slate-900">
                   <MessageSquareWarning className="text-slate-600 dark:text-slate-400" />
                   <AlertTitle className="text-slate-900 dark:text-slate-100">
                     Ushbu uy sotilmaydi
                   </AlertTitle>
-                  <AlertDescription className="text-slate-700 dark:text-slate-300 mb-3 text-xs">
+                  <AlertDescription className="mb-3 text-xs text-slate-700 dark:text-slate-300">
                     {home.description
                       ? home.description
                       : "Ushbu uy NTJ yoki boshqa sababga ko'ra sotilmaydi"}
