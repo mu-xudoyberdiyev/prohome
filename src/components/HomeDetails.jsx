@@ -49,6 +49,7 @@ export default function HomeDetails() {
   });
 
   const [home, setHome] = useState(null);
+  const [notFound, setNotFound] = useState(false);
 
   // Errors
   const [error, setError] = useState(false);
@@ -82,8 +83,8 @@ export default function HomeDetails() {
     if (req) {
       if (req.status === 200) {
         const data = await req.json();
-
         setHome(data);
+        setNotFound(false);
       } else if (req.status === 404 || req.status === 400) {
         setNotFound(true);
       } else {
@@ -126,6 +127,17 @@ export default function HomeDetails() {
       .finally(() => {
         setPdfLoading(false);
       });
+  }
+
+  if (notFound) {
+    return (
+      <div className="animate-fade-in flex h-full w-112.5 items-center justify-center">
+        <div className="tex-center flex w-full flex-col items-center">
+          <h3 className="mb-3 text-2xl font-medium">404</h3>
+          <p className="text-muted-foreground mb-5">Bunday uy mavjud emas!</p>
+        </div>
+      </div>
+    );
   }
 
   return (

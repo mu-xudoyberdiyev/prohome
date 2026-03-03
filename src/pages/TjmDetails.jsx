@@ -133,7 +133,7 @@ export default function TjmDetails() {
             </Link>
           </TooltipTrigger>
           <TooltipContent>
-            <p>Oynani yopish</p>
+            <p>Orqaga qaytish</p>
           </TooltipContent>
         </Tooltip>
 
