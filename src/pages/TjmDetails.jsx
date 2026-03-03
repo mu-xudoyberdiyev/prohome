@@ -10,7 +10,9 @@ import {
 } from "../components/ui/tooltip";
 
 import { useLoadingBar } from "react-top-loading-bar";
+import GeneralError from "../components/error/GeneralError";
 import HomeDetails from "../components/HomeDetails";
+import LogoLoader from "../components/loading/LogoLoader";
 import { formatNumber } from "../lib/utils";
 
 const statuses = {
@@ -88,32 +90,11 @@ export default function TjmDetails() {
   }
 
   if (getLoading) {
-    return (
-      <div className="bg-background fixed z-50 flex h-full w-full items-center justify-center">
-        <div className="flex animate-pulse items-center gap-4">
-          <img
-            className="h-20 w-20 rounded shadow"
-            src="/logo.png"
-            aria-hidden={true}
-          />
-          <p className="text-xl">prohome.uz</p>
-        </div>
-      </div>
-    );
+    return <LogoLoader />;
   }
 
   if (error) {
-    return (
-      <div className="animate-fade-in flex h-full w-full items-center justify-center">
-        <div className="flex w-full max-w-sm flex-col">
-          <h3 className="mb-3 text-2xl font-medium">{error}</h3>
-          <p className="text-muted-foreground mb-5">
-            Havotirlanmang, barchasi joyida. Ba'zida shunday xatoliklar ham
-            bo'lib turadi. Agar bu davomli bo'lsa, admin bilan aloqaga chiqing
-          </p>
-        </div>
-      </div>
-    );
+    return <GeneralError />;
   }
 
   if (notFound) {
@@ -144,8 +125,8 @@ export default function TjmDetails() {
             <Link
               className={`${buttonVariants({
                 size: "icon",
-                variant: "destructive",
-              })} fixed top-0 right-0 z-50 rounded-none`}
+                variant: "secondary",
+              })} absolute top-0 right-0 z-50 rounded-none border shadow`}
               to={"/tjm"}
             >
               <XIcon />

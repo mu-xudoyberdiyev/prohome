@@ -5,6 +5,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import {
+  ArrowRight,
   Calculator,
   Check,
   CircleMinus,
@@ -12,7 +13,6 @@ import {
   Copy,
   Info,
   MessageSquareWarning,
-  X,
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
@@ -157,7 +157,7 @@ export default function HomeDetails() {
                   variant="secondary"
                   size="icon-sm"
                 >
-                  <X />
+                  <ArrowRight />
                 </Button>
               </div>
 

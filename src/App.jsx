@@ -57,10 +57,7 @@ const roles = {
       path: "/tjm",
       element: <Tjm />,
     },
-    {
-      path: "/tjm/:id",
-      element: <TjmDetails />,
-    },
+
     {
       path: "/dashboard",
       element: <Dashboard />,
@@ -108,10 +105,7 @@ const roles = {
       path: "/tjm",
       element: <Tjm />,
     },
-    {
-      path: "/tjm/:id",
-      element: <TjmDetails />,
-    },
+
     {
       path: "/dashboard",
       element: <Dashboard />,
@@ -140,10 +134,7 @@ const roles = {
       path: "/tjm",
       element: <Tjm />,
     },
-    {
-      path: "/tjm/:id",
-      element: <TjmDetails />,
-    },
+
     {
       path: "/dashboard",
       element: <Dashboard />,
@@ -167,10 +158,7 @@ const roles = {
       path: "/tjm",
       element: <Tjm />,
     },
-    {
-      path: "/tjm/:id",
-      element: <TjmDetails />,
-    },
+
     {
       path: "/crm",
       element: <Crm />,
@@ -187,6 +175,10 @@ export default function App() {
       element: user ? <MainLayout /> : <Navigate to="/login" />,
       children: user ? roles[user.role] : [],
       errorElement: <Bug />,
+    },
+    {
+      path: "/tjm/:id",
+      element: <TjmDetails />,
     },
     {
       path: "/login",
