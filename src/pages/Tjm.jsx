@@ -61,7 +61,7 @@ export default function Tjm() {
   }
 
   return (
-    <section className="animate-fade-in h-full">
+    <section className="animate-fade-in h-full p-5">
       {projects.length > 0 ? (
         <div className="grid grid-cols-3 gap-3">
           {projects.map(({ name, id }, index) => {

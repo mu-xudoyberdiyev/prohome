@@ -4,98 +4,98 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from '@/components/ui/dialog'
-import { GlobeLockIcon, KeyRound, Palette, RefreshCcw } from 'lucide-react'
-import { useEffect, useState } from 'react'
-import { Navigate } from 'react-router-dom'
-import { toast } from 'sonner'
-import { Button } from '../components/ui/button'
-import { Input } from '../components/ui/input'
-import { Label } from '../components/ui/label'
-import { getFormData } from '../lib/utils'
-import { useAppStore } from '../zustand'
+} from "@/components/ui/dialog";
+import { GlobeLockIcon, KeyRound, Palette, RefreshCcw } from "lucide-react";
+import { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { toast } from "sonner";
+import { Button } from "../components/ui/button";
+import { Input } from "../components/ui/input";
+import { Label } from "../components/ui/label";
+import { getFormData } from "../lib/utils";
+import { useAppStore } from "../zustand";
 
 export default function Settings() {
-  const [dark, setDark] = useState(localStorage.getItem('theme') === 'dark')
-  const { user } = useAppStore()
-  const [updateModal, setUpdateModal] = useState(false)
-  const [updateLoading, setUpdateLoading] = useState(false)
+  const [dark, setDark] = useState(localStorage.getItem("theme") === "dark");
+  const { user } = useAppStore();
+  const [updateModal, setUpdateModal] = useState(false);
+  const [updateLoading, setUpdateLoading] = useState(false);
 
   // Update password
   async function updatePasssword(data) {
-    const token = JSON.parse(localStorage.getItem('user')).accessToken
-    setUpdateLoading(true)
+    const token = JSON.parse(localStorage.getItem("user")).accessToken;
+    setUpdateLoading(true);
     const req = await fetch(
-      import.meta.env.VITE_BASE_URL + '/api/v1/auth/reset-password',
+      import.meta.env.VITE_BASE_URL + "/api/v1/auth/reset-password",
       {
-        method: 'POST',
+        method: "POST",
         headers: {
-          'Content-Type': 'application/json',
-          Authorization: 'Bearer ' + token,
+          "Content-Type": "application/json",
+          Authorization: "Bearer " + token,
         },
         body: JSON.stringify({ ...data, email: user.email }),
       },
-    )
+    );
 
     if (req.status === 201) {
-      handleUpdateModal()
-      toast.success("Parolingiz o'zgartirildi!")
+      handleUpdateModal();
+      toast.success("Parolingiz o'zgartirildi!");
     } else if (req.status === 400) {
       toast.error("Parol eng kamida 6 belgidan iborat bo'lishi kerak!", {
-        position: 'top-center',
-      })
+        position: "top-center",
+      });
     } else if (req.status === 404) {
       toast.error("Amaldagi parol nato'g'ri yozilgan!", {
-        position: 'top-center',
-      })
+        position: "top-center",
+      });
     } else {
-      toast.error("Xatolik yuz berdi, qayta urunib ko'ring!")
+      toast.error("Xatolik yuz berdi, qayta urunib ko'ring!");
     }
 
-    setUpdateLoading(false)
+    setUpdateLoading(false);
   }
 
   function handleChange() {
-    setDark(!dark)
+    setDark(!dark);
   }
 
   function handleSubmit(evt) {
-    evt.preventDefault()
-    const result = getFormData(evt.currentTarget)
+    evt.preventDefault();
+    const result = getFormData(evt.currentTarget);
 
-    if (result.oldPassword.trim() === '') {
-      toast.info('Amaldagi parolni kiriting!', {
-        position: 'top-center',
-      })
-      evt.currentTarget.oldPassword.focus()
-    } else if (result.newPassword.trim() === '') {
-      toast.info('Yangi parolni kiriting!', {
-        position: 'top-center',
-      })
-      evt.currentTarget.newPassword.focus()
+    if (result.oldPassword.trim() === "") {
+      toast.info("Amaldagi parolni kiriting!", {
+        position: "top-center",
+      });
+      evt.currentTarget.oldPassword.focus();
+    } else if (result.newPassword.trim() === "") {
+      toast.info("Yangi parolni kiriting!", {
+        position: "top-center",
+      });
+      evt.currentTarget.newPassword.focus();
     } else {
-      updatePasssword(result)
+      updatePasssword(result);
     }
   }
 
   function handleUpdateModal() {
-    setUpdateModal(!updateModal)
+    setUpdateModal(!updateModal);
   }
 
   useEffect(() => {
     if (dark) {
-      document.documentElement.classList.add('dark')
-      localStorage.setItem('theme', 'dark')
+      document.documentElement.classList.add("dark");
+      localStorage.setItem("theme", "dark");
     } else {
-      document.documentElement.classList.remove('dark')
-      localStorage.setItem('theme', 'light')
+      document.documentElement.classList.remove("dark");
+      localStorage.setItem("theme", "light");
     }
-  }, [dark])
+  }, [dark]);
 
   if (user) {
     return (
       <>
-        <section className="animate-fade-in h-full">
+        <section className="animate-fade-in h-full p-5">
           <h2 className="mb-10 text-3xl font-bold">Sozlamalar</h2>
 
           <div className="h-full max-h-96 overflow-y-auto py-3 pr-2">
@@ -165,8 +165,8 @@ export default function Settings() {
           </DialogContent>
         </Dialog>
       </>
-    )
+    );
   } else {
-    return <Navigate to={'/login'} />
+    return <Navigate to={"/login"} />;
   }
 }

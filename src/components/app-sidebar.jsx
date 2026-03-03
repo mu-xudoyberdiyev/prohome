@@ -13,7 +13,6 @@ import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
-  SidebarRail,
 } from "@/components/ui/sidebar";
 import {
   BrickWall,
@@ -86,6 +85,7 @@ export function AppSidebar({ ...props }) {
           <strong className="font-medium">{user.role}</strong>
         </Link>
       </SidebarHeader>
+
       <SidebarContent>
         <div className="flex h-full flex-col p-2">
           {routes[user.role].map(({ url, text, icon }, index) => {
@@ -131,7 +131,6 @@ export function AppSidebar({ ...props }) {
           </AlertDialog>
         </div>
       </SidebarContent>
-      <SidebarRail />
     </Sidebar>
   );
 }

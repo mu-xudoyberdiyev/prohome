@@ -141,7 +141,7 @@ export default function AddCompany() {
   }
 
   return (
-    <section className="animate-fade-in h-full">
+    <section className="animate-fade-in h-full p-5">
       <Link
         className={`${buttonVariants({ variant: "outline" })} mb-10`}
         to={"/company"}

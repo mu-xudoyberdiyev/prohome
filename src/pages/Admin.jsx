@@ -230,7 +230,7 @@ export default function Admin() {
 
   return (
     <>
-      <section className="animate-fade-in relative h-full">
+      <section className="animate-fade-in relative h-full p-5">
         {/* Header  */}
         <header className="bg-primary/2 mb-10 flex items-center justify-between rounded border p-3">
           <h2 className="text-2xl font-bold">Adminlar</h2>

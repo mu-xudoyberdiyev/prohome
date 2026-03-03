@@ -78,7 +78,7 @@ export default function Company() {
   }
 
   return (
-    <section className="animate-fade-in h-full">
+    <section className="animate-fade-in h-full p-5">
       <header className="bg-primary/2 mb-10 flex items-center justify-between rounded border p-3">
         <h2 className="text-2xl font-bold">Kompaniyalar</h2>
 

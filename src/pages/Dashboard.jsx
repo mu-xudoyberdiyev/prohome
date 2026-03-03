@@ -67,7 +67,7 @@ export default function Dashboard() {
   }
 
   return (
-    <section className="animate-fade-in h-full p-2">
+    <section className="animate-fade-in h-full p-7">
       <div className="relative w-full gap-5 rounded border px-3 py-6 select-none">
         <h3 className="bg-background absolute top-0 left-5 z-50 flex -translate-y-2/4 gap-2 px-2 font-bold">
           <Rocket /> Holat

@@ -346,7 +346,7 @@ export default function CompanyDetails() {
   // RENDER
   return (
     details && (
-      <section className="animate-fade-in h-full">
+      <section className="animate-fade-in h-full p-5">
         <div className="mb-10 flex items-center justify-between">
           <Link
             className={`${buttonVariants({ variant: "outline" })}`}
