@@ -1,9 +1,9 @@
-import { Label } from "@radix-ui/react-label"
-import { Eye, EyeClosed } from "lucide-react"
-import { useState } from "react"
-import { Navigate } from "react-router-dom"
-import { toast } from "sonner"
-import { Button } from "../components/ui/button"
+import { Label } from "@radix-ui/react-label";
+import { Eye, EyeClosed } from "lucide-react";
+import { useState } from "react";
+import { Navigate } from "react-router-dom";
+import { toast } from "sonner";
+import { Button } from "../components/ui/button";
 import {
   Card,
   CardContent,
@@ -11,22 +11,22 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../components/ui/card"
-import { Input } from "../components/ui/input"
-import { Spinner } from "../components/ui/spinner"
-import { useBoolean } from "../hooks/use-boolean"
-import { getFormData } from "../lib/utils"
-import { useAppStore } from "../zustand"
+} from "../components/ui/card";
+import { Input } from "../components/ui/input";
+import { Spinner } from "../components/ui/spinner";
+import { useBoolean } from "../hooks/use-boolean";
+import { getFormData } from "../lib/utils";
+import { useAppStore } from "../zustand";
 
 export default function Login() {
-  const { user, setUser } = useAppStore()
-  const [loading, setLoading] = useState(false)
+  const { user, setUser } = useAppStore();
+  const [loading, setLoading] = useState(false);
 
-  const [passwordShow, { toggle }] = useBoolean()
+  const [passwordShow, { toggle }] = useBoolean();
 
   async function login(userData) {
-    let req
-    setLoading(true)
+    let req;
+    setLoading(true);
 
     try {
       req = await fetch(import.meta.env.VITE_BASE_URL + "/api/v1/auth/login", {
@@ -35,40 +35,38 @@ export default function Login() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify(userData),
-      })
+      });
     } catch (e) {
-      console.log(e)
-
-      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!")
+      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!");
     }
 
     if (req) {
       if (req.status === 201) {
-        const res = await req.json()
-        setUser(res)
-        toast.success("Tizimga xush kelibsiz!")
+        const res = await req.json();
+        setUser(res);
+        toast.success("Tizimga xush kelibsiz!");
       } else if (req.status === 404 || req.status === 400) {
-        toast.error("Kiritilgan email yoki parol nato'g'ri")
+        toast.error("Kiritilgan email yoki parol nato'g'ri");
       } else {
-        toast.error("Xatolik yuz berdi, qayta urunib ko'ring!")
+        toast.error("Xatolik yuz berdi, qayta urunib ko'ring!");
       }
     }
 
-    setLoading(false)
+    setLoading(false);
   }
 
   function handleSubmit(evt) {
-    evt.preventDefault()
-    const userData = getFormData(evt.currentTarget)
+    evt.preventDefault();
+    const userData = getFormData(evt.currentTarget);
 
     if (userData.email.trim() === "") {
-      toast.info("Email kiriting!")
-      evt.currentTarget.email.focus()
+      toast.info("Email kiriting!");
+      evt.currentTarget.email.focus();
     } else if (userData.password.trim() === "") {
-      toast.info("Parol kiriting!")
-      evt.currentTarget.password.focus()
+      toast.info("Parol kiriting!");
+      evt.currentTarget.password.focus();
     } else {
-      login(userData)
+      login(userData);
     }
   }
 
@@ -143,8 +141,8 @@ export default function Login() {
           </Card>
         </form>
       </section>
-    )
+    );
   } else {
-    return <Navigate to={"/"} />
+    return <Navigate to={"/"} />;
   }
 }

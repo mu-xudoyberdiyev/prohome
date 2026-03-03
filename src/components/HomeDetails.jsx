@@ -82,7 +82,6 @@ export default function HomeDetails() {
     if (req) {
       if (req.status === 200) {
         const data = await req.json();
-        console.log(data);
 
         setHome(data);
       } else if (req.status === 404 || req.status === 400) {

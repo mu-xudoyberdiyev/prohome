@@ -1,22 +1,5 @@
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-  InputGroupText,
-} from "./ui/input-group";
-import { Label } from "./ui/label";
-import { Input } from "./ui/input";
-import { NativeSelect, NativeSelectOption } from "./ui/native-select";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import {
-  formatNumber,
-  formatNumberWithPercent,
-  getFormData,
-  normalizePeriod,
-} from "../lib/utils";
-import { Spinner } from "./ui/spinner";
-import { NoiseBackground } from "./ui/noise-background";
-import { useEffect, useRef, useState } from "react";
+import { Drawer, DrawerClose, DrawerContent } from "@/components/ui/drawer";
 import {
   Field,
   FieldContent,
@@ -25,14 +8,13 @@ import {
   FieldTitle,
 } from "@/components/ui/field";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Drawer, DrawerClose, DrawerContent } from "@/components/ui/drawer";
 import { SparklesText } from "@/components/ui/sparkles-text";
+import confetti from "canvas-confetti";
 import {
   BadgePercent,
   Bolt,
   Calculator,
   CalendarDays,
-  CheckCircle2Icon,
   CircleCheckBig,
   CircleDollarSign,
   CircleMinus,
@@ -42,17 +24,33 @@ import {
   HandCoins,
   Layers2,
   Lock,
-  Ribbon,
   X,
 } from "lucide-react";
-import { Button, buttonVariants } from "./ui/button";
+import { useEffect, useRef, useState } from "react";
 import { PhotoProvider, PhotoView } from "react-photo-view";
 import { toast } from "sonner";
-import confetti from "canvas-confetti";
 import useSound from "../hooks/use-sound";
+import {
+  formatNumber,
+  formatNumberWithPercent,
+  getFormData,
+  normalizePeriod,
+} from "../lib/utils";
 import AppartmentTimeLine from "./AppartmentTimeLine";
 import { Badge } from "./ui/badge";
+import { Button, buttonVariants } from "./ui/button";
+import { Input } from "./ui/input";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupText,
+} from "./ui/input-group";
+import { Label } from "./ui/label";
+import { NativeSelect, NativeSelectOption } from "./ui/native-select";
+import { NoiseBackground } from "./ui/noise-background";
 import { Pointer } from "./ui/pointer";
+import { Spinner } from "./ui/spinner";
 
 const states = {
   BOX: "Karobka",
@@ -96,7 +94,7 @@ export default function CalculatorTool({ home }) {
   const { sound } = useSound("/win.mp3");
   const [open, setOpen] = useState(
     window.location.search.includes("details=") &&
-      window.location.hash === "#calculator"
+      window.location.hash === "#calculator",
   );
   const [calcResult, setCalcResult] = useState({
     monthlyPayment: 0,
@@ -118,7 +116,7 @@ export default function CalculatorTool({ home }) {
   //   API
   async function calc(url) {
     let req;
-    const token = JSON.parse(localStorage.getItem("user")).accessToken;
+    const token = localStorage.getItem("token");
     setCalcLoading(true);
     try {
       req = await fetch(url, {
@@ -133,15 +131,12 @@ export default function CalculatorTool({ home }) {
     if (req) {
       if (req.status === 200) {
         const data = await req.json();
-        console.log(data);
-
         setCalcResult(data);
-
         if (data.bonus.length > 0) win();
       } else if (req.status === 400) {
         toast.error(
           "Boshlang'ich to'lov uyning umumiy summasidan katta bo'lishi mumkin emas!",
-          { position: "bottom-left" }
+          { position: "bottom-left" },
         );
       } else {
         toast.error("Xatolik yuz berdi qayta urunib ko'ring!", {
@@ -184,22 +179,16 @@ export default function CalculatorTool({ home }) {
   function handleCalc(evt) {
     evt.preventDefault();
     const url = new URL(
-      import.meta.env.VITE_BASE_URL + `/api/v1/room/${home.id}/calculate`
+      import.meta.env.VITE_BASE_URL + `/api/v1/room/${home.id}/calculate`,
     );
     const formData = getFormData(evt.currentTarget);
 
     Object.entries(formData).forEach(([key, value]) => {
-      console.log(key, value.replaceAll(" ", ""));
-
       url.searchParams.append(key, value.replaceAll(/\s+/g, ""));
     });
 
-    console.log(url.href);
-
     calc(url.href);
   }
-
-  console.log(home);
 
   function handlePeriod(p) {
     setPeriod(p);
@@ -287,53 +276,53 @@ export default function CalculatorTool({ home }) {
           <X />
         </DrawerClose>
 
-        <div className="py-15 px-10 h-full flex gap-10">
+        <div className="flex h-full gap-10 px-10 py-15">
           <div
-            className={`w-[65%] h-full overflow-y-auto no-scrollbar relative transition-opacity ${
-              calcLoading ? "opacity-50 pointer-events-none" : ""
+            className={`no-scrollbar relative h-full w-[65%] overflow-y-auto transition-opacity ${
+              calcLoading ? "pointer-events-none opacity-50" : ""
             }`}
           >
             {calcLoading && (
-              <div className="inset-0 absolute z-10 flex items-center justify-center">
+              <div className="absolute inset-0 z-10 flex items-center justify-center">
                 <Spinner />
               </div>
             )}
 
-            <div className="border px-3 py-6 rounded animate-fade-in w-full bg-background mb-8 sticky top-2 z-10">
-              <h3 className="absolute left-5 top-0 -translate-y-2/4 bg-background text-muted-foreground px-2 flex gap-2 rounded">
+            <div className="animate-fade-in bg-background sticky top-2 z-10 mb-8 w-full rounded border px-3 py-6">
+              <h3 className="bg-background text-muted-foreground absolute top-0 left-5 flex -translate-y-2/4 gap-2 rounded px-2">
                 Oyiga
               </h3>
-              <h2 className={"text-4xl font-mono font-bold"}>
+              <h2 className={"font-mono text-4xl font-bold"}>
                 {formatNumber(calcResult.monthlyPayment)}
               </h2>
             </div>
 
             <div className="animate-fade-in mb-5">
               {calcResult.bonus.length > 0 && (
-                <div className="w-full rounded overflow-hidden text-primary-foreground mb-5 flex border-3 border-green-500 animate-fade-in">
-                  <div className="bg-green-500 p-2 flex items-center justify-center font-bold text-4xl">
+                <div className="text-primary-foreground animate-fade-in mb-5 flex w-full overflow-hidden rounded border-3 border-green-500">
+                  <div className="flex items-center justify-center bg-green-500 p-2 text-4xl font-bold">
                     Bonus:
                   </div>
 
-                  <div className="w-full px-10 py-2 flex gap-5">
+                  <div className="flex w-full gap-5 px-10 py-2">
                     <PhotoProvider
                       onVisibleChange={(visible) => {
                         setGalleryShow(visible);
                       }}
                       toolbarRender={({ onScale, scale }) => {
                         return (
-                          <div className="flex mr-5">
-                            <div className="w-11 h-11 p-2.5 group">
+                          <div className="mr-5 flex">
+                            <div className="group h-11 w-11 p-2.5">
                               <CircleMinus
-                                className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
+                                className="cursor-pointer opacity-70 transition-opacity group-hover:opacity-100"
                                 onClick={() => {
                                   onScale(scale - 1);
                                 }}
                               />
                             </div>
-                            <div className="w-11 h-11 p-2.5 group">
+                            <div className="group h-11 w-11 p-2.5">
                               <CirclePlus
-                                className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
+                                className="cursor-pointer opacity-70 transition-opacity group-hover:opacity-100"
                                 onClick={() => {
                                   onScale(scale + 1);
                                 }}
@@ -346,7 +335,7 @@ export default function CalculatorTool({ home }) {
                       {calcResult.bonus.map((b) => {
                         return (
                           <PhotoView src={`/bonus/png/${b}.png`}>
-                            <div className="flex flex-col items-center gap-1 w-2/4">
+                            <div className="flex w-2/4 flex-col items-center gap-1">
                               <picture>
                                 <source
                                   srcset={`/bonus/avif/${b}.avif`}
@@ -375,7 +364,7 @@ export default function CalculatorTool({ home }) {
                   containerClassName="w-full p-4 rounded mb-10"
                   speed={0.4}
                 >
-                  <div className="p-2 bg-background inline-flex items-end w-full gap-5 rounded">
+                  <div className="bg-background inline-flex w-full items-end gap-5 rounded p-2">
                     <CircleCheckBig
                       className="text-green-600"
                       width={40}
@@ -390,79 +379,79 @@ export default function CalculatorTool({ home }) {
               ) : null}
 
               <div id="shu">
-                <div className="grid grid-cols-[6fr_2fr_3fr] gap-2 mb-2">
-                  <div className="border p-2 w-full rounded bg-primary/2">
-                    <div className="flex items-center gap-1 mb-2">
+                <div className="mb-2 grid grid-cols-[6fr_2fr_3fr] gap-2">
+                  <div className="bg-primary/2 w-full rounded border p-2">
+                    <div className="mb-2 flex items-center gap-1">
                       <CircleDollarSign />
                       <span className="text-muted-foreground text-xs">
                         Umumiy narx
                       </span>
                     </div>
-                    <h4 className="text-lg font-mono font-medium">
+                    <h4 className="font-mono text-lg font-medium">
                       {calcResult.price
                         ? formatNumber(calcResult.price * calcResult.size)
                         : "---"}{" "}
                     </h4>
                   </div>
-                  <div className="border p-2 w-full rounded bg-primary/2">
-                    <div className="flex items-center gap-1 mb-2">
+                  <div className="bg-primary/2 w-full rounded border p-2">
+                    <div className="mb-2 flex items-center gap-1">
                       <CalendarDays />
                       <span className="text-muted-foreground text-xs">
                         Muddat
                       </span>
                     </div>
-                    <h4 className="text-lg font-mono font-medium">
+                    <h4 className="font-mono text-lg font-medium">
                       {calcResult.months} oy
                     </h4>
                   </div>
                   {states[calcResult.state] && (
-                    <div className="border p-2 w-full rounded bg-primary/2">
-                      <div className="flex items-center gap-1 mb-2">
+                    <div className="bg-primary/2 w-full rounded border p-2">
+                      <div className="mb-2 flex items-center gap-1">
                         <Grid2X2 />
                         <span className="text-muted-foreground text-xs">
                           O'lchami
                         </span>
                       </div>
-                      <h4 className="text-lg font-mono font-medium">
+                      <h4 className="font-mono text-lg font-medium">
                         {calcResult.size} m<sup>2</sup>
                       </h4>
                     </div>
                   )}
                 </div>
 
-                <div className="grid grid-cols-[1fr_3fr_2fr] gap-2 mb-2">
+                <div className="mb-2 grid grid-cols-[1fr_3fr_2fr] gap-2">
                   {states[calcResult.state] && (
-                    <div className="border p-2 w-full rounded bg-primary/2">
-                      <div className="flex items-center gap-1 mb-2">
+                    <div className="bg-primary/2 w-full rounded border p-2">
+                      <div className="mb-2 flex items-center gap-1">
                         <Bolt />
                         <span className="text-muted-foreground text-xs">
                           Holati
                         </span>
                       </div>
-                      <h4 className="text-lg font-mono font-medium">
+                      <h4 className="font-mono text-lg font-medium">
                         {states[calcResult.state]}
                       </h4>
                     </div>
                   )}
-                  <div className="border p-2 w-full rounded bg-primary/2">
-                    <div className="flex items-center gap-1 mb-2">
+                  <div className="bg-primary/2 w-full rounded border p-2">
+                    <div className="mb-2 flex items-center gap-1">
                       <HandCoins />
                       <span className="text-muted-foreground text-xs">
                         Boshlang'ich to'lov
                       </span>
                     </div>
-                    <h4 className="text-lg font-mono font-medium">
+                    <h4 className="font-mono text-lg font-medium">
                       {formatNumber(calcResult.downPayment)}
                     </h4>
                   </div>
-                  <div className="border p-2 w-full rounded bg-primary/2">
-                    <div className="flex items-center gap-1 mb-2">
+                  <div className="bg-primary/2 w-full rounded border p-2">
+                    <div className="mb-2 flex items-center gap-1">
                       <Coins />
                       <span className="text-muted-foreground text-xs">
                         M<sup>2</sup>
                       </span>
                     </div>
-                    <h4 className="text-lg font-mono font-medium">
+                    <h4 className="font-mono text-lg font-medium">
                       {formatNumber(home.price)}
                     </h4>
                   </div>
@@ -476,18 +465,18 @@ export default function CalculatorTool({ home }) {
                 }}
                 toolbarRender={({ onScale, scale }) => {
                   return (
-                    <div className="flex mr-5">
-                      <div className="w-11 h-11 p-2.5 group">
+                    <div className="mr-5 flex">
+                      <div className="group h-11 w-11 p-2.5">
                         <CircleMinus
-                          className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
+                          className="cursor-pointer opacity-70 transition-opacity group-hover:opacity-100"
                           onClick={() => {
                             onScale(scale - 1);
                           }}
                         />
                       </div>
-                      <div className="w-11 h-11 p-2.5 group">
+                      <div className="group h-11 w-11 p-2.5">
                         <CirclePlus
-                          className="opacity-70 group-hover:opacity-100 cursor-pointer transition-opacity"
+                          className="cursor-pointer opacity-70 transition-opacity group-hover:opacity-100"
                           onClick={() => {
                             onScale(scale + 1);
                           }}
@@ -513,31 +502,31 @@ export default function CalculatorTool({ home }) {
               </PhotoProvider>
             </div>
 
-            <Alert className="border-amber-300 bg-amber-50 dark:border-amber-800 dark:bg-amber-950 mb-10 relative">
+            <Alert className="relative mb-10 border-amber-300 bg-amber-50 dark:border-amber-800 dark:bg-amber-950">
               <Layers2 className="text-amber-600 dark:text-amber-400" />
               <AlertTitle className="text-amber-900 dark:text-amber-100">
                 Infra tuzilma
               </AlertTitle>
-              <AlertDescription className="text-amber-800 dark:text-amber-200 mb-3">
+              <AlertDescription className="mb-3 text-amber-800 dark:text-amber-200">
                 Bino maktab, bog'cha, masjid va 10 dan ziyod savdo-sotiq
                 do'konlariga judayam yaqin joylashgan.
               </AlertDescription>
-              <AlertDescription className="text-amber-800 dark:text-amber-200 flex items-center">
+              <AlertDescription className="flex items-center text-amber-800 dark:text-amber-200">
                 <CircleCheckBig size={12} /> Maktab
               </AlertDescription>
-              <AlertDescription className="text-amber-800 dark:text-amber-200 flex items-center">
+              <AlertDescription className="flex items-center text-amber-800 dark:text-amber-200">
                 <CircleCheckBig size={12} /> Masjid
               </AlertDescription>
-              <AlertDescription className="text-amber-800 dark:text-amber-200 flex items-center">
+              <AlertDescription className="flex items-center text-amber-800 dark:text-amber-200">
                 <CircleCheckBig size={12} /> Bog'cha
               </AlertDescription>
-              <AlertDescription className="text-amber-800 dark:text-amber-200 flex items-center">
+              <AlertDescription className="flex items-center text-amber-800 dark:text-amber-200">
                 <CircleCheckBig size={12} /> Do'konlar
               </AlertDescription>
-              <AlertDescription className="text-amber-800 dark:text-amber-200 flex items-center">
+              <AlertDescription className="flex items-center text-amber-800 dark:text-amber-200">
                 <CircleCheckBig size={12} /> Yonilg'i shaxobchasi
               </AlertDescription>
-              <AlertDescription className="text-amber-800 dark:text-amber-200 flex items-center">
+              <AlertDescription className="flex items-center text-amber-800 dark:text-amber-200">
                 <CircleCheckBig size={12} /> Mashina yuvish joyi
               </AlertDescription>
             </Alert>
@@ -546,15 +535,15 @@ export default function CalculatorTool({ home }) {
             <AppartmentTimeLine />
           </div>
 
-          <div className="w-[35%] h-full overflow-y-auto flex flex-col justify-between no-scrollbar px-1">
+          <div className="no-scrollbar flex h-full w-[35%] flex-col justify-between overflow-y-auto px-1">
             <form
               onSubmit={handleCalc}
-              className="w-full mx-auto flex flex-col gap-5 pb-10"
+              className="mx-auto flex w-full flex-col gap-5 pb-10"
             >
               {showDiscount && (
                 <div className="py-5">
-                  <div className="border border-primary relative px-3 py-6 rounded animate-fade-in">
-                    <h3 className="absolute left-5 top-0 -translate-y-2/4  font-bold px-2 text-white flex gap-2 bg-primary p-0.5 rounded">
+                  <div className="border-primary animate-fade-in relative rounded border px-3 py-6">
+                    <h3 className="bg-primary absolute top-0 left-5 flex -translate-y-2/4 gap-2 rounded p-0.5 px-2 font-bold text-white">
                       <BadgePercent /> Chegirma
                     </h3>
                     <div className="flex w-full gap-5">
@@ -639,7 +628,7 @@ export default function CalculatorTool({ home }) {
                           onClick={() => {
                             handlePeriod(p);
                           }}
-                          className={`inline-flex items-center justify-center w-9 rounded-full cursor-pointer ${
+                          className={`inline-flex w-9 cursor-pointer items-center justify-center rounded-full ${
                             period === p
                               ? "bg-primary text-primary-foreground"
                               : "border"
@@ -695,7 +684,7 @@ export default function CalculatorTool({ home }) {
                   return (
                     code !== home.status && (
                       <Button
-                        className={`${bg} hover:${bg} hover:opacity-90  text-primary-foreground hover:text-primary-foreground ${
+                        className={`${bg} hover:${bg} text-primary-foreground hover:text-primary-foreground hover:opacity-90 ${
                           home.customer && home.customer.canBeSold === false
                             ? "pointer-events-none"
                             : ""

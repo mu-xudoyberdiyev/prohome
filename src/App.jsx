@@ -15,6 +15,7 @@ import Crm from "./pages/Crm";
 import Dashboard from "./pages/Dashboard";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import NotFound from "./pages/NotFound";
 import Rop from "./pages/Rop";
 import SalesManager from "./pages/SalesManager";
 import Settings from "./pages/Settings";
@@ -55,6 +56,10 @@ const roles = {
     {
       path: "/tjm",
       element: <Tjm />,
+    },
+    {
+      path: "/tjm/:id",
+      element: <TjmDetails />,
     },
     {
       path: "/dashboard",
@@ -104,6 +109,10 @@ const roles = {
       element: <Tjm />,
     },
     {
+      path: "/tjm/:id",
+      element: <TjmDetails />,
+    },
+    {
       path: "/dashboard",
       element: <Dashboard />,
     },
@@ -132,6 +141,10 @@ const roles = {
       element: <Tjm />,
     },
     {
+      path: "/tjm/:id",
+      element: <TjmDetails />,
+    },
+    {
       path: "/dashboard",
       element: <Dashboard />,
     },
@@ -155,6 +168,10 @@ const roles = {
       element: <Tjm />,
     },
     {
+      path: "/tjm/:id",
+      element: <TjmDetails />,
+    },
+    {
       path: "/crm",
       element: <Crm />,
     },
@@ -176,8 +193,8 @@ export default function App() {
       element: <Login />,
     },
     {
-      path: "/tjm/:id",
-      element: <TjmDetails />,
+      path: "*",
+      element: <NotFound user={user} />,
     },
   ]);
 

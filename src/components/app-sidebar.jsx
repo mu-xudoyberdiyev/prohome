@@ -24,7 +24,7 @@ import {
   User,
   UsersRound,
 } from "lucide-react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useAppStore } from "../zustand";
 import { Button, buttonVariants } from "./ui/button";
@@ -66,9 +66,11 @@ const routes = {
 export function AppSidebar({ ...props }) {
   const { user, setUser } = useAppStore();
   const currentPath = useLocation().pathname;
+  const navigate = useNavigate();
 
   function handleLogout() {
     setUser(null);
+    navigate("/login", { replace: true });
     toast.info("Tizimdan chiqdingiz!");
   }
 

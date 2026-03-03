@@ -49,6 +49,7 @@ import { getFormData } from "../lib/utils";
 
 export default function CompanyDetails() {
   const { pathname } = useLocation();
+
   const navigate = useNavigate();
   const id = pathname.split("/").at(-1);
 
@@ -92,7 +93,6 @@ export default function CompanyDetails() {
     if (req) {
       if (req.status === 200) {
         const { data } = await req.json();
-        console.log(data);
 
         setDetails({
           ...data,
