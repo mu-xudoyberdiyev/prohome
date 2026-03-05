@@ -3,7 +3,7 @@ import { Eye, EyeClosed } from "lucide-react";
 import { useCallback, useRef, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { toast } from "sonner";
-import { Button } from "../components/ui/button";
+import { Button } from "@/shared/ui/button";
 import {
   Card,
   CardContent,
@@ -11,12 +11,12 @@ import {
   CardFooter,
   CardHeader,
   CardTitle,
-} from "../components/ui/card";
-import { Input } from "../components/ui/input";
-import { Spinner } from "../components/ui/spinner";
-import { useBoolean } from "../hooks/use-boolean";
-import { getFormData } from "../lib/utils";
-import { useAppStore } from "../zustand";
+} from "@/shared/ui/card";
+import { Input } from "@/shared/ui/input";
+import { Spinner } from "@/shared/ui/spinner";
+import { useBoolean } from "@/shared/hooks/use-boolean";
+import { getFormData } from "@/shared/lib/utils";
+import { useAppStore } from "@/entities/session/model";
 
 const LOGIN_API = `${import.meta.env.VITE_BASE_URL}/api/v1/auth/login`;
 const SUCCESS_STATUS = 201;

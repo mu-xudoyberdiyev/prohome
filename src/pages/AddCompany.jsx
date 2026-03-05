@@ -3,78 +3,96 @@ import {
   FieldContent,
   FieldLabel,
   FieldTitle,
-} from "../components/ui/field";
+} from "@/shared/ui/field";
 import { ArrowLeft, Plus, PlusCircle, RefreshCcw, Trash } from "lucide-react";
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { toast } from "sonner";
-import { Button, buttonVariants } from "../components/ui/button";
-import { Checkbox } from "../components/ui/checkbox";
-import { Input } from "../components/ui/input";
+import { Button, buttonVariants } from "@/shared/ui/button";
+import { Checkbox } from "@/shared/ui/checkbox";
+import { Input } from "@/shared/ui/input";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
   InputGroupText,
-} from "../components/ui/input-group";
-import { Label } from "../components/ui/label";
-import { Textarea } from "../components/ui/textarea";
-import { apiRequest } from "../lib/api";
-import { getFormData } from "../lib/utils";
+} from "@/shared/ui/input-group";
+import { Label } from "@/shared/ui/label";
+import { Textarea } from "@/shared/ui/textarea";
+import { apiRequest } from "@/shared/lib/api";
+import { getFormData } from "@/shared/lib/utils";
 
-const TOAST_OPTS = { position: "top-right" };
 const UZ_PHONE = /^\+998\d{9}$/;
 
-function validateCompanyForm(form, data) {
-  const name = (data.name ?? "").trim();
-  const phone = (data.phoneNumber ?? "").trim();
-  const fullPhone = phone.startsWith("+") ? phone : `+998${phone}`;
-  const managerName = (data.managerName ?? "").trim();
-  const description = (data.description ?? "").trim();
-
-  if (!name) {
-    form.name?.focus();
-    toast.info("Kompaniya nomini kiriting!", TOAST_OPTS);
-    return false;
-  }
-  if (!phone) {
-    form.phoneNumber?.focus();
-    toast.info("Telefon raqamni kiriting!", TOAST_OPTS);
-    return false;
-  }
-  if (!UZ_PHONE.test(fullPhone)) {
-    form.phoneNumber?.focus();
-    toast.info("Telefon raqam +998xxxxxxxxx formatda bo'lishi kerak!", TOAST_OPTS);
-    return false;
-  }
-  if (!managerName) {
-    form.managerName?.focus();
-    toast.info("Boshqaruvchi ismini kiriting!", TOAST_OPTS);
-    return false;
-  }
-  if (!description) {
-    form.description?.focus();
-    toast.info("Kompaniya uchun izoh yozing!", TOAST_OPTS);
-    return false;
-  }
-  if (!data.permissions?.length) {
-    toast.info("Kompaniya uchun ruxsatlarni belgilang!", TOAST_OPTS);
-    return false;
-  }
-  return true;
-}
+const EMPTY_ERRORS = {
+  name: null,
+  phoneNumber: null,
+  managerName: null,
+  description: null,
+  permissions: null,
+};
 
 export default function AddCompany() {
   const navigate = useNavigate();
   const [logo, setLogo] = useState({ file: null, src: null });
   const [addLoading, setAddLoading] = useState(false);
+  const [errors, setErrors] = useState(EMPTY_ERRORS);
+
+  useEffect(
+    () => () => {
+      if (logo.src?.startsWith("blob:")) URL.revokeObjectURL(logo.src);
+    },
+    [logo.src]
+  );
+
+  const formatPhone = useCallback((phone) => {
+    if (!phone) return "";
+    const trimmed = phone.trim();
+    return trimmed.startsWith("+") ? trimmed : `+998${trimmed}`;
+  }, []);
+
+  const validateCompanyForm = useCallback(
+    (form, data) => {
+      const next = { ...EMPTY_ERRORS };
+      const name = (data.name ?? "").trim();
+      const phone = (data.phoneNumber ?? "").trim();
+      const fullPhone = formatPhone(phone);
+      const managerName = (data.managerName ?? "").trim();
+      const description = (data.description ?? "").trim();
+
+      if (!name) next.name = "Kompaniya nomini kiriting!";
+      if (!phone) next.phoneNumber = "Telefon raqamni kiriting!";
+      else if (!UZ_PHONE.test(fullPhone)) next.phoneNumber = "Telefon raqam +998xxxxxxxxx formatda bo'lishi kerak!";
+      if (!managerName) next.managerName = "Boshqaruvchi ismini kiriting!";
+      if (!description) next.description = "Kompaniya uchun izoh yozing!";
+      if (!data.permissions?.length) next.permissions = "Kompaniya uchun ruxsatlarni belgilang!";
+
+      setErrors(next);
+      if (next.name) form.name?.focus();
+      else if (next.phoneNumber) form.phoneNumber?.focus();
+      else if (next.managerName) form.managerName?.focus();
+      else if (next.description) form.description?.focus();
+
+      return Object.values(next).every((v) => v === null);
+    },
+    [formatPhone]
+  );
 
   const handleImage = useCallback((file) => {
-    setLogo((prev) => ({ ...prev, src: URL.createObjectURL(file), file }));
+    setLogo((prev) => {
+      if (prev.src?.startsWith("blob:")) URL.revokeObjectURL(prev.src);
+      return { ...prev, src: URL.createObjectURL(file), file };
+    });
   }, []);
 
   const handleDeleteLogo = useCallback(() => {
-    setLogo((prev) => ({ ...prev, file: null, src: null }));
+    setLogo((prev) => {
+      if (prev.src?.startsWith("blob:")) URL.revokeObjectURL(prev.src);
+      return { ...prev, file: null, src: null };
+    });
+  }, []);
+
+  const clearFieldError = useCallback((field) => {
+    setErrors((prev) => (prev[field] ? { ...prev, [field]: null } : prev));
   }, []);
 
   const handleSubmit = useCallback(
@@ -87,43 +105,37 @@ export default function AddCompany() {
       };
       if (!validateCompanyForm(form, data)) return;
 
-      if (logo.file) data.logo = logo.file;
-      else data.logo = null;
-      data.phoneNumber = data.phoneNumber?.startsWith("+")
-        ? data.phoneNumber
-        : `+998${data.phoneNumber}`;
+      const formattedPhone = formatPhone(data.phoneNumber);
+      const formData = new FormData();
+      Object.entries({
+        ...data,
+        phoneNumber: formattedPhone,
+      }).forEach(([k, v]) => {
+        if (k === "logo") return;
+        if (v !== null && v !== undefined) formData.append(k, v);
+      });
+      if (logo.file) formData.append("logo", logo.file);
 
       setAddLoading(true);
       try {
-        const formData = new FormData();
-        Object.entries(data).forEach(([k, v]) => formData.append(k, v));
-
         const res = await apiRequest("/api/v1/company", {
           method: "POST",
           body: formData,
         });
         if (res.status === 201) {
           const result = await res.json();
-          toast.success(`${result.name} kompaniyasi qo'shildi!`);
           navigate("/company");
           return;
         }
-        if (res.status === 409) {
-          toast.error("Ushbu kompaniya ro'yhatdan o'tgan!");
-        } else {
-          toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
-            position: "top-center",
-          });
-        }
+        if (res.status === 409) setErrors((e) => ({ ...e, name: "Ushbu kompaniya ro'yhatdan o'tgan!" }));
+        else setErrors((e) => ({ ...e, name: "Xatolik yuz berdi, qayta urunib ko'ring!" }));
       } catch {
-        toast.error("Tizimda nosozlik, adminga aloqaga chiqing!", {
-          position: "top-center",
-        });
+        setErrors((e) => ({ ...e, name: "Tizimda nosozlik, adminga aloqaga chiqing!" }));
       } finally {
         setAddLoading(false);
       }
     },
-    [logo.file, navigate]
+    [formatPhone, logo.file, navigate, validateCompanyForm]
   );
 
   return (
@@ -197,7 +209,9 @@ export default function AddCompany() {
                 type="text"
                 placeholder="Kompaniya nomini kiriting"
                 disabled={addLoading}
+                onChange={() => clearFieldError("name")}
               />
+              {errors.name && <p className="text-destructive text-xs">{errors.name}</p>}
             </div>
             <div className="grid w-full gap-2">
               <Label htmlFor="managerName">Boshqaruvchi*</Label>
@@ -207,7 +221,11 @@ export default function AddCompany() {
                 type="text"
                 placeholder="Boshqaruvchi ismini kiriting"
                 disabled={addLoading}
+                onChange={() => clearFieldError("managerName")}
               />
+              {errors.managerName && (
+                <p className="text-destructive text-xs">{errors.managerName}</p>
+              )}
             </div>
             <div className="col-span-2 grid w-full gap-2">
               <Label htmlFor="phoneNumber">Telefon raqami*</Label>
@@ -219,11 +237,15 @@ export default function AddCompany() {
                   type="text"
                   placeholder="xxxxxxx"
                   disabled={addLoading}
+                  onChange={() => clearFieldError("phoneNumber")}
                 />
                 <InputGroupAddon>
                   <InputGroupText>+998</InputGroupText>
                 </InputGroupAddon>
               </InputGroup>
+              {errors.phoneNumber && (
+                <p className="text-destructive text-xs">{errors.phoneNumber}</p>
+              )}
             </div>
             <div className="col-span-2 grid w-full gap-3">
               <Label htmlFor="description">Izoh*</Label>
@@ -233,14 +255,23 @@ export default function AddCompany() {
                 id="description"
                 name="description"
                 disabled={addLoading}
+                onChange={() => clearFieldError("description")}
               />
+              {errors.description && (
+                <p className="text-destructive text-xs">{errors.description}</p>
+              )}
             </div>
             <div className="col-span-2 grid w-full items-center gap-3">
               <Label>Ruxsatlar*</Label>
               <div className="flex gap-5">
                 <FieldLabel>
                   <Field orientation="horizontal">
-                    <Checkbox id="permissions-prohome" name="permissions" value="PROHOME" />
+                    <Checkbox
+                      id="permissions-prohome"
+                      name="permissions"
+                      value="PROHOME"
+                      onCheckedChange={() => clearFieldError("permissions")}
+                    />
                     <FieldContent>
                       <FieldTitle>PROHOME</FieldTitle>
                     </FieldContent>
@@ -248,13 +279,21 @@ export default function AddCompany() {
                 </FieldLabel>
                 <FieldLabel>
                   <Field orientation="horizontal">
-                    <Checkbox id="permissions-crm" name="permissions" value="CRM" />
+                    <Checkbox
+                      id="permissions-crm"
+                      name="permissions"
+                      value="CRM"
+                      onCheckedChange={() => clearFieldError("permissions")}
+                    />
                     <FieldContent>
                       <FieldTitle>CRM</FieldTitle>
                     </FieldContent>
                   </Field>
                 </FieldLabel>
               </div>
+              {errors.permissions && (
+                <p className="text-destructive text-xs">{errors.permissions}</p>
+              )}
             </div>
           </div>
           <div className="flex justify-end gap-3">

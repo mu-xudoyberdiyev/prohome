@@ -1,16 +1,16 @@
 import { ArrowRight, Folder, FolderOpen } from "lucide-react";
 import { useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLoadingBar } from "react-top-loading-bar";
-import EmptyData from "../components/EmptyData";
-import GeneralError from "../components/error/GeneralError";
-import LogoLoader from "../components/loading/LogoLoader";
-import { useProjects } from "../hooks/use-projects";
+import { useStableLoadingBar } from "@/shared/hooks/use-loading-bar";
+import EmptyData from "@/widgets/EmptyData";
+import GeneralError from "@/widgets/error/GeneralError";
+import LogoLoader from "@/widgets/loading/LogoLoader";
+import { useProjects } from "@/shared/hooks/use-projects";
 
 export default function Tjm() {
   const navigate = useNavigate();
   const { projects, error, loading } = useProjects();
-  const { start, complete } = useLoadingBar({ color: "#5ea500", height: 3 });
+  const { start, complete } = useStableLoadingBar({ color: "#5ea500", height: 3 });
 
   useEffect(() => {
     if (loading) start();

@@ -8,13 +8,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "../components/ui/alert-dialog";
+} from "@/shared/ui/alert-dialog";
 import {
   Field,
   FieldContent,
   FieldLabel,
   FieldTitle,
-} from "../components/ui/field";
+} from "@/shared/ui/field";
 import {
   ArrowLeft,
   CircleCheck,
@@ -27,75 +27,41 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useLoadingBar } from "react-top-loading-bar";
-import { toast } from "sonner";
-import GeneralError from "../components/error/GeneralError";
-import LogoLoader from "../components/loading/LogoLoader";
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
-import { Badge } from "../components/ui/badge";
-import { Button, buttonVariants } from "../components/ui/button";
-import { Checkbox } from "../components/ui/checkbox";
-import { Input } from "../components/ui/input";
+import { useStableLoadingBar } from "@/shared/hooks/use-loading-bar";
+import GeneralError from "@/widgets/error/GeneralError";
+import LogoLoader from "@/widgets/loading/LogoLoader";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
+import { Badge } from "@/shared/ui/badge";
+import { Button, buttonVariants } from "@/shared/ui/button";
+import { Checkbox } from "@/shared/ui/checkbox";
+import { Input } from "@/shared/ui/input";
 import {
   InputGroup,
   InputGroupAddon,
   InputGroupInput,
   InputGroupText,
-} from "../components/ui/input-group";
-import { Label } from "../components/ui/label";
-import { Switch } from "../components/ui/switch";
-import { Textarea } from "../components/ui/textarea";
-import { useCompanyDetails } from "../hooks/use-company-details";
-import { apiUrl } from "../lib/api";
-import { getFormData } from "../lib/utils";
+} from "@/shared/ui/input-group";
+import { Label } from "@/shared/ui/label";
+import { Switch } from "@/shared/ui/switch";
+import { Textarea } from "@/shared/ui/textarea";
+import { useCompanyDetails } from "@/shared/hooks/use-company-details";
+import { apiUrl } from "@/shared/lib/api";
+import { getFormData } from "@/shared/lib/utils";
 
-const TOAST_OPTS = { position: "top-right" };
 const UZ_PHONE = /^\+998\d{9}$/;
-
-function validateCompanyEditForm(form, data) {
-  const name = (data.name ?? "").trim();
-  const phone = (data.phoneNumber ?? "").trim();
-  const fullPhone = phone.startsWith("+") ? phone : `+998${phone}`;
-  const managerName = (data.managerName ?? "").trim();
-  const description = (data.description ?? "").trim();
-
-  if (!name) {
-    form.name?.focus();
-    toast.info("Kompaniya nomini kiriting!", TOAST_OPTS);
-    return false;
-  }
-  if (!phone) {
-    form.phoneNumber?.focus();
-    toast.info("Telefon raqamni kiriting!", TOAST_OPTS);
-    return false;
-  }
-  if (!UZ_PHONE.test(fullPhone)) {
-    form.phoneNumber?.focus();
-    toast.info("Telefon raqam +998xxxxxxxxx formatda bo'lishi kerak!", TOAST_OPTS);
-    return false;
-  }
-  if (!managerName) {
-    form.managerName?.focus();
-    toast.info("Boshqaruvchi ismini kiriting!", TOAST_OPTS);
-    return false;
-  }
-  if (!description) {
-    form.description?.focus();
-    toast.info("Kompaniya uchun izoh yozing!", TOAST_OPTS);
-    return false;
-  }
-  if (!data.permissions?.length) {
-    toast.info("Kompaniya uchun ruxsatlarni belgilang!", TOAST_OPTS);
-    return false;
-  }
-  return true;
-}
 
 export default function CompanyDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const [editMode, setEditMode] = useState(false);
   const [logo, setLogo] = useState({ file: null, src: null, removed: false });
+  const [errors, setErrors] = useState({
+    name: null,
+    phoneNumber: null,
+    managerName: null,
+    description: null,
+    permissions: null,
+  });
 
   const {
     details,
@@ -111,26 +77,91 @@ export default function CompanyDetails() {
     remove,
   } = useCompanyDetails(id);
 
-  const { start, complete } = useLoadingBar({ color: "#5ea500", height: 3 });
+  const { start, complete } = useStableLoadingBar({ color: "#5ea500", height: 3 });
 
   useEffect(() => {
     if (getLoading) start();
     else complete();
   }, [getLoading, start, complete]);
 
-  const handleEditMode = useCallback(() => setEditMode((v) => !v), []);
+  useEffect(
+    () => () => {
+      if (logo.src?.startsWith("blob:")) URL.revokeObjectURL(logo.src);
+    },
+    [logo.src]
+  );
+
+  const formatPhone = useCallback((phone) => {
+    if (!phone) return "";
+    const trimmed = phone.trim();
+    return trimmed.startsWith("+") ? trimmed : `+998${trimmed}`;
+  }, []);
+
+  const validateCompanyEditForm = useCallback(
+    (form, data) => {
+      const next = {
+        name: null,
+        phoneNumber: null,
+        managerName: null,
+        description: null,
+        permissions: null,
+      };
+      const name = (data.name ?? "").trim();
+      const phone = (data.phoneNumber ?? "").trim();
+      const fullPhone = formatPhone(phone);
+      const managerName = (data.managerName ?? "").trim();
+      const description = (data.description ?? "").trim();
+
+      if (!name) next.name = "Kompaniya nomini kiriting!";
+      if (!phone) next.phoneNumber = "Telefon raqamni kiriting!";
+      else if (!UZ_PHONE.test(fullPhone)) next.phoneNumber = "Telefon raqam +998xxxxxxxxx formatda bo'lishi kerak!";
+      if (!managerName) next.managerName = "Boshqaruvchi ismini kiriting!";
+      if (!description) next.description = "Kompaniya uchun izoh yozing!";
+      if (!data.permissions?.length) next.permissions = "Kompaniya uchun ruxsatlarni belgilang!";
+
+      setErrors(next);
+      if (next.name) form.name?.focus();
+      else if (next.phoneNumber) form.phoneNumber?.focus();
+      else if (next.managerName) form.managerName?.focus();
+      else if (next.description) form.description?.focus();
+
+      return Object.values(next).every((v) => v === null);
+    },
+    [formatPhone]
+  );
+
+  const handleEditMode = useCallback(() => {
+    setErrors({
+      name: null,
+      phoneNumber: null,
+      managerName: null,
+      description: null,
+      permissions: null,
+    });
+    setEditMode((v) => !v);
+  }, []);
 
   const handleImage = useCallback((file) => {
-    setLogo((prev) => ({
-      ...prev,
-      src: URL.createObjectURL(file),
-      file,
-      removed: false,
-    }));
+    setLogo((prev) => {
+      if (prev.src?.startsWith("blob:")) URL.revokeObjectURL(prev.src);
+      return {
+        ...prev,
+        src: URL.createObjectURL(file),
+        file,
+        removed: false,
+      };
+    });
   }, []);
 
   const handleRemoveImage = useCallback(() => {
-    setLogo({ file: null, src: null, removed: true });
+    setLogo((prev) => {
+      if (prev.src?.startsWith("blob:")) URL.revokeObjectURL(prev.src);
+      return { file: null, src: null, removed: true };
+    });
+  }, []);
+
+  const clearFieldError = useCallback((field) => {
+    setErrors((prev) => (prev[field] ? { ...prev, [field]: null } : prev));
   }, []);
 
   const handleSubmit = useCallback(
@@ -142,18 +173,19 @@ export default function CompanyDetails() {
         permissions: new FormData(form).getAll("permissions"),
       };
       if (!validateCompanyEditForm(form, data)) return;
-      data.logo = logo.file ?? null;
-      data.phoneNumber = data.phoneNumber?.startsWith("+")
-        ? data.phoneNumber
-        : `+998${data.phoneNumber}`;
-      edit(data).then((ok) => {
+      edit({
+        ...data,
+        logo: logo.file ?? undefined,
+        removeLogo: logo.removed && !logo.file,
+        phoneNumber: formatPhone(data.phoneNumber),
+      }).then((ok) => {
         if (ok) {
           setLogo((prev) => ({ ...prev, file: null, src: null, removed: false }));
           handleEditMode();
         }
       });
     },
-    [edit, logo.file, handleEditMode]
+    [edit, formatPhone, logo.file, logo.removed, handleEditMode, validateCompanyEditForm]
   );
 
   const handleDelete = useCallback(async () => {
@@ -335,7 +367,9 @@ export default function CompanyDetails() {
                 placeholder="Kompaniya nomini kiriting"
                 defaultValue={details.name}
                 disabled={!editMode || editLoading || statusLoading}
+                onChange={() => clearFieldError("name")}
               />
+              {errors.name && <p className="text-destructive text-xs">{errors.name}</p>}
             </div>
             <div className="grid w-full gap-2">
               <Label htmlFor="managerName">Boshqaruvchi*</Label>
@@ -346,7 +380,11 @@ export default function CompanyDetails() {
                 placeholder="Boshqaruvchi ismini kiriting"
                 defaultValue={details.managerName}
                 disabled={!editMode || editLoading || statusLoading}
+                onChange={() => clearFieldError("managerName")}
               />
+              {errors.managerName && (
+                <p className="text-destructive text-xs">{errors.managerName}</p>
+              )}
             </div>
             <div className="col-span-2 grid w-full gap-2">
               <Label htmlFor="phoneNumber">Telefon raqami*</Label>
@@ -359,11 +397,15 @@ export default function CompanyDetails() {
                   placeholder="xxxxxxx"
                   defaultValue={details.phoneNumber?.replace("+998", "")}
                   disabled={!editMode || editLoading || statusLoading}
+                  onChange={() => clearFieldError("phoneNumber")}
                 />
                 <InputGroupAddon>
                   <InputGroupText>+998</InputGroupText>
                 </InputGroupAddon>
               </InputGroup>
+              {errors.phoneNumber && (
+                <p className="text-destructive text-xs">{errors.phoneNumber}</p>
+              )}
             </div>
             <div className="col-span-2 grid w-full gap-3">
               <Label htmlFor="description">Izoh*</Label>
@@ -374,7 +416,11 @@ export default function CompanyDetails() {
                 name="description"
                 defaultValue={details.description}
                 disabled={!editMode || editLoading || statusLoading}
+                onChange={() => clearFieldError("description")}
               />
+              {errors.description && (
+                <p className="text-destructive text-xs">{errors.description}</p>
+              )}
             </div>
             <div className="col-span-2 grid w-full items-center gap-3">
               <Label>Ruxsatlar*</Label>
@@ -387,6 +433,7 @@ export default function CompanyDetails() {
                       name="permissions"
                       value="PROHOME"
                       disabled={!editMode || editLoading || statusLoading}
+                      onCheckedChange={() => clearFieldError("permissions")}
                     />
                     <FieldContent>
                       <FieldTitle>PROHOME</FieldTitle>
@@ -401,6 +448,7 @@ export default function CompanyDetails() {
                       name="permissions"
                       value="CRM"
                       disabled={!editMode || editLoading || statusLoading}
+                      onCheckedChange={() => clearFieldError("permissions")}
                     />
                     <FieldContent>
                       <FieldTitle>CRM</FieldTitle>
@@ -408,6 +456,9 @@ export default function CompanyDetails() {
                   </Field>
                 </FieldLabel>
               </div>
+              {errors.permissions && (
+                <p className="text-destructive text-xs">{errors.permissions}</p>
+              )}
             </div>
           </div>
           {editMode && (

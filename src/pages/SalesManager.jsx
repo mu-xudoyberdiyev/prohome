@@ -1,28 +1,25 @@
+import { useUserCrud } from "@/shared/hooks/use-user-crud";
+import { getFormData } from "@/shared/lib/utils";
+import { USER_FORM_ERRORS, validateUserForm } from "@/shared/lib/validators";
+import { Badge } from "@/shared/ui/badge";
+import { Button } from "@/shared/ui/button";
+import { Checkbox } from "@/shared/ui/checkbox";
 import {
   Drawer,
+  DrawerClose,
   DrawerContent,
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
-} from "../components/ui/drawer";
-import {
-  Field,
-  FieldContent,
-  FieldLabel,
-  FieldTitle,
-} from "../components/ui/field";
-import { Check, Plus, Trash, X } from "lucide-react";
-import { useCallback, useEffect, useState } from "react";
-import { useLoadingBar } from "react-top-loading-bar";
-import EmptyData from "../components/EmptyData";
-import GeneralError from "../components/error/GeneralError";
-import LogoLoader from "../components/loading/LogoLoader";
-import { Badge } from "../components/ui/badge";
-import { Button } from "../components/ui/button";
-import { Checkbox } from "../components/ui/checkbox";
-import { Input } from "../components/ui/input";
-import { Label } from "../components/ui/label";
-import { Spinner } from "../components/ui/spinner";
+} from "@/shared/ui/drawer";
+import { Field, FieldContent, FieldLabel, FieldTitle } from "@/shared/ui/field";
+import { Input } from "@/shared/ui/input";
+import { Label } from "@/shared/ui/label";
+import { Spinner } from "@/shared/ui/spinner";
+import { useStableLoadingBar } from "@/shared/hooks/use-loading-bar";
+import EmptyData from "@/widgets/EmptyData";
+import GeneralError from "@/widgets/error/GeneralError";
+import LogoLoader from "@/widgets/loading/LogoLoader";
 import {
   Table,
   TableBody,
@@ -30,14 +27,14 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/optics/table";
-import { useUserCrud } from "../hooks/use-user-crud";
-import { getFormData } from "../lib/utils";
-import { validateUserForm } from "../lib/validators";
+} from "@/widgets/optics/table";
+import { Check, Plus, Trash, X } from "lucide-react";
+import { useCallback, useEffect, useState } from "react";
 
 export default function SalesManager() {
   const [addModal, setAddModal] = useState(false);
   const [showConfirmation, setShowConfirmation] = useState(null);
+  const [errors, setErrors] = useState(USER_FORM_ERRORS);
 
   const {
     list: salesmanagers,
@@ -49,14 +46,21 @@ export default function SalesManager() {
     remove,
   } = useUserCrud("sales-manager");
 
-  const { start, complete } = useLoadingBar({ color: "#5ea500", height: 3 });
+  const { start, complete } = useStableLoadingBar({ color: "#5ea500", height: 3 });
 
   useEffect(() => {
     if (getLoading) start();
     else complete();
   }, [getLoading, start, complete]);
 
-  const handleAddModal = useCallback(() => setAddModal((v) => !v), []);
+  const handleAddModal = useCallback(() => {
+    setErrors(USER_FORM_ERRORS);
+    setAddModal((v) => !v);
+  }, []);
+
+  const clearFieldError = useCallback((field) => {
+    setErrors((prev) => (prev[field] ? { ...prev, [field]: null } : prev));
+  }, []);
 
   const handleAddSubmit = useCallback(
     async (evt) => {
@@ -66,17 +70,17 @@ export default function SalesManager() {
         ...getFormData(form),
         permissions: new FormData(form).getAll("permissions"),
       };
-      if (!validateUserForm(form, result)) return;
+      if (!validateUserForm(form, result, setErrors)) return;
       result.companyId = 1;
       const ok = await add(result);
       if (ok) setAddModal(false);
     },
-    [add]
+    [add, setErrors],
   );
 
   const handleDelete = useCallback(
     (id) => remove(id).then(() => setShowConfirmation(null)),
-    [remove]
+    [remove],
   );
 
   const toggleConfirm = useCallback((id) => {
@@ -168,13 +172,19 @@ export default function SalesManager() {
       </section>
 
       <Drawer open={addModal} onOpenChange={handleAddModal}>
-        <DrawerContent>
-          <DrawerHeader>
+        <DrawerContent className="inset-0 h-screen max-h-screen rounded-none data-[vaul-drawer-direction=bottom]:mt-0 data-[vaul-drawer-direction=bottom]:rounded-none">
+          <DrawerHeader className="relative flex flex-col items-center gap-2 text-center">
             <DrawerTitle>Yangi sotuv menejeri qo&apos;shish.</DrawerTitle>
-            <DrawerDescription>
+            <DrawerDescription className="text-sm text-muted-foreground">
               Sotuv menejeri qo&apos;shish uchun barcha ma&apos;lumotlarni
               to&apos;ldiring
             </DrawerDescription>
+            <DrawerClose
+              className="absolute right-4 top-4 rounded-full border px-2 py-1 text-sm"
+              aria-label="Yopish"
+            >
+              ✕
+            </DrawerClose>
           </DrawerHeader>
           <form
             onSubmit={handleAddSubmit}
@@ -187,7 +197,11 @@ export default function SalesManager() {
                 id="fullName"
                 name="fullName"
                 placeholder="To'liq ismingizni yozing"
+                onChange={() => clearFieldError("fullName")}
               />
+              {errors.fullName && (
+                <p className="text-destructive text-xs">{errors.fullName}</p>
+              )}
             </div>
             <div className="grid w-full items-center gap-3">
               <Label htmlFor="email">Email*</Label>
@@ -197,7 +211,11 @@ export default function SalesManager() {
                 name="email"
                 autoComplete="username"
                 placeholder="Email"
+                onChange={() => clearFieldError("email")}
               />
+              {errors.email && (
+                <p className="text-destructive text-xs">{errors.email}</p>
+              )}
             </div>
             <div className="grid w-full items-center gap-3">
               <Label htmlFor="password">Parol*</Label>
@@ -207,7 +225,11 @@ export default function SalesManager() {
                 name="password"
                 autoComplete="current-password"
                 placeholder="********"
+                onChange={() => clearFieldError("password")}
               />
+              {errors.password && (
+                <p className="text-destructive text-xs">{errors.password}</p>
+              )}
             </div>
             <div className="grid w-full items-center gap-3">
               <Label>Ruxsatlar*</Label>
@@ -218,6 +240,7 @@ export default function SalesManager() {
                       id="permissions-prohome"
                       name="permissions"
                       value="PROHOME"
+                      onCheckedChange={() => clearFieldError("permissions")}
                     />
                     <FieldContent>
                       <FieldTitle>PROHOME</FieldTitle>
@@ -230,6 +253,7 @@ export default function SalesManager() {
                       id="permissions-crm"
                       name="permissions"
                       value="CRM"
+                      onCheckedChange={() => clearFieldError("permissions")}
                     />
                     <FieldContent>
                       <FieldTitle>CRM</FieldTitle>
@@ -237,6 +261,9 @@ export default function SalesManager() {
                   </Field>
                 </FieldLabel>
               </div>
+              {errors.permissions && (
+                <p className="text-destructive text-xs">{errors.permissions}</p>
+              )}
             </div>
             <Button disabled={addLoading} type="submit">
               {addLoading ? (

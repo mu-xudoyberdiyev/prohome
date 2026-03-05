@@ -1,19 +1,19 @@
 import { Search, XIcon } from "lucide-react";
 import { useCallback, useEffect } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { Badge } from "../components/ui/badge";
-import { buttonVariants } from "../components/ui/button";
+import { Badge } from "@/shared/ui/badge";
+import { buttonVariants } from "@/shared/ui/button";
 import {
   Tooltip,
   TooltipContent,
   TooltipTrigger,
-} from "../components/ui/tooltip";
-import { useLoadingBar } from "react-top-loading-bar";
-import GeneralError from "../components/error/GeneralError";
-import HomeDetails from "../components/HomeDetails";
-import LogoLoader from "../components/loading/LogoLoader";
-import { useProjectStructure } from "../hooks/use-project-structure";
-import { formatNumber } from "../lib/utils";
+} from "@/shared/ui/tooltip";
+import { useStableLoadingBar } from "@/shared/hooks/use-loading-bar";
+import GeneralError from "@/widgets/error/GeneralError";
+import HomeDetails from "@/widgets/HomeDetails";
+import LogoLoader from "@/widgets/loading/LogoLoader";
+import { useProjectStructure } from "@/shared/hooks/use-project-structure";
+import { formatNumber } from "@/shared/lib/utils";
 
 const STATUS_CLASS = {
   SOLD: "bg-red-500",
@@ -33,7 +33,7 @@ export default function TjmDetails() {
   const { id } = useParams();
   const navigate = useNavigate();
   const { structure: home, notFound, error, loading } = useProjectStructure(id);
-  const { start, complete } = useLoadingBar({ color: "#5ea500", height: 3 });
+  const { start, complete } = useStableLoadingBar({ color: "#5ea500", height: 3 });
 
   useEffect(() => {
     if (loading) start();

@@ -1,4 +1,4 @@
-import { Button } from "@/components/ui/button";
+import { Button } from "@/shared/ui/button";
 import {
   DndContext, DragOverlay, defaultDropAnimationSideEffects,
 } from "@dnd-kit/core";
@@ -7,12 +7,12 @@ import {
 } from "@dnd-kit/sortable";
 import * as Icons from "lucide-react";
 import { memo, useEffect, useMemo, useRef, useState } from "react";
-import AddColumnModal from "../components/AddColumnModal";
-import LeadDrawer, { clearDrawerUrl, getDrawerFromUrl, pushDrawerUrl } from "../components/LeadDrawer";
-import MiniMapScroll from "../components/MiniMapScroll";
-import SearchModal from "../components/SearchModal";
-import Voronka from "../components/Voronka";
-import { useCrm } from "../hooks/use-crm";
+import AddColumnModal from "@/widgets/AddColumnModal";
+import LeadDrawer, { clearDrawerUrl, getDrawerFromUrl, pushDrawerUrl } from "@/widgets/LeadDrawer";
+import MiniMapScroll from "@/widgets/MiniMapScroll";
+import SearchModal from "@/widgets/SearchModal";
+import Voronka from "@/widgets/Voronka";
+import { useCrm } from "@/shared/hooks/use-crm";
 
 const dropAnimation = {
   sideEffects: defaultDropAnimationSideEffects({

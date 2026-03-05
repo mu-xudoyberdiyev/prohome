@@ -4,19 +4,17 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
-} from "../components/ui/dialog";
+} from "@/shared/ui/dialog";
 import { GlobeLockIcon, KeyRound, Palette, RefreshCcw } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
 import { toast } from "sonner";
-import { Button } from "../components/ui/button";
-import { Input } from "../components/ui/input";
-import { Label } from "../components/ui/label";
-import { apiRequest } from "../lib/api";
-import { getFormData } from "../lib/utils";
-import { useAppStore } from "../zustand";
-
-const TOAST_OPTS = { position: "top-center" };
+import { Button } from "@/shared/ui/button";
+import { Input } from "@/shared/ui/input";
+import { Label } from "@/shared/ui/label";
+import { apiRequest } from "@/shared/lib/api";
+import { getFormData } from "@/shared/lib/utils";
+import { useAppStore } from "@/entities/session/model";
 
 export default function Settings() {
   const { user } = useAppStore();
@@ -25,6 +23,7 @@ export default function Settings() {
   );
   const [updateModal, setUpdateModal] = useState(false);
   const [updateLoading, setUpdateLoading] = useState(false);
+  const [errors, setErrors] = useState({ oldPassword: null, newPassword: null, form: null });
 
   useEffect(() => {
     document.documentElement.classList.toggle("dark", dark);
@@ -33,6 +32,9 @@ export default function Settings() {
 
   const handleChange = useCallback(() => setDark((v) => !v), []);
   const handleUpdateModal = useCallback(() => setUpdateModal((v) => !v), []);
+  const clearFieldError = useCallback((field) => {
+    setErrors((prev) => (prev[field] ? { ...prev, [field]: null } : prev));
+  }, []);
 
   const handleSubmit = useCallback(
     async (evt) => {
@@ -41,14 +43,16 @@ export default function Settings() {
       const oldP = (result.oldPassword ?? "").trim();
       const newP = (result.newPassword ?? "").trim();
 
-      if (!oldP) {
+      const nextErrors = { oldPassword: null, newPassword: null, form: null };
+      if (!oldP) nextErrors.oldPassword = "Amaldagi parolni kiriting!";
+      if (!newP) nextErrors.newPassword = "Yangi parolni kiriting!";
+      setErrors(nextErrors);
+      if (nextErrors.oldPassword) {
         evt.currentTarget.oldPassword?.focus();
-        toast.info("Amaldagi parolni kiriting!", TOAST_OPTS);
         return;
       }
-      if (!newP) {
+      if (nextErrors.newPassword) {
         evt.currentTarget.newPassword?.focus();
-        toast.info("Yangi parolni kiriting!", TOAST_OPTS);
         return;
       }
 
@@ -66,18 +70,19 @@ export default function Settings() {
         if (res.status === 201) {
           handleUpdateModal();
           toast.success("Parolingiz o'zgartirildi!");
+          setErrors({ oldPassword: null, newPassword: null, form: null });
         } else if (res.status === 400) {
-          toast.error(
-            "Parol eng kamida 6 belgidan iborat bo'lishi kerak!",
-            TOAST_OPTS
-          );
+          setErrors((e) => ({
+            ...e,
+            newPassword: "Parol eng kamida 6 belgidan iborat bo'lishi kerak!",
+          }));
         } else if (res.status === 404) {
-          toast.error("Amaldagi parol nato'g'ri yozilgan!", TOAST_OPTS);
+          setErrors((e) => ({ ...e, oldPassword: "Amaldagi parol noto'g'ri." }));
         } else {
-          toast.error("Xatolik yuz berdi, qayta urunib ko'ring!");
+          setErrors((e) => ({ ...e, form: "Xatolik yuz berdi, qayta urunib ko'ring!" }));
         }
       } catch {
-        toast.error("Tizimda nosozlik!");
+        setErrors((e) => ({ ...e, form: "Tizimda nosozlik!" }));
       } finally {
         setUpdateLoading(false);
       }
@@ -129,7 +134,11 @@ export default function Settings() {
                 name="oldPassword"
                 type="password"
                 placeholder="********"
+                onChange={() => clearFieldError("oldPassword")}
               />
+              {errors.oldPassword && (
+                <p className="text-destructive text-xs">{errors.oldPassword}</p>
+              )}
             </div>
             <div className="grid gap-2">
               <Label htmlFor="newPassword">Yangi parol*</Label>
@@ -138,8 +147,15 @@ export default function Settings() {
                 name="newPassword"
                 type="password"
                 placeholder="********"
+                onChange={() => clearFieldError("newPassword")}
               />
+              {errors.newPassword && (
+                <p className="text-destructive text-xs">{errors.newPassword}</p>
+              )}
             </div>
+            {errors.form && (
+              <p className="text-destructive text-xs">{errors.form}</p>
+            )}
             <Button disabled={updateLoading}>
               {updateLoading ? (
                 <>

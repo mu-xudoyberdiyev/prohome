@@ -1,10 +1,10 @@
-import { Slider } from "../components/ui/slider";
-import { ToggleGroup, ToggleGroupItem } from "../components/ui/toggle-group";
+import { Slider } from "@/shared/ui/slider";
+import { ToggleGroup, ToggleGroupItem } from "@/shared/ui/toggle-group";
 import { Rocket } from "lucide-react";
 import { useCallback, useState } from "react";
-import { Spinner } from "../components/ui/spinner";
-import { useDashboardStats } from "../hooks/use-dashboard-stats";
-import { formatNumber } from "../lib/utils";
+import { Spinner } from "@/shared/ui/spinner";
+import { useDashboardStats } from "@/shared/hooks/use-dashboard-stats";
+import { formatNumber } from "@/shared/lib/utils";
 
 const PERIOD_LABELS = {
   last30: "Oy",

@@ -1,6 +1,6 @@
 import { Home } from "lucide-react";
 import { Link, Navigate } from "react-router-dom";
-import { buttonVariants } from "../components/ui/button";
+import { buttonVariants } from "@/shared/ui/button";
 
 export default function NotFound({ user }) {
   if (user) {

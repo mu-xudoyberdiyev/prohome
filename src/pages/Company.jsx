@@ -1,20 +1,20 @@
 import { ArrowRight, CircleCheck, CircleXIcon, Plus } from "lucide-react";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useLoadingBar } from "react-top-loading-bar";
-import EmptyData from "../components/EmptyData";
-import GeneralError from "../components/error/GeneralError";
-import LogoLoader from "../components/loading/LogoLoader";
-import { Avatar, AvatarFallback, AvatarImage } from "../components/ui/avatar";
-import { Badge } from "../components/ui/badge";
-import { Button } from "../components/ui/button";
-import { useCompanies } from "../hooks/use-companies";
-import { apiUrl } from "../lib/api";
+import { useStableLoadingBar } from "@/shared/hooks/use-loading-bar";
+import EmptyData from "@/widgets/EmptyData";
+import GeneralError from "@/widgets/error/GeneralError";
+import LogoLoader from "@/widgets/loading/LogoLoader";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
+import { Badge } from "@/shared/ui/badge";
+import { Button } from "@/shared/ui/button";
+import { useCompanies } from "@/shared/hooks/use-companies";
+import { apiUrl } from "@/shared/lib/api";
 
 export default function Company() {
   const navigate = useNavigate();
   const { companies, error, loading, get } = useCompanies();
-  const { start, complete } = useLoadingBar({ color: "#5ea500", height: 3 });
+  const { start, complete } = useStableLoadingBar({ color: "#5ea500", height: 3 });
 
   useEffect(() => {
     if (loading) start();
