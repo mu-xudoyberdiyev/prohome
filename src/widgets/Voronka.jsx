@@ -18,8 +18,9 @@ function CollapsedColumn({ voronkaData, leadsCount, setSortRef, transform, trans
     touchAction: "none",
     borderColor: voronkaData.color,
     width: 44,
-    minHeight: 120,
     height: "100%",
+    minHeight: 0,
+    maxHeight: "100%",
     backgroundColor: isOver && isDraggingCard ? "rgb(253 164 175 / 0.4)" : undefined,
     borderLeftWidth: 3,
   };
@@ -58,7 +59,7 @@ function CollapsedColumn({ voronkaData, leadsCount, setSortRef, transform, trans
 const Voronka = memo(function Voronka({
   leads, voronkaData, isDraggingCard, activeCardStatus,
   highlightedLeadId, onCollapseChange, onVisible, onLoadMore,
-  colMeta, onAddLead,
+  colMeta, onAddLead, onOpenLead,
 }) {
   const rootRef = useRef(null);
   const bodyRef = useRef(null);
@@ -109,12 +110,17 @@ const Voronka = memo(function Voronka({
     transition: transition ?? "transform 220ms cubic-bezier(0.25,1,0.5,1)",
     opacity: isColDrag ? 0.4 : 1,
     touchAction: "none",
+    maxHeight: "100%",
   };
 
   // ── Collapsed rendering ──────────────────────────────────────────────────
   if (voronkaData.collapsed) {
     return (
-      <div ref={(n) => { setSortRef(n); rootRef.current = n; }} style={{ ...colStyle, height: "100%" }}>
+      <div
+        ref={(n) => { setSortRef(n); rootRef.current = n; }}
+        style={{ ...colStyle, height: "100%", minHeight: 0, overflow: "hidden" }}
+        className="self-stretch"
+      >
         <CollapsedColumn
           voronkaData={voronkaData}
           leadsCount={leadsCount}
@@ -228,7 +234,12 @@ const Voronka = memo(function Voronka({
 
             {/* Lead cards */}
             {leads.map((lead) => (
-              <Lead key={lead.id} data={lead} highlighted={highlightedLeadId === lead.id} />
+              <Lead
+                key={lead.id}
+                data={lead}
+                highlighted={highlightedLeadId === lead.id}
+                onOpen={onOpenLead}
+              />
             ))}
 
             {/* Invisible drop target extender — keeps full height droppable */}

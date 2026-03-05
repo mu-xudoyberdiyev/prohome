@@ -11,6 +11,7 @@ import AddCompany from "@/pages/AddCompany";
 import Admin from "@/pages/Admin";
 import Company from "@/pages/Company";
 import CompanyDetails from "@/pages/CompanyDetails";
+import Contracts from "@/pages/Contracts";
 import Crm from "@/pages/Crm";
 import Dashboard from "@/pages/Dashboard";
 import Home from "@/pages/Home";
@@ -63,6 +64,10 @@ const roles = {
       element: <Dashboard />,
     },
     {
+      path: "/contracts",
+      element: <Contracts />,
+    },
+    {
       path: "/crm",
       element: <Crm />,
     },
@@ -111,6 +116,10 @@ const roles = {
       element: <Dashboard />,
     },
     {
+      path: "/contracts",
+      element: <Contracts />,
+    },
+    {
       path: "/crm",
       element: <Crm />,
     },
@@ -140,6 +149,10 @@ const roles = {
       element: <Dashboard />,
     },
     {
+      path: "/contracts",
+      element: <Contracts />,
+    },
+    {
       path: "/crm",
       element: <Crm />,
     },
@@ -159,6 +172,10 @@ const roles = {
       element: <Tjm />,
     },
 
+    {
+      path: "/contracts",
+      element: <Contracts />,
+    },
     {
       path: "/crm",
       element: <Crm />,

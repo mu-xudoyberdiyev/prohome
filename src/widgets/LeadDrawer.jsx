@@ -33,8 +33,13 @@ const FIELDS = [
   { key: "notes", label: "Izoh / Qaydlar", type: "textarea", required: false, placeholder: "Qo'shimcha ma'lumotlar…" },
 ];
 
-const REQUIRED_KEYS = FIELDS.filter((f) => f.required).map((f) => f.key);
 const EMPTY = Object.fromEntries(FIELDS.map((f) => [f.key, ""]));
+const UZ_PHONE = /^\+998\d{9}$/;
+const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+function normalizePhone(raw) {
+  return String(raw ?? "").replace(/[^\d+]/g, "");
+}
 
 // ─── URL helpers ──────────────────────────────────────────────────────────────
 export function getDrawerFromUrl() {
@@ -84,9 +89,32 @@ export default function LeadDrawer({ open, leadId, initialStatus, leads, voronka
 
   function validate() {
     const errs = {};
-    for (const key of REQUIRED_KEYS) {
-      if (!String(form[key] ?? "").trim()) errs[key] = "Majburiy maydon";
-    }
+    const title = String(form.title ?? "").trim();
+    const phone = normalizePhone(form.phone);
+    const budget = Number(form.budget);
+    const address = String(form.address ?? "").trim();
+    const status = String(form.status || initialStatus || "").trim();
+    const email = String(form.email ?? "").trim();
+    const rooms = String(form.rooms ?? "").trim();
+    const floor = String(form.floor ?? "").trim();
+    const area = String(form.area ?? "").trim();
+
+    if (!status) errs.status = "Bosqichni tanlang!";
+    if (!title) errs.title = "F.I.O kiriting!";
+    else if (title.length < 3) errs.title = "F.I.O kamida 3 ta belgi bo'lsin!";
+
+    if (!phone) errs.phone = "Telefon kiriting!";
+    else if (!UZ_PHONE.test(phone)) errs.phone = "Telefon +998xxxxxxxxx formatda bo'lsin!";
+
+    if (!String(form.budget ?? "").trim()) errs.budget = "Byudjet kiriting!";
+    else if (!Number.isFinite(budget) || budget <= 0) errs.budget = "Byudjet 0 dan katta bo'lsin!";
+
+    if (!address) errs.address = "Manzil kiriting!";
+    if (email && !EMAIL_RE.test(email)) errs.email = "Email noto'g'ri formatda!";
+    if (rooms && (!Number.isInteger(Number(rooms)) || Number(rooms) <= 0)) errs.rooms = "Xona soni musbat butun son bo'lsin!";
+    if (floor && (!Number.isInteger(Number(floor)) || Number(floor) <= 0)) errs.floor = "Qavat musbat butun son bo'lsin!";
+    if (area && (!Number.isFinite(Number(area)) || Number(area) <= 0)) errs.area = "Maydon 0 dan katta bo'lsin!";
+
     setErrors(errs);
     return Object.keys(errs).length === 0;
   }
@@ -96,8 +124,20 @@ export default function LeadDrawer({ open, leadId, initialStatus, leads, voronka
     setSaving(true);
     setSaveError(null);
     try {
-      const status = form.status || initialStatus || voronka[0]?.status;
-      await onAddLead({ ...form, status, budget: Number(form.budget) || 0 });
+      const status = (form.status || initialStatus || voronka[0]?.status || "").trim();
+      await onAddLead({
+        ...form,
+        title: String(form.title ?? "").trim(),
+        phone: normalizePhone(form.phone),
+        budget: Number(form.budget) || 0,
+        address: String(form.address ?? "").trim(),
+        email: String(form.email ?? "").trim() || undefined,
+        notes: String(form.notes ?? "").trim() || undefined,
+        rooms: form.rooms ? Number(form.rooms) : undefined,
+        floor: form.floor ? Number(form.floor) : undefined,
+        area: form.area ? Number(form.area) : undefined,
+        status,
+      });
       onClose();
     } catch {
       setSaveError("Saqlashda xatolik yuz berdi. Qayta urinib ko'ring.");
@@ -150,8 +190,14 @@ export default function LeadDrawer({ open, leadId, initialStatus, leads, voronka
               {voronka?.length > 0 && (
                 <div className="flex flex-col gap-1.5">
                   <Label>Bosqich <span className="text-destructive">*</span></Label>
-                  <Select value={form.status || initialStatus || ""} onValueChange={(v) => set("status", v)}>
-                    <SelectTrigger className="text-sm">
+                  <Select
+                    value={form.status || initialStatus || ""}
+                    onValueChange={(v) => {
+                      set("status", v);
+                      if (errors.status) setErrors((p) => ({ ...p, status: undefined }));
+                    }}
+                  >
+                    <SelectTrigger className={`text-sm ${errors.status ? "border-destructive" : ""}`}>
                       <SelectValue placeholder="Bosqichni tanlang" />
                     </SelectTrigger>
                     <SelectContent>
@@ -160,6 +206,7 @@ export default function LeadDrawer({ open, leadId, initialStatus, leads, voronka
                       ))}
                     </SelectContent>
                   </Select>
+                  {errors.status && <p className="text-destructive text-[11px]">{errors.status}</p>}
                 </div>
               )}
 
@@ -189,7 +236,10 @@ export default function LeadDrawer({ open, leadId, initialStatus, leads, voronka
                   field={field}
                   value={form[field.key]}
                   error={errors[field.key]}
-                  onChange={(v) => set(field.key, v)}
+                  onChange={(v) => {
+                    set(field.key, v);
+                    if (errors[field.key]) setErrors((p) => ({ ...p, [field.key]: undefined }));
+                  }}
                 />
               ))}
 

@@ -1,5 +1,5 @@
 import { ArrowLeft, SettingsIcon } from "lucide-react";
-import { useEffect } from "react";
+import { useLayoutEffect } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button, buttonVariants } from "@/shared/ui/button";
 import { SidebarTrigger, useSidebar } from "@/shared/ui/sidebar";
@@ -16,11 +16,11 @@ export default function SidebarHeader() {
     navigate("/");
   }
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (fullScreens.includes(pathname)) {
       setOpen(false);
     }
-  }, [pathname]);
+  }, [pathname, setOpen]);
 
   return (
     <header className="bg-background sticky top-0 z-45 flex h-12 shrink-0 items-center justify-between gap-2 border-b px-4">

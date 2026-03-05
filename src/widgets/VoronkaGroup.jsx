@@ -36,7 +36,9 @@ function CollapsedItem({
     touchAction: "none",
     borderColor: col.color,
     width: 44,
-    minHeight: 120,
+    minHeight: 0,
+    height: "100%",
+    maxHeight: "100%",
   };
 
   return (
@@ -91,9 +93,9 @@ function CollapsedItem({
 }
 
 // ─── Compact summary pill ─────────────────────────────────────────────────────
-function CompactPill({ columns, leadsMap, onClick }) {
+function CompactPill({ columns, leadsMap, colMeta, onClick }) {
   const totalLeads = columns.reduce(
-    (s, c) => s + (leadsMap[c.status]?.length ?? 0),
+    (s, c) => s + (colMeta?.[c.status]?.total ?? leadsMap[c.status]?.length ?? 0),
     0,
   );
 
@@ -106,7 +108,7 @@ function CompactPill({ columns, leadsMap, onClick }) {
       type="button"
       onClick={onClick}
       title={`${columns.length} ta yopiq column — ochish uchun bosing`}
-      className="bg-background hover:bg-accent group flex min-h-[120px] cursor-pointer flex-col items-center gap-1.5 rounded border px-2 py-3 transition-colors duration-200 select-none"
+      className="bg-background hover:bg-accent group flex h-full min-h-0 cursor-pointer flex-col items-center gap-1.5 rounded border px-2 py-3 transition-colors duration-200 select-none"
       style={{ width: 44 }}
     >
       {/* Color dot stack */}
@@ -148,6 +150,7 @@ function CompactPill({ columns, leadsMap, onClick }) {
 const VoronkaGroup = memo(function VoronkaGroup({
   columns,
   leadsMap,
+  colMeta,
   isDraggingCard,
   onExpandAll,
 }) {
@@ -163,6 +166,7 @@ const VoronkaGroup = memo(function VoronkaGroup({
       <CompactPill
         columns={columns}
         leadsMap={leadsMap}
+        colMeta={colMeta}
         onClick={() => setOpen(true)}
       />
     );
@@ -171,7 +175,7 @@ const VoronkaGroup = memo(function VoronkaGroup({
   // Expanded: show individual collapsed items
   return (
     <div
-      className="relative flex shrink-0 items-start"
+      className="relative flex h-full shrink-0 items-stretch self-stretch"
       style={{
         animation: "groupExpand 220ms cubic-bezier(0.25,1,0.5,1) both",
       }}

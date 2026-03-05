@@ -12,6 +12,7 @@ import LeadDrawer, { clearDrawerUrl, getDrawerFromUrl, pushDrawerUrl } from "@/w
 import MiniMapScroll from "@/widgets/MiniMapScroll";
 import SearchModal from "@/widgets/SearchModal";
 import Voronka from "@/widgets/Voronka";
+import VoronkaGroup from "@/widgets/VoronkaGroup";
 import { useCrm } from "@/shared/hooks/use-crm";
 
 const dropAnimation = {
@@ -145,6 +146,11 @@ export default function Crm() {
     clearDrawerUrl();
     setDrawer({ open: false, leadId: null, status: "" });
   }
+  useEffect(() => {
+    const syncDrawerFromHistory = () => setDrawer(getDrawerFromUrl());
+    window.addEventListener("popstate", syncDrawerFromHistory);
+    return () => window.removeEventListener("popstate", syncDrawerFromHistory);
+  }, []);
 
   // ── Search select: robust scroll + delayed highlight ──────────────────────
   function handleSearchSelect(lead) {
@@ -178,6 +184,40 @@ export default function Crm() {
     await handleAddColumn(formData, modal.insertIdx);
     setModal((p) => ({ ...p, open: false }));
   }
+  const leadsByStatus = useMemo(
+    () =>
+      leads.reduce((acc, lead) => {
+        if (!acc[lead.status]) acc[lead.status] = [];
+        acc[lead.status].push(lead);
+        return acc;
+      }, {}),
+    [leads],
+  );
+  const boardItems = useMemo(() => {
+    if (insertMode) return [];
+    const items = [];
+    for (let i = 0; i < voronka.length; i += 1) {
+      const current = voronka[i];
+      if (!current.collapsed) {
+        items.push({ type: "column", col: current });
+        continue;
+      }
+      let j = i;
+      while (j < voronka.length && voronka[j].collapsed) j += 1;
+      const collapsedRun = voronka.slice(i, j);
+      if (collapsedRun.length > 1) {
+        items.push({
+          type: "group",
+          columns: collapsedRun,
+          key: `group-${collapsedRun[0].id}-${collapsedRun[collapsedRun.length - 1].id}`,
+        });
+      } else {
+        items.push({ type: "column", col: current });
+      }
+      i = j - 1;
+    }
+    return items;
+  }, [insertMode, voronka]);
 
   if (error) {
     return (
@@ -202,6 +242,14 @@ export default function Crm() {
           <Icons.Search size={13} />
           Qidiruv
           <kbd className="text-muted-foreground ml-1 rounded border px-1 text-[10px]">⌘K</kbd>
+        </Button>
+        <Button
+          size="sm"
+          className="gap-1.5 text-xs"
+          onClick={() => openDrawerNew(voronka[0]?.status ?? "")}
+        >
+          <Icons.Plus size={13} />
+          Mijoz qo&apos;shish
         </Button>
 
         {/* Insert mode toggle */}
@@ -246,26 +294,53 @@ export default function Crm() {
                     <InsertGap onInsert={() => openModal(0)} hidden={!!activeId} />
                   )}
 
-                  {voronka.map((col, idx) => (
-                    <div key={col.id} className="flex items-stretch">
-                      <Voronka
-                        voronkaData={col}
-                        leads={leads.filter((l) => l.status === col.status)}
-                        colMeta={colMeta}
-                        isDraggingCard={isCardDrag}
-                        activeCardStatus={activeCardStatus}
-                        highlightedLeadId={highlightedLeadId}
-                        onCollapseChange={handleCollapseChange}
-                        onVisible={handleColumnVisible}
-                        onLoadMore={handleLoadMore}
-                        onAddLead={openDrawerNew}
-                      />
-                      {/* Insert gap after each column */}
-                      {insertMode && (
-                        <InsertGap onInsert={() => openModal(idx + 1)} hidden={!!activeId} />
+                  {insertMode
+                    ? voronka.map((col, idx) => (
+                        <div key={col.id} className="flex h-full items-stretch">
+                          <Voronka
+                            voronkaData={col}
+                            leads={leadsByStatus[col.status] ?? []}
+                            colMeta={colMeta}
+                            isDraggingCard={isCardDrag}
+                            activeCardStatus={activeCardStatus}
+                            highlightedLeadId={highlightedLeadId}
+                            onCollapseChange={handleCollapseChange}
+                            onVisible={handleColumnVisible}
+                            onLoadMore={handleLoadMore}
+                            onAddLead={openDrawerNew}
+                            onOpenLead={openDrawerDetail}
+                          />
+                          {/* Insert gap after each column */}
+                          <InsertGap onInsert={() => openModal(idx + 1)} hidden={!!activeId} />
+                        </div>
+                      ))
+                    : boardItems.map((item) =>
+                        item.type === "group" ? (
+                          <VoronkaGroup
+                            key={item.key}
+                            columns={item.columns}
+                            leadsMap={leadsByStatus}
+                            colMeta={colMeta}
+                            isDraggingCard={isCardDrag}
+                            onExpandAll={(colId) => handleCollapseChange(colId, false)}
+                          />
+                        ) : (
+                          <Voronka
+                            key={item.col.id}
+                            voronkaData={item.col}
+                            leads={leadsByStatus[item.col.status] ?? []}
+                            colMeta={colMeta}
+                            isDraggingCard={isCardDrag}
+                            activeCardStatus={activeCardStatus}
+                            highlightedLeadId={highlightedLeadId}
+                            onCollapseChange={handleCollapseChange}
+                            onVisible={handleColumnVisible}
+                            onLoadMore={handleLoadMore}
+                            onAddLead={openDrawerNew}
+                            onOpenLead={openDrawerDetail}
+                          />
+                        ),
                       )}
-                    </div>
-                  ))}
 
                   {/* Small trailing space */}
                   {!insertMode && <div style={{ width: 8 }} />}

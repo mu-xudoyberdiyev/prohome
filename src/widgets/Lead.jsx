@@ -2,7 +2,7 @@ import { useSortable } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { memo, useEffect, useRef, useState } from "react";
 
-const Lead = memo(function Lead({ data, highlighted }) {
+const Lead = memo(function Lead({ data, highlighted, onOpen }) {
   const [flash, setFlash] = useState(false);
   const timersRef = useRef([]);
 
@@ -26,6 +26,7 @@ const Lead = memo(function Lead({ data, highlighted }) {
     <li
       id={`lead-${data.id}`}
       ref={setNodeRef}
+      onDoubleClick={() => onOpen?.(data)}
       style={{
         transform: CSS.Transform.toString(transform),
         transition: [

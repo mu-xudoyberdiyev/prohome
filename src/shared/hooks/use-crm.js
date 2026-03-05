@@ -90,11 +90,74 @@ export function useCrm() {
   const colSortIds = voronka.map((v) => `col-${v.id}`);
 
   const leadsRef = useRef(leads);
+  const dragStartStatusRef = useRef(null);
   useEffect(() => { leadsRef.current = leads; }, [leads]);
 
   const statusOf = useCallback(
     (id) => leadsRef.current.find((l) => l.id === id)?.status ?? null, [],
   );
+  const getDropStatus = useCallback(
+    (overId) => voronka.find((v) => v.status === overId)?.status ?? statusOf(overId),
+    [voronka, statusOf],
+  );
+  const moveLeadPreview = useCallback((prev, active, over, toStatus) => {
+    const activeId = active.id;
+    const overId = over?.id;
+    if (!toStatus || overId == null) return prev;
+    if (activeId === overId) return prev;
+
+    const activeIndex = prev.findIndex((l) => l.id === activeId);
+    if (activeIndex === -1) return prev;
+
+    const activeLead = prev[activeIndex];
+    const next = [...prev];
+    next.splice(activeIndex, 1);
+
+    const overIsStatus = String(overId) === toStatus;
+    let insertIndex = next.length;
+
+    if (overIsStatus) {
+      const lastInColumn = next.reduce(
+        (acc, item, index) => (item.status === toStatus ? index : acc),
+        -1,
+      );
+      insertIndex = lastInColumn === -1 ? next.length : lastInColumn + 1;
+    } else {
+      const overIndex = next.findIndex((l) => l.id === overId);
+      if (overIndex !== -1) {
+        const activeTop = active.rect?.current?.translated?.top ?? 0;
+        const overMid = (over.rect?.top ?? 0) + (over.rect?.height ?? 0) / 2;
+        const placeAfter = activeTop > overMid;
+        insertIndex = overIndex + (placeAfter ? 1 : 0);
+      }
+    }
+
+    next.splice(insertIndex, 0, { ...activeLead, status: toStatus });
+    return next;
+  }, []);
+  const restoreStatuses = useCallback(async (statuses) => {
+    const unique = [...new Set(statuses.filter(Boolean))];
+    await Promise.all(
+      unique.map(async (status) => {
+        const { items, hasMore, total } = await fetchLeads(status, 1);
+        setLeads((prev) => [...prev.filter((l) => l.status !== status), ...items]);
+        setColMeta((prev) => ({
+          ...prev,
+          [status]: { loading: false, page: 1, hasMore, total },
+        }));
+      }),
+    );
+  }, []);
+  const syncLeadOrders = useCallback(async (statuses) => {
+    const unique = [...new Set(statuses.filter(Boolean))];
+    const snapshot = leadsRef.current;
+    const requests = unique.flatMap((status) =>
+      snapshot
+        .filter((lead) => lead.status === status)
+        .map((lead, order) => patchLeadStatus(lead.id, status, order)),
+    );
+    await Promise.all(requests);
+  }, []);
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const saveColOrder = useCallback(
@@ -115,7 +178,11 @@ export function useCrm() {
   const handleAddColumn = useCallback(async (formData, insertIdx) => {
     try {
       const newCol = await insertVoronkaAt(insertIdx, formData);
-      setVoronka((prev) => [...prev, newCol].sort((a, b) => a.order - b.order));
+      setVoronka((prev) =>
+        [...prev.map((col) => (
+          col.order >= insertIdx ? { ...col, order: col.order + 1 } : col
+        )), newCol].sort((a, b) => a.order - b.order),
+      );
       setColMeta((p) => ({
         ...p,
         [newCol.status]: { loading: false, page: 1, hasMore: false, total: 0 },
@@ -141,34 +208,29 @@ export function useCrm() {
     setTimeout(() => setHighlightedLeadId(null), 2400);
   }, []);
 
-  const handleDragStart = useCallback(({ active }) => { setActiveId(active.id); }, []);
+  const handleDragStart = useCallback(({ active }) => {
+    setActiveId(active.id);
+    if (!String(active.id).startsWith("col-")) {
+      dragStartStatusRef.current = statusOf(active.id);
+    }
+  }, [statusOf]);
 
   const handleDragOver = useCallback(
     ({ active, over }) => {
       if (!over || isColDrag) return;
       const fromStatus = statusOf(active.id);
-      const toStatus =
-        voronka.find((v) => v.status === over.id)?.status ?? statusOf(over.id);
+      const toStatus = getDropStatus(over.id);
       if (!fromStatus || !toStatus) return;
       setActiveCardStatus(toStatus);
-      if (fromStatus === toStatus) return;
-      setLeads((prev) => {
-        const next = prev.map((l) =>
-          l.id === active.id ? { ...l, status: toStatus } : l,
-        );
-        const fromIdx = next.findIndex((l) => l.id === active.id);
-        const overIdx = next.findIndex((l) => l.id === over.id);
-        return fromIdx !== -1 && overIdx !== -1 && fromIdx !== overIdx
-          ? arrayMove(next, fromIdx, overIdx)
-          : next;
-      });
+      setLeads((prev) => moveLeadPreview(prev, active, over, toStatus));
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isColDrag, voronka, statusOf],
+    [isColDrag, statusOf, getDropStatus, moveLeadPreview],
   );
 
   const handleDragEnd = useCallback(
-    ({ active, over }) => {
+    async ({ active, over }) => {
+      const startStatus = dragStartStatusRef.current;
+      dragStartStatusRef.current = null;
       setActiveId(null);
       setActiveCardStatus(null);
       if (!over) return;
@@ -183,44 +245,25 @@ export function useCrm() {
         return;
       }
 
-      const fromStatus = statusOf(active.id);
-      const toStatus =
-        voronka.find((v) => v.status === over.id)?.status ?? statusOf(over.id);
+      const fromStatus = startStatus ?? statusOf(active.id);
+      const toStatus = leadsRef.current.find((lead) => lead.id === active.id)?.status
+        ?? getDropStatus(over.id);
       if (!fromStatus || !toStatus) return;
 
-      if (fromStatus === toStatus) {
-        setLeads((prev) => {
-          const col = prev.filter((l) => l.status === fromStatus);
-          const others = prev.filter((l) => l.status !== fromStatus);
-          const fi = col.findIndex((l) => l.id === active.id);
-          const ti = col.findIndex((l) => l.id === over.id);
-          if (fi === -1 || ti === -1 || fi === ti) return prev;
-          const sorted = arrayMove(col, fi, ti);
-          sorted.forEach((l, i) => patchLeadStatus(l.id, l.status, i));
-          return [...others, ...sorted];
-        });
-      } else {
-        const lead = leadsRef.current.find((l) => l.id === active.id);
-        if (lead) {
-          const order = leadsRef.current.filter((l) => l.status === lead.status).length;
-          patchLeadStatus(lead.id, lead.status, order).catch(() => {
-            fetchLeads(lead.status, 1)
-              .then(({ items }) =>
-                setLeads((p) => [
-                  ...p.filter((l) => l.status !== lead.status), ...items,
-                ]),
-              ).catch(() => {});
-          });
-        }
+      const statuses = fromStatus === toStatus ? [toStatus] : [fromStatus, toStatus];
+      try {
+        await syncLeadOrders(statuses);
+      } catch {
+        restoreStatuses(statuses).catch(() => {});
       }
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [isColDrag, voronka, statusOf, saveColOrder],
+    [isColDrag, voronka, statusOf, saveColOrder, getDropStatus, syncLeadOrders, restoreStatuses],
   );
 
   const handleDragCancel = useCallback(() => {
     setActiveId(null);
     setActiveCardStatus(null);
+    dragStartStatusRef.current = null;
   }, []);
 
   return {

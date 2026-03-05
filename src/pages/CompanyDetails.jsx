@@ -1,3 +1,7 @@
+import { useCompanyDetails } from "@/shared/hooks/use-company-details";
+import { useStableLoadingBar } from "@/shared/hooks/use-loading-bar";
+import { apiUrl } from "@/shared/lib/api";
+import { getFormData } from "@/shared/lib/utils";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -9,12 +13,23 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/shared/ui/alert-dialog";
+import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
+import { Badge } from "@/shared/ui/badge";
+import { Button, buttonVariants } from "@/shared/ui/button";
+import { Checkbox } from "@/shared/ui/checkbox";
+import { Field, FieldContent, FieldLabel, FieldTitle } from "@/shared/ui/field";
+import { Input } from "@/shared/ui/input";
 import {
-  Field,
-  FieldContent,
-  FieldLabel,
-  FieldTitle,
-} from "@/shared/ui/field";
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+  InputGroupText,
+} from "@/shared/ui/input-group";
+import { Label } from "@/shared/ui/label";
+import { Switch } from "@/shared/ui/switch";
+import { Textarea } from "@/shared/ui/textarea";
+import GeneralError from "@/widgets/error/GeneralError";
+import LogoLoader from "@/widgets/loading/LogoLoader";
 import {
   ArrowLeft,
   CircleCheck,
@@ -27,26 +42,6 @@ import {
 } from "lucide-react";
 import { useCallback, useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { useStableLoadingBar } from "@/shared/hooks/use-loading-bar";
-import GeneralError from "@/widgets/error/GeneralError";
-import LogoLoader from "@/widgets/loading/LogoLoader";
-import { Avatar, AvatarFallback, AvatarImage } from "@/shared/ui/avatar";
-import { Badge } from "@/shared/ui/badge";
-import { Button, buttonVariants } from "@/shared/ui/button";
-import { Checkbox } from "@/shared/ui/checkbox";
-import { Input } from "@/shared/ui/input";
-import {
-  InputGroup,
-  InputGroupAddon,
-  InputGroupInput,
-  InputGroupText,
-} from "@/shared/ui/input-group";
-import { Label } from "@/shared/ui/label";
-import { Switch } from "@/shared/ui/switch";
-import { Textarea } from "@/shared/ui/textarea";
-import { useCompanyDetails } from "@/shared/hooks/use-company-details";
-import { apiUrl } from "@/shared/lib/api";
-import { getFormData } from "@/shared/lib/utils";
 
 const UZ_PHONE = /^\+998\d{9}$/;
 
@@ -77,7 +72,10 @@ export default function CompanyDetails() {
     remove,
   } = useCompanyDetails(id);
 
-  const { start, complete } = useStableLoadingBar({ color: "#5ea500", height: 3 });
+  const { start, complete } = useStableLoadingBar({
+    color: "#5ea500",
+    height: 3,
+  });
 
   useEffect(() => {
     if (getLoading) start();
@@ -88,7 +86,7 @@ export default function CompanyDetails() {
     () => () => {
       if (logo.src?.startsWith("blob:")) URL.revokeObjectURL(logo.src);
     },
-    [logo.src]
+    [logo.src],
   );
 
   const formatPhone = useCallback((phone) => {
@@ -114,10 +112,13 @@ export default function CompanyDetails() {
 
       if (!name) next.name = "Kompaniya nomini kiriting!";
       if (!phone) next.phoneNumber = "Telefon raqamni kiriting!";
-      else if (!UZ_PHONE.test(fullPhone)) next.phoneNumber = "Telefon raqam +998xxxxxxxxx formatda bo'lishi kerak!";
+      else if (!UZ_PHONE.test(fullPhone))
+        next.phoneNumber =
+          "Telefon raqam +998xxxxxxxxx formatda bo'lishi kerak!";
       if (!managerName) next.managerName = "Boshqaruvchi ismini kiriting!";
       if (!description) next.description = "Kompaniya uchun izoh yozing!";
-      if (!data.permissions?.length) next.permissions = "Kompaniya uchun ruxsatlarni belgilang!";
+      if (!data.permissions?.length)
+        next.permissions = "Kompaniya uchun ruxsatlarni belgilang!";
 
       setErrors(next);
       if (next.name) form.name?.focus();
@@ -127,7 +128,7 @@ export default function CompanyDetails() {
 
       return Object.values(next).every((v) => v === null);
     },
-    [formatPhone]
+    [formatPhone],
   );
 
   const handleEditMode = useCallback(() => {
@@ -180,12 +181,24 @@ export default function CompanyDetails() {
         phoneNumber: formatPhone(data.phoneNumber),
       }).then((ok) => {
         if (ok) {
-          setLogo((prev) => ({ ...prev, file: null, src: null, removed: false }));
+          setLogo((prev) => ({
+            ...prev,
+            file: null,
+            src: null,
+            removed: false,
+          }));
           handleEditMode();
         }
       });
     },
-    [edit, formatPhone, logo.file, logo.removed, handleEditMode, validateCompanyEditForm]
+    [
+      edit,
+      formatPhone,
+      logo.file,
+      logo.removed,
+      handleEditMode,
+      validateCompanyEditForm,
+    ],
   );
 
   const handleDelete = useCallback(async () => {
@@ -240,7 +253,7 @@ export default function CompanyDetails() {
       </div>
 
       <div className="relative mb-4 rounded border px-3 py-6">
-        <h3 className="bg-background text-muted-foreground absolute left-5 top-0 flex -translate-y-2/4 gap-2 px-2 font-bold">
+        <h3 className="bg-background text-muted-foreground absolute top-0 left-5 flex -translate-y-2/4 gap-2 px-2 font-bold">
           <ShieldAlert /> Muhim harakatlar
         </h3>
         <div className="flex items-center justify-between">
@@ -299,8 +312,8 @@ export default function CompanyDetails() {
                     kompaniyasini o&apos;chirib yubormoqchimisiz?
                   </AlertDialogTitle>
                   <AlertDialogDescription>
-                    Yaxshilab o&apos;ylab ko&apos;ring, bu jarayonni ortga qaytarish
-                    imkonsiz!
+                    Yaxshilab o&apos;ylab ko&apos;ring, bu jarayonni ortga
+                    qaytarish imkonsiz!
                   </AlertDialogDescription>
                 </AlertDialogHeader>
                 <AlertDialogFooter>
@@ -345,7 +358,9 @@ export default function CompanyDetails() {
                 <RefreshCcw className="h-10 w-10 text-white group-hover:opacity-80" />
                 <input
                   className="hidden"
-                  onChange={(e) => e.target.files?.[0] && handleImage(e.target.files[0])}
+                  onChange={(e) =>
+                    e.target.files?.[0] && handleImage(e.target.files[0])
+                  }
                   id="image"
                   type="file"
                   accept="image/*"
@@ -369,7 +384,9 @@ export default function CompanyDetails() {
                 disabled={!editMode || editLoading || statusLoading}
                 onChange={() => clearFieldError("name")}
               />
-              {errors.name && <p className="text-destructive text-xs">{errors.name}</p>}
+              {errors.name && (
+                <p className="text-destructive text-xs">{errors.name}</p>
+              )}
             </div>
             <div className="grid w-full gap-2">
               <Label htmlFor="managerName">Boshqaruvchi*</Label>
@@ -462,7 +479,7 @@ export default function CompanyDetails() {
             </div>
           </div>
           {editMode && (
-            <div className="animate-fade-in absolute -bottom-5 right-0 flex translate-y-full gap-3">
+            <div className="animate-fade-in absolute right-0 -bottom-5 flex translate-y-full gap-3">
               <Button
                 onClick={handleEditMode}
                 variant="outline"
