@@ -8,13 +8,13 @@ import {
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
-} from "@/components/ui/alert-dialog";
+} from "../components/ui/alert-dialog";
 import {
   Field,
   FieldContent,
   FieldLabel,
   FieldTitle,
-} from "@/components/ui/field";
+} from "../components/ui/field";
 import {
   ArrowLeft,
   CircleCheck,
@@ -25,8 +25,8 @@ import {
   ShieldAlert,
   Trash,
 } from "lucide-react";
-import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useCallback, useEffect, useState } from "react";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useLoadingBar } from "react-top-loading-bar";
 import { toast } from "sonner";
 import GeneralError from "../components/error/GeneralError";
@@ -45,286 +45,132 @@ import {
 import { Label } from "../components/ui/label";
 import { Switch } from "../components/ui/switch";
 import { Textarea } from "../components/ui/textarea";
+import { useCompanyDetails } from "../hooks/use-company-details";
+import { apiUrl } from "../lib/api";
 import { getFormData } from "../lib/utils";
 
+const TOAST_OPTS = { position: "top-right" };
+const UZ_PHONE = /^\+998\d{9}$/;
+
+function validateCompanyEditForm(form, data) {
+  const name = (data.name ?? "").trim();
+  const phone = (data.phoneNumber ?? "").trim();
+  const fullPhone = phone.startsWith("+") ? phone : `+998${phone}`;
+  const managerName = (data.managerName ?? "").trim();
+  const description = (data.description ?? "").trim();
+
+  if (!name) {
+    form.name?.focus();
+    toast.info("Kompaniya nomini kiriting!", TOAST_OPTS);
+    return false;
+  }
+  if (!phone) {
+    form.phoneNumber?.focus();
+    toast.info("Telefon raqamni kiriting!", TOAST_OPTS);
+    return false;
+  }
+  if (!UZ_PHONE.test(fullPhone)) {
+    form.phoneNumber?.focus();
+    toast.info("Telefon raqam +998xxxxxxxxx formatda bo'lishi kerak!", TOAST_OPTS);
+    return false;
+  }
+  if (!managerName) {
+    form.managerName?.focus();
+    toast.info("Boshqaruvchi ismini kiriting!", TOAST_OPTS);
+    return false;
+  }
+  if (!description) {
+    form.description?.focus();
+    toast.info("Kompaniya uchun izoh yozing!", TOAST_OPTS);
+    return false;
+  }
+  if (!data.permissions?.length) {
+    toast.info("Kompaniya uchun ruxsatlarni belgilang!", TOAST_OPTS);
+    return false;
+  }
+  return true;
+}
+
 export default function CompanyDetails() {
-  const { pathname } = useLocation();
-
+  const { id } = useParams();
   const navigate = useNavigate();
-  const id = pathname.split("/").at(-1);
-
-  const [details, setDetails] = useState(null);
-  const [logo, setLogo] = useState({ file: null, src: null });
-  const [notFound, setNotFound] = useState(null);
   const [editMode, setEditMode] = useState(false);
+  const [logo, setLogo] = useState({ file: null, src: null, removed: false });
 
-  // Errors
-  const [error, setError] = useState(null);
+  const {
+    details,
+    notFound,
+    error,
+    getLoading,
+    editLoading,
+    statusLoading,
+    deleteLoading,
+    get,
+    edit,
+    toggleStatus,
+    remove,
+  } = useCompanyDetails(id);
 
-  // Loadings
-  const [getLoading, setGetLoading] = useState(false);
-  const [statusLoading, setStatusLoading] = useState(false);
-  const [editLoading, setEditLoading] = useState(false);
-  const [deleteLoading, setDeleteLoading] = useState(false);
-  const { start, complete } = useLoadingBar({
-    color: "#5ea500",
-    height: 3,
-  });
-
-  // ===== CRUD =====
-  async function get(id) {
-    start();
-    let req;
-    const token = localStorage.getItem("token");
-    setGetLoading(true);
-    try {
-      req = await fetch(
-        import.meta.env.VITE_BASE_URL + `/api/v1/company/one/${id}`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        },
-      );
-    } catch {
-      setError("Tizimda nosozlik!");
-    }
-
-    if (req) {
-      if (req.status === 200) {
-        const { data } = await req.json();
-
-        setDetails({
-          ...data,
-          permissions: {
-            PROHOME: true,
-            CRM: false,
-          },
-        });
-        setLogo((prev) => {
-          return { ...prev, src: data.logo };
-        });
-      } else if (req.status === 404 || req.status === 400) {
-        setNotFound(true);
-      } else {
-        setError("Xatolik yuz berdi qayta urunib ko'ring!");
-      }
-    }
-
-    complete();
-    setGetLoading(false);
-  }
-
-  async function edit(data) {
-    const formData = new FormData();
-
-    Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
-
-    let req;
-    const token = localStorage.getItem("token");
-    setEditLoading(true);
-    try {
-      req = await fetch(
-        import.meta.env.VITE_BASE_URL + `/api/v1/company/${id}`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-          body: formData,
-        },
-      );
-    } catch (er) {
-      setError("Tizimda nosozlik!");
-    }
-
-    if (req) {
-      if (req.status === 200) {
-        const data = await req.json();
-
-        setLogo((prev) => {
-          return { ...prev, src: data.logo };
-        });
-
-        toast.success(`${data.name} ma'lumotlari yangilandi!`);
-        setDetails({
-          ...data,
-          permissions: {
-            PROHOME: true,
-            CRM: false,
-          },
-        });
-        handleEditMode();
-      } else if (req.status === 404) {
-        setNotFound(true);
-      } else {
-        setError("Xatolik yuz berdi qayta urunib ko'ring!");
-      }
-    }
-
-    setEditLoading(false);
-  }
-
-  async function statusChanger() {
-    let req;
-    const token = localStorage.getItem("token");
-    setStatusLoading(true);
-    try {
-      req = await fetch(
-        import.meta.env.VITE_BASE_URL + `/api/v1/company/status/${id}`,
-        {
-          method: "PATCH",
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        },
-      );
-    } catch {
-      setError("Tizimda nosozlik!");
-    }
-
-    if (req) {
-      if (req.status === 200) {
-        const data = await req.json();
-        toast.success(
-          `${data.name} ${data.status ? "faollashtirildi" : "to'xtatildi"}!`,
-        );
-        setDetails(data);
-        handleEditMode();
-      } else if (req.status === 404 || req.status === 400) {
-        setNotFound(true);
-      } else {
-        setError("Xatolik yuz berdi qayta urunib ko'ring!");
-      }
-    }
-
-    setStatusLoading(false);
-  }
-
-  // Delete
-  async function remove(id) {
-    let req;
-    const token = localStorage.getItem("token");
-    setDeleteLoading(true);
-    try {
-      req = await fetch(
-        import.meta.env.VITE_BASE_URL + `/api/v1/company/delete/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        },
-      );
-    } catch {
-      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!");
-    }
-
-    if (req) {
-      if (req.status === 200) {
-        navigate("/company");
-        toast.success(`${details.name} kompaniyasi o'chirildi!`);
-      } else {
-        toast.error(
-          "Kompaniyani o'chirishda xatolik yuz berdi qayta urunib ko'ring!",
-        );
-      }
-    }
-
-    setDeleteLoading(false);
-  }
-
-  // ===== Functions =====
-  function handleEditMode() {
-    setEditMode(!editMode);
-  }
-
-  function handleStatus() {
-    statusChanger();
-  }
-
-  function handleImage(file) {
-    const src = URL.createObjectURL(file);
-
-    setLogo((prev) => {
-      return { ...prev, src, file };
-    });
-  }
-
-  function handleRemoveImage() {
-    setLogo(() => {
-      return { src: null, file: null };
-    });
-  }
-
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    const data = {
-      ...getFormData(evt.currentTarget),
-      permissions: new FormData(evt.currentTarget).getAll("permissions"),
-    };
-
-    function isValidUzPhone(phone) {
-      const regex = /^\+998\d{9}$/;
-      return regex.test(phone);
-    }
-
-    if (data.name.trim() === "") {
-      toast.info("Kompaniya nomini kiriting!", { position: "top-right" });
-      evt.currentTarget.name.focus();
-    } else if (data.phoneNumber.trim() === "") {
-      toast.info("Telefon raqamni kiriting!", { position: "top-right" });
-      evt.currentTarget.phoneNumber.focus();
-    } else if (isValidUzPhone(`+998${data.phoneNumber.trim()}`) === false) {
-      toast.info("Telefon raqam +998xxxxxxxxx formatda bo'lishi kerak!", {
-        position: "top-right",
-      });
-      evt.currentTarget.phoneNumber.focus();
-    } else if (data.managerName.trim() === "") {
-      toast.info("Boshqaruvchi ismini kiriting!", {
-        position: "top-right",
-      });
-      evt.currentTarget.managerName.focus();
-    } else if (data.description.trim() === "") {
-      toast.info("Kompaniya uchun izoh yozing!", {
-        position: "top-right",
-      });
-      evt.currentTarget.description.focus();
-    } else if (data.permissions.length === 0) {
-      toast.info("Kompaniya uchun ruxsatlarni belgilang!", {
-        position: "top-right",
-      });
-    } else {
-      if (logo.file) {
-        data.logo = logo.file;
-      } else {
-        data.logo = null;
-      }
-      data.phoneNumber = "+998" + data.phoneNumber;
-
-      edit(data);
-    }
-  }
-
-  function handleDelete() {
-    remove(id);
-  }
+  const { start, complete } = useLoadingBar({ color: "#5ea500", height: 3 });
 
   useEffect(() => {
-    get(id);
-  }, [id]);
+    if (getLoading) start();
+    else complete();
+  }, [getLoading, start, complete]);
 
-  if (getLoading) {
-    return <LogoLoader />;
-  }
+  const handleEditMode = useCallback(() => setEditMode((v) => !v), []);
 
-  if (error) {
-    return <GeneralError />;
-  }
+  const handleImage = useCallback((file) => {
+    setLogo((prev) => ({
+      ...prev,
+      src: URL.createObjectURL(file),
+      file,
+      removed: false,
+    }));
+  }, []);
 
-  if (notFound) {
+  const handleRemoveImage = useCallback(() => {
+    setLogo({ file: null, src: null, removed: true });
+  }, []);
+
+  const handleSubmit = useCallback(
+    (evt) => {
+      evt.preventDefault();
+      const form = evt.currentTarget;
+      const data = {
+        ...getFormData(form),
+        permissions: new FormData(form).getAll("permissions"),
+      };
+      if (!validateCompanyEditForm(form, data)) return;
+      data.logo = logo.file ?? null;
+      data.phoneNumber = data.phoneNumber?.startsWith("+")
+        ? data.phoneNumber
+        : `+998${data.phoneNumber}`;
+      edit(data).then((ok) => {
+        if (ok) {
+          setLogo((prev) => ({ ...prev, file: null, src: null, removed: false }));
+          handleEditMode();
+        }
+      });
+    },
+    [edit, logo.file, handleEditMode]
+  );
+
+  const handleDelete = useCallback(async () => {
+    const ok = await remove();
+    if (ok) navigate("/company");
+  }, [remove, navigate]);
+
+  const avatarSrc =
+    logo.src && logo.src.startsWith("blob:")
+      ? logo.src
+      : !logo.removed && details?.logo
+        ? apiUrl(details.logo)
+        : undefined;
+
+  if (getLoading) return <LogoLoader />;
+  if (error) return <GeneralError />;
+  if (notFound)
     return (
       <div className="animate-fade-in flex h-full w-full items-center justify-center">
         <div className="tex-center flex w-full max-w-sm flex-col items-center">
@@ -334,294 +180,260 @@ export default function CompanyDetails() {
           </p>
           <Link
             className={buttonVariants({ variant: "secondary" })}
-            to={"/company"}
+            to="/company"
           >
             <Search /> Mavjud kompaniyalar
           </Link>
         </div>
       </div>
     );
-  }
 
-  // RENDER
+  if (!details) return null;
+
   return (
-    details && (
-      <section className="animate-fade-in h-full p-5">
-        <div className="mb-10 flex items-center justify-between">
-          <Link
-            className={`${buttonVariants({ variant: "outline" })}`}
-            to={"/company"}
-          >
-            <ArrowLeft />
-            Orqaga
-          </Link>
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="edit-mode"
-              checked={editMode}
-              defaultChecked={editMode}
-              onCheckedChange={handleEditMode}
-            />
-            <Label htmlFor="edit-mode">O'zgartirish</Label>
-          </div>
+    <section className="animate-fade-in h-full p-5">
+      <div className="mb-10 flex items-center justify-between">
+        <Link className={buttonVariants({ variant: "outline" })} to="/company">
+          <ArrowLeft />
+          Orqaga
+        </Link>
+        <div className="flex items-center space-x-2">
+          <Switch
+            id="edit-mode"
+            checked={editMode}
+            onCheckedChange={handleEditMode}
+          />
+          <Label htmlFor="edit-mode">O&apos;zgartirish</Label>
         </div>
+      </div>
 
-        <div className="relative mb-4 rounded border px-3 py-6">
-          <h3 className="bg-background text-muted-foreground absolute top-0 left-5 flex -translate-y-2/4 gap-2 px-2 font-bold">
-            <ShieldAlert /> Muhim harakatlar
-          </h3>
-          <div className="flex items-center justify-between">
-            {statusLoading === false && (
-              <Badge
-                className={`animate-fade-in ${
-                  details.status === false ? "bg-background" : ""
-                }`}
-                variant={details.status ? "default" : "outline"}
-              >
-                {details.status ? (
-                  <>
-                    <CircleCheck /> Faol
-                  </>
-                ) : (
-                  <>
-                    <CircleXIcon /> To'xtagan
-                  </>
-                )}
-              </Badge>
-            )}
-            {statusLoading && (
-              <p>
-                {details.status ? "To'xtatilmoqda..." : "Faollashtirilmoqda..."}
-              </p>
-            )}
-            <div className="flex gap-3">
-              <Button
-                onClick={handleStatus}
-                disabled={editMode === false || statusLoading || editLoading}
-                variant={details.status ? "secondary" : "default"}
-              >
-                <Power /> {details.status ? "To'xtatish" : "Faollashtirish"}
-              </Button>
-
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button
-                    disabled={deleteLoading || editLoading || statusLoading}
-                    variant="destructive"
-                  >
-                    {deleteLoading ? (
-                      <>
-                        <RefreshCcw className="animate-spin" />
-                        O'chirilmoqda...
-                      </>
-                    ) : (
-                      <>
-                        <Trash />
-                        O'chirish
-                      </>
-                    )}
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      Rostan ham{" "}
-                      <span className="font-mono">{details?.name}</span>{" "}
-                      kompaniyasini o'chirib yubormoqchimisiz?
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      Yaxshilab o'ylab ko'ring, bu jarayonni ortga qaytarish
-                      imkonsiz!
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Yo'q</AlertDialogCancel>
-                    <AlertDialogAction onClick={handleDelete}>
-                      Ha
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex items-start gap-10">
-          <div className="relative h-40 w-40 shrink-0 overflow-hidden rounded-lg">
-            <Avatar className="h-full w-full rounded-lg">
-              <AvatarImage
-                src={
-                  logo.src?.startsWith("blob:")
-                    ? logo.src
-                    : `${import.meta.env.VITE_BASE_URL}/api/v1/${logo.src}`
-                }
-                alt={details.name[0]}
-              />
-              <AvatarFallback className={"rounded-lg uppercase select-none"}>
-                {<span className="text-5xl">{details.name[0]}</span>}
-              </AvatarFallback>
-            </Avatar>
-            {editMode && (
-              <div
-                className={`animate-fade-in absolute inset-0 z-10 flex bg-black/50 ${
-                  editLoading ? "pointer-events-none opacity-80" : ""
-                }`}
-              >
-                {typeof logo.src === "string" && (
-                  <div
-                    onClick={handleRemoveImage}
-                    className="group flex h-full w-full cursor-pointer items-center justify-center"
-                  >
-                    <Trash className="group-hover:text-destructive h-10 w-10 text-white" />
-                  </div>
-                )}
-                <label
-                  className="group inline-flex h-full w-full cursor-pointer items-center justify-center"
-                  htmlFor="image"
-                >
-                  <RefreshCcw className="h-10 w-10 text-white group-hover:opacity-80" />
-                  <input
-                    className="hidden"
-                    onChange={(evt) => {
-                      if (evt.target.files.length > 0) {
-                        handleImage(evt.target.files[0]);
-                      }
-                    }}
-                    id="image"
-                    type="file"
-                    accept="image/*"
-                  />
-                </label>
-              </div>
-            )}
-          </div>
-
-          {/* Form  */}
-          <form
-            onSubmit={handleSubmit}
-            className="relative flex w-full flex-col"
-          >
-            <div className="grid w-full grid-cols-2 gap-5">
-              <div className="grid gap-2">
-                <Label htmlFor="name">Kompaniya nomi*</Label>
-                <Input
-                  className={"w-full"}
-                  id="name"
-                  name="name"
-                  type="text"
-                  placeholder="Kompaniya nomini kiriting"
-                  defaultValue={details.name}
-                  disabled={editMode === false || editLoading || statusLoading}
-                />
-              </div>
-              <div className="grid w-full gap-2">
-                <Label htmlFor="managerName">Boshqaruvchi*</Label>
-                <Input
-                  id="managerName"
-                  name="managerName"
-                  type="text"
-                  placeholder="Boshqaruvchi ismini kiriting"
-                  defaultValue={details.managerName}
-                  disabled={editMode === false || editLoading || statusLoading}
-                />
-              </div>
-              <div className="col-start-1 col-end-3 grid w-full gap-2">
-                <Label htmlFor="phoneNumber">Telefon raqami*</Label>
-
-                <InputGroup>
-                  <InputGroupInput
-                    className="pl-1!"
-                    id="phoneNumber"
-                    name="phoneNumber"
-                    type="text"
-                    placeholder="xxxxxxx"
-                    defaultValue={details.phoneNumber.replace("+998", "")}
-                    disabled={
-                      editMode === false || editLoading || statusLoading
-                    }
-                  />
-                  <InputGroupAddon>
-                    <InputGroupText>+998</InputGroupText>
-                  </InputGroupAddon>
-                </InputGroup>
-              </div>
-
-              <div className="col-start-1 col-end-3 grid w-full gap-3">
-                <Label htmlFor="description">Izoh*</Label>
-                <Textarea
-                  className={"max-h-16"}
-                  placeholder="Kompaniya haqida izoh yozing"
-                  id="description"
-                  name="description"
-                  defaultValue={details.description}
-                  disabled={editMode === false || editLoading || statusLoading}
-                />
-              </div>
-
-              <div className="col-start-1 col-end-3 grid w-full items-center gap-3">
-                <Label htmlFor="password">Ruxsatlar*</Label>
-                <div className="flex gap-5">
-                  <FieldLabel>
-                    <Field orientation="horizontal">
-                      <Checkbox
-                        id="permissions-prohome"
-                        defaultChecked={details.permissions.PROHOME}
-                        name="permissions"
-                        value="PROHOME"
-                        disabled={
-                          editMode === false || editLoading || statusLoading
-                        }
-                      />
-                      <FieldContent>
-                        <FieldTitle>PROHOME</FieldTitle>
-                      </FieldContent>
-                    </Field>
-                  </FieldLabel>
-                  <FieldLabel>
-                    <Field orientation="horizontal">
-                      <Checkbox
-                        id="permissions-crm"
-                        defaultChecked={details.permissions.CRM}
-                        name="permissions"
-                        value="CRM"
-                        disabled={
-                          editMode === false || editLoading || statusLoading
-                        }
-                      />
-                      <FieldContent>
-                        <FieldTitle>CRM</FieldTitle>
-                      </FieldContent>
-                    </Field>
-                  </FieldLabel>
-                </div>
-              </div>
-            </div>
-
-            {editMode && (
-              <div className="animate-fade-in absolute right-0 -bottom-5 flex translate-y-full gap-3">
+      <div className="relative mb-4 rounded border px-3 py-6">
+        <h3 className="bg-background text-muted-foreground absolute left-5 top-0 flex -translate-y-2/4 gap-2 px-2 font-bold">
+          <ShieldAlert /> Muhim harakatlar
+        </h3>
+        <div className="flex items-center justify-between">
+          {!statusLoading && (
+            <Badge
+              className={`animate-fade-in ${details.status === false ? "bg-background" : ""}`}
+              variant={details.status ? "default" : "outline"}
+            >
+              {details.status ? (
+                <>
+                  <CircleCheck /> Faol
+                </>
+              ) : (
+                <>
+                  <CircleXIcon /> To&apos;xtagan
+                </>
+              )}
+            </Badge>
+          )}
+          {statusLoading && (
+            <p>
+              {details.status ? "To'xtatilmoqda..." : "Faollashtirilmoqda..."}
+            </p>
+          )}
+          <div className="flex gap-3">
+            <Button
+              onClick={toggleStatus}
+              disabled={!editMode || statusLoading || editLoading}
+              variant={details.status ? "secondary" : "default"}
+            >
+              <Power /> {details.status ? "To'xtatish" : "Faollashtirish"}
+            </Button>
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
                 <Button
-                  onClick={handleEditMode}
-                  variant="outline"
-                  type="button"
-                  disabled={editLoading || statusLoading}
+                  disabled={deleteLoading || editLoading || statusLoading}
+                  variant="destructive"
                 >
-                  Bekor qilish
-                </Button>
-                <Button disabled={editLoading || statusLoading} type="submit">
-                  {editLoading ? (
+                  {deleteLoading ? (
                     <>
                       <RefreshCcw className="animate-spin" />
-                      Saqlanmoqda...
+                      O&apos;chirilmoqda...
                     </>
                   ) : (
-                    <>Saqlash</>
+                    <>
+                      <Trash />
+                      O&apos;chirish
+                    </>
                   )}
                 </Button>
-              </div>
-            )}
-          </form>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    Rostan ham <span className="font-mono">{details.name}</span>{" "}
+                    kompaniyasini o&apos;chirib yubormoqchimisiz?
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Yaxshilab o&apos;ylab ko&apos;ring, bu jarayonni ortga qaytarish
+                    imkonsiz!
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Yo&apos;q</AlertDialogCancel>
+                  <AlertDialogAction onClick={handleDelete}>
+                    Ha
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </div>
         </div>
-      </section>
-    )
+      </div>
+
+      <div className="flex items-start gap-10">
+        <div className="relative h-40 w-40 shrink-0 overflow-hidden rounded-lg">
+          <Avatar className="h-full w-full rounded-lg">
+            <AvatarImage src={avatarSrc} alt={details.name?.[0]} />
+            <AvatarFallback className="rounded-lg uppercase select-none">
+              <span className="text-5xl">{details.name?.[0]}</span>
+            </AvatarFallback>
+          </Avatar>
+          {editMode && (
+            <div
+              className={`animate-fade-in absolute inset-0 z-10 flex bg-black/50 ${editLoading ? "pointer-events-none opacity-80" : ""}`}
+            >
+              {avatarSrc && (
+                <div
+                  onClick={handleRemoveImage}
+                  className="group flex h-full w-full cursor-pointer items-center justify-center"
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === "Enter" && handleRemoveImage()}
+                >
+                  <Trash className="group-hover:text-destructive h-10 w-10 text-white" />
+                </div>
+              )}
+              <label
+                className="group inline-flex h-full w-full cursor-pointer items-center justify-center"
+                htmlFor="image"
+              >
+                <RefreshCcw className="h-10 w-10 text-white group-hover:opacity-80" />
+                <input
+                  className="hidden"
+                  onChange={(e) => e.target.files?.[0] && handleImage(e.target.files[0])}
+                  id="image"
+                  type="file"
+                  accept="image/*"
+                />
+              </label>
+            </div>
+          )}
+        </div>
+
+        <form onSubmit={handleSubmit} className="relative flex w-full flex-col">
+          <div className="grid w-full grid-cols-2 gap-5">
+            <div className="grid gap-2">
+              <Label htmlFor="name">Kompaniya nomi*</Label>
+              <Input
+                className="w-full"
+                id="name"
+                name="name"
+                type="text"
+                placeholder="Kompaniya nomini kiriting"
+                defaultValue={details.name}
+                disabled={!editMode || editLoading || statusLoading}
+              />
+            </div>
+            <div className="grid w-full gap-2">
+              <Label htmlFor="managerName">Boshqaruvchi*</Label>
+              <Input
+                id="managerName"
+                name="managerName"
+                type="text"
+                placeholder="Boshqaruvchi ismini kiriting"
+                defaultValue={details.managerName}
+                disabled={!editMode || editLoading || statusLoading}
+              />
+            </div>
+            <div className="col-span-2 grid w-full gap-2">
+              <Label htmlFor="phoneNumber">Telefon raqami*</Label>
+              <InputGroup>
+                <InputGroupInput
+                  className="pl-1!"
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  type="text"
+                  placeholder="xxxxxxx"
+                  defaultValue={details.phoneNumber?.replace("+998", "")}
+                  disabled={!editMode || editLoading || statusLoading}
+                />
+                <InputGroupAddon>
+                  <InputGroupText>+998</InputGroupText>
+                </InputGroupAddon>
+              </InputGroup>
+            </div>
+            <div className="col-span-2 grid w-full gap-3">
+              <Label htmlFor="description">Izoh*</Label>
+              <Textarea
+                className="max-h-16"
+                placeholder="Kompaniya haqida izoh yozing"
+                id="description"
+                name="description"
+                defaultValue={details.description}
+                disabled={!editMode || editLoading || statusLoading}
+              />
+            </div>
+            <div className="col-span-2 grid w-full items-center gap-3">
+              <Label>Ruxsatlar*</Label>
+              <div className="flex gap-5">
+                <FieldLabel>
+                  <Field orientation="horizontal">
+                    <Checkbox
+                      id="permissions-prohome"
+                      defaultChecked={details.permissions?.PROHOME}
+                      name="permissions"
+                      value="PROHOME"
+                      disabled={!editMode || editLoading || statusLoading}
+                    />
+                    <FieldContent>
+                      <FieldTitle>PROHOME</FieldTitle>
+                    </FieldContent>
+                  </Field>
+                </FieldLabel>
+                <FieldLabel>
+                  <Field orientation="horizontal">
+                    <Checkbox
+                      id="permissions-crm"
+                      defaultChecked={details.permissions?.CRM}
+                      name="permissions"
+                      value="CRM"
+                      disabled={!editMode || editLoading || statusLoading}
+                    />
+                    <FieldContent>
+                      <FieldTitle>CRM</FieldTitle>
+                    </FieldContent>
+                  </Field>
+                </FieldLabel>
+              </div>
+            </div>
+          </div>
+          {editMode && (
+            <div className="animate-fade-in absolute -bottom-5 right-0 flex translate-y-full gap-3">
+              <Button
+                onClick={handleEditMode}
+                variant="outline"
+                type="button"
+                disabled={editLoading || statusLoading}
+              >
+                Bekor qilish
+              </Button>
+              <Button disabled={editLoading || statusLoading} type="submit">
+                {editLoading ? (
+                  <>
+                    <RefreshCcw className="animate-spin" />
+                    Saqlanmoqda...
+                  </>
+                ) : (
+                  <>Saqlash</>
+                )}
+              </Button>
+            </div>
+          )}
+        </form>
+      </div>
+    </section>
   );
 }

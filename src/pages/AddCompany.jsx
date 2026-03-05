@@ -3,9 +3,9 @@ import {
   FieldContent,
   FieldLabel,
   FieldTitle,
-} from "@/components/ui/field";
+} from "../components/ui/field";
 import { ArrowLeft, Plus, PlusCircle, RefreshCcw, Trash } from "lucide-react";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { Button, buttonVariants } from "../components/ui/button";
@@ -19,156 +19,135 @@ import {
 } from "../components/ui/input-group";
 import { Label } from "../components/ui/label";
 import { Textarea } from "../components/ui/textarea";
+import { apiRequest } from "../lib/api";
 import { getFormData } from "../lib/utils";
+
+const TOAST_OPTS = { position: "top-right" };
+const UZ_PHONE = /^\+998\d{9}$/;
+
+function validateCompanyForm(form, data) {
+  const name = (data.name ?? "").trim();
+  const phone = (data.phoneNumber ?? "").trim();
+  const fullPhone = phone.startsWith("+") ? phone : `+998${phone}`;
+  const managerName = (data.managerName ?? "").trim();
+  const description = (data.description ?? "").trim();
+
+  if (!name) {
+    form.name?.focus();
+    toast.info("Kompaniya nomini kiriting!", TOAST_OPTS);
+    return false;
+  }
+  if (!phone) {
+    form.phoneNumber?.focus();
+    toast.info("Telefon raqamni kiriting!", TOAST_OPTS);
+    return false;
+  }
+  if (!UZ_PHONE.test(fullPhone)) {
+    form.phoneNumber?.focus();
+    toast.info("Telefon raqam +998xxxxxxxxx formatda bo'lishi kerak!", TOAST_OPTS);
+    return false;
+  }
+  if (!managerName) {
+    form.managerName?.focus();
+    toast.info("Boshqaruvchi ismini kiriting!", TOAST_OPTS);
+    return false;
+  }
+  if (!description) {
+    form.description?.focus();
+    toast.info("Kompaniya uchun izoh yozing!", TOAST_OPTS);
+    return false;
+  }
+  if (!data.permissions?.length) {
+    toast.info("Kompaniya uchun ruxsatlarni belgilang!", TOAST_OPTS);
+    return false;
+  }
+  return true;
+}
 
 export default function AddCompany() {
   const navigate = useNavigate();
-
-  // States
   const [logo, setLogo] = useState({ file: null, src: null });
-
-  // Loadings
   const [addLoading, setAddLoading] = useState(false);
 
-  // Add
-  async function add(data) {
-    let req;
-    const token = localStorage.getItem("token");
+  const handleImage = useCallback((file) => {
+    setLogo((prev) => ({ ...prev, src: URL.createObjectURL(file), file }));
+  }, []);
 
-    const formData = new FormData();
+  const handleDeleteLogo = useCallback(() => {
+    setLogo((prev) => ({ ...prev, file: null, src: null }));
+  }, []);
 
-    Object.entries(data).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
+  const handleSubmit = useCallback(
+    async (evt) => {
+      evt.preventDefault();
+      const form = evt.currentTarget;
+      const data = {
+        ...getFormData(form),
+        permissions: new FormData(form).getAll("permissions"),
+      };
+      if (!validateCompanyForm(form, data)) return;
 
-    setAddLoading(true);
-    try {
-      req = await fetch(import.meta.env.VITE_BASE_URL + "/api/v1/company", {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + token,
-        },
-        body: formData,
-      });
-    } catch {
-      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!", {
-        position: "top-center",
-      });
-    }
+      if (logo.file) data.logo = logo.file;
+      else data.logo = null;
+      data.phoneNumber = data.phoneNumber?.startsWith("+")
+        ? data.phoneNumber
+        : `+998${data.phoneNumber}`;
 
-    if (req) {
-      if (req.status === 201) {
-        const data = await req.json();
-        toast.success(`${data.name} kompaniyasi qo'shildi!`);
-        navigate("/company");
-      } else if (req.status === 409) {
-        toast.error("Ushbu kompaniya ro'yhatdan o'tgan!");
-      } else {
-        toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
+      setAddLoading(true);
+      try {
+        const formData = new FormData();
+        Object.entries(data).forEach(([k, v]) => formData.append(k, v));
+
+        const res = await apiRequest("/api/v1/company", {
+          method: "POST",
+          body: formData,
+        });
+        if (res.status === 201) {
+          const result = await res.json();
+          toast.success(`${result.name} kompaniyasi qo'shildi!`);
+          navigate("/company");
+          return;
+        }
+        if (res.status === 409) {
+          toast.error("Ushbu kompaniya ro'yhatdan o'tgan!");
+        } else {
+          toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
+            position: "top-center",
+          });
+        }
+      } catch {
+        toast.error("Tizimda nosozlik, adminga aloqaga chiqing!", {
           position: "top-center",
         });
+      } finally {
+        setAddLoading(false);
       }
-    }
-
-    setAddLoading(false);
-  }
-
-  // Functions
-  function handleSubmit(evt) {
-    evt.preventDefault();
-    const data = {
-      ...getFormData(evt.currentTarget),
-      permissions: new FormData(evt.currentTarget).getAll("permissions"),
-    };
-
-    function isValidUzPhone(phone) {
-      const regex = /^\+998\d{9}$/;
-      return regex.test(phone);
-    }
-
-    if (data.name.trim() === "") {
-      toast.info("Kompaniya nomini kiriting!", { position: "top-right" });
-      evt.currentTarget.name.focus();
-    } else if (isValidUzPhone(`+998${data.phoneNumber.trim()}`) === false) {
-      toast.info("Telefon raqam +998xxxxxxxxx formatda bo'lishi kerak!", {
-        position: "top-right",
-      });
-      evt.currentTarget.phoneNumber.focus();
-    } else if (data.phoneNumber.trim() === "") {
-      toast.info("Telefon raqamni kiriting!", { position: "top-right" });
-      evt.currentTarget.phoneNumber.focus();
-    } else if (data.managerName.trim() === "") {
-      toast.info("Boshqaruvchi ismini kiriting!", {
-        position: "top-right",
-      });
-      evt.currentTarget.managerName.focus();
-    } else if (data.description.trim() === "") {
-      toast.info("Kompaniya uchun izoh yozing!", {
-        position: "top-right",
-      });
-      evt.currentTarget.description.focus();
-    } else if (data.permissions.length === 0) {
-      toast.info("Kompaniya uchun ruxsatlarni belgilang!", {
-        position: "top-right",
-      });
-    } else {
-      if (logo.file) {
-        data.logo = logo.file;
-      } else {
-        data.logo = null;
-      }
-      data.phoneNumber = "+998" + data.phoneNumber;
-
-      add(data);
-    }
-  }
-
-  function handleImage(file) {
-    const src = URL.createObjectURL(file);
-    setLogo((prev) => {
-      return { ...prev, src, file };
-    });
-  }
-
-  function handleDeleteLogo() {
-    setLogo((prev) => {
-      return {
-        ...prev,
-        file: null,
-        src: null,
-      };
-    });
-  }
+    },
+    [logo.file, navigate]
+  );
 
   return (
     <section className="animate-fade-in h-full p-5">
-      <Link
-        className={`${buttonVariants({ variant: "outline" })} mb-10`}
-        to={"/company"}
-      >
+      <Link className={`${buttonVariants({ variant: "outline" })} mb-10`} to="/company">
         <ArrowLeft />
         Orqaga
       </Link>
       <div className="mb-5">
-        <h2 className="mb-5 text-3xl font-bold">Yangi kompaniya qo'shish</h2>
+        <h2 className="mb-5 text-3xl font-bold">Yangi kompaniya qo&apos;shish</h2>
         <p className="text-muted-foreground">
-          Yangi kompaniya qo'shish uchun barcha ma'lumotlarni kiritishingiz
+          Yangi kompaniya qo&apos;shish uchun barcha ma&apos;lumotlarni kiritishingiz
           kerak!
         </p>
       </div>
       <div className="flex items-start gap-10">
         <div className="relative h-40 w-40 shrink-0">
-          {logo.file === null ? (
+          {!logo.file ? (
             <label
               className="hover:border-primary group inline-flex h-full w-full cursor-pointer items-center justify-center rounded-lg border-4 border-dashed transition-colors"
               htmlFor="logo"
             >
               <input
-                onChange={(evt) => {
-                  if (evt.target.files.length > 0) {
-                    handleImage(evt.target.files[0]);
-                  }
-                }}
+                onChange={(e) => e.target.files?.[0] && handleImage(e.target.files[0])}
                 className="hidden"
                 accept="image/*"
                 id="logo"
@@ -187,19 +166,15 @@ export default function AddCompany() {
                 <div
                   onClick={handleDeleteLogo}
                   className="group flex h-full w-full cursor-pointer items-center justify-center"
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => e.key === "Enter" && handleDeleteLogo()}
                 >
                   <Trash className="group-hover:text-destructive text-white" />
                 </div>
-                <label
-                  className="group inline-flex h-full w-full cursor-pointer items-center justify-center"
-                  htmlFor="logo"
-                >
+                <label className="group inline-flex h-full w-full cursor-pointer items-center justify-center">
                   <input
-                    onChange={(evt) => {
-                      if (evt.target.files.length > 0) {
-                        handleImage(evt.target.files[0]);
-                      }
-                    }}
+                    onChange={(e) => e.target.files?.[0] && handleImage(e.target.files[0])}
                     accept="image/*"
                     className="hidden"
                     id="logo"
@@ -211,13 +186,12 @@ export default function AddCompany() {
             </div>
           )}
         </div>
-        {/* Form  */}
         <form onSubmit={handleSubmit} className="relative flex w-full flex-col">
           <div className="mb-5 grid w-full grid-cols-2 gap-5">
             <div className="grid gap-2">
               <Label htmlFor="name">Kompaniya nomi*</Label>
               <Input
-                className={"w-full"}
+                className="w-full"
                 id="name"
                 name="name"
                 type="text"
@@ -235,9 +209,8 @@ export default function AddCompany() {
                 disabled={addLoading}
               />
             </div>
-            <div className="col-start-1 col-end-3 grid w-full gap-2">
+            <div className="col-span-2 grid w-full gap-2">
               <Label htmlFor="phoneNumber">Telefon raqami*</Label>
-
               <InputGroup>
                 <InputGroupInput
                   className="pl-1!"
@@ -252,28 +225,22 @@ export default function AddCompany() {
                 </InputGroupAddon>
               </InputGroup>
             </div>
-
-            <div className="col-start-1 col-end-3 grid w-full gap-3">
+            <div className="col-span-2 grid w-full gap-3">
               <Label htmlFor="description">Izoh*</Label>
               <Textarea
-                className={"max-h-16"}
+                className="max-h-16"
                 placeholder="Kompaniya haqida izoh yozing"
                 id="description"
                 name="description"
                 disabled={addLoading}
               />
             </div>
-
-            <div className="col-start-1 col-end-3 grid w-full items-center gap-3">
-              <Label htmlFor="password">Ruxsatlar*</Label>
+            <div className="col-span-2 grid w-full items-center gap-3">
+              <Label>Ruxsatlar*</Label>
               <div className="flex gap-5">
                 <FieldLabel>
                   <Field orientation="horizontal">
-                    <Checkbox
-                      id="permissions-prohome"
-                      name="permissions"
-                      value="PROHOME"
-                    />
+                    <Checkbox id="permissions-prohome" name="permissions" value="PROHOME" />
                     <FieldContent>
                       <FieldTitle>PROHOME</FieldTitle>
                     </FieldContent>
@@ -281,11 +248,7 @@ export default function AddCompany() {
                 </FieldLabel>
                 <FieldLabel>
                   <Field orientation="horizontal">
-                    <Checkbox
-                      id="permissions-crm"
-                      name="permissions"
-                      value="CRM"
-                    />
+                    <Checkbox id="permissions-crm" name="permissions" value="CRM" />
                     <FieldContent>
                       <FieldTitle>CRM</FieldTitle>
                     </FieldContent>
@@ -294,21 +257,20 @@ export default function AddCompany() {
               </div>
             </div>
           </div>
-
           <div className="flex justify-end gap-3">
-            <Link className={buttonVariants({ variant: "outline" })}>
+            <Link className={buttonVariants({ variant: "outline" })} to="/company">
               Bekor qilish
             </Link>
             <Button disabled={addLoading} type="submit">
               {addLoading ? (
                 <>
                   <RefreshCcw className="animate-spin" />
-                  Qo'shilmoqda...
+                  Qo&apos;shilmoqda...
                 </>
               ) : (
                 <>
                   <PlusCircle />
-                  Qo'shish
+                  Qo&apos;shish
                 </>
               )}
             </Button>

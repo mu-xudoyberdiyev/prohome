@@ -4,27 +4,25 @@ import {
   DrawerDescription,
   DrawerHeader,
   DrawerTitle,
-} from "@/components/ui/drawer";
+} from "../components/ui/drawer";
 import {
   Field,
   FieldContent,
   FieldLabel,
   FieldTitle,
-} from "@/components/ui/field";
+} from "../components/ui/field";
 import { Check, Plus, Trash, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useLoadingBar } from "react-top-loading-bar";
-import { toast } from "sonner";
 import EmptyData from "../components/EmptyData";
 import GeneralError from "../components/error/GeneralError";
 import LogoLoader from "../components/loading/LogoLoader";
+import { Badge } from "../components/ui/badge";
 import { Button } from "../components/ui/button";
 import { Checkbox } from "../components/ui/checkbox";
 import { Input } from "../components/ui/input";
 import { Label } from "../components/ui/label";
 import { Spinner } from "../components/ui/spinner";
-import { getFormData } from "../lib/utils";
-
 import {
   Table,
   TableBody,
@@ -33,207 +31,66 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/optics/table";
-import { Badge } from "../components/ui/badge";
+import { useUserCrud } from "../hooks/use-user-crud";
+import { getFormData } from "../lib/utils";
+import { validateUserForm } from "../lib/validators";
 
 export default function Rop() {
-  // Modals
   const [addModal, setAddModal] = useState(false);
-  const [rops, setRops] = useState([]);
-
-  // Errors
-  const [error, setError] = useState(null);
-
-  // Loadings
-  const { start, complete } = useLoadingBar({
-    color: "#5ea500",
-    height: 3,
-  });
-  const [getLoading, setGetLoading] = useState(false);
-  const [addLoading, setAddLoading] = useState(false);
-  const [removeLoading, setRemoveLoading] = useState(false);
-
-  // Permanently states
   const [showConfirmation, setShowConfirmation] = useState(null);
 
-  // ======= CRUD =======
+  const {
+    list: rops,
+    error,
+    getLoading,
+    addLoading,
+    removeLoading,
+    add,
+    remove,
+  } = useUserCrud("rop");
 
-  // Create
-  async function add(data) {
-    let req;
-    const token = localStorage.getItem("token");
-
-    setAddLoading(true);
-    try {
-      req = await fetch(import.meta.env.VITE_BASE_URL + "/api/v1/user/rop", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: "Bearer " + token,
-        },
-        body: JSON.stringify(data),
-      });
-    } catch {
-      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!", {
-        position: "top-center",
-      });
-    }
-
-    if (req) {
-      if (req.status === 201) {
-        const newRop = await req.json();
-
-        setRops((prev) => {
-          return [newRop, ...prev];
-        });
-
-        handleAddModal();
-
-        toast.success(`${newRop.fullName} qo'shildi!`);
-      } else if (req.status === 409) {
-        toast.error("Bu email bilan rop ro'yhatdan o'tgan!", {
-          position: "top-center",
-        });
-      } else {
-        toast.error("Xatolik yuz berdi, qayta urunib ko'ring!", {
-          position: "top-center",
-        });
-      }
-    }
-
-    setAddLoading(false);
-  }
-
-  // Read
-  async function get() {
-    start();
-    let req;
-    const token = localStorage.getItem("token");
-
-    setGetLoading(true);
-    try {
-      req = await fetch(
-        import.meta.env.VITE_BASE_URL + `/api/v1/user/all/rop`,
-        {
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        },
-      );
-    } catch {
-      setError("Tizimda nosozlik!");
-    }
-
-    if (req) {
-      if (req.status === 200) {
-        const { users } = await req.json();
-
-        setRops(users);
-      } else {
-        setError("Xatolik yuz berdi qayta urunib ko'ring!");
-      }
-    }
-
-    setGetLoading(false);
-    complete();
-  }
-
-  // Delete
-  async function remove(id) {
-    let req;
-    const token = localStorage.getItem("token");
-    setRemoveLoading(true);
-    try {
-      req = await fetch(
-        import.meta.env.VITE_BASE_URL + `/api/v1/user/remove-rop/${id}`,
-        {
-          method: "DELETE",
-          headers: {
-            Authorization: "Bearer " + token,
-          },
-        },
-      );
-    } catch {
-      toast.error("Tizimda nosozlik, adminga aloqaga chiqing!");
-    }
-
-    if (req) {
-      if (req.status === 200) {
-        const result = rops.filter((rp) => rp.id !== id);
-        setRops(result);
-
-        toast.success(`Rop o'chirildi!`);
-      } else {
-        toast.error(
-          "Ropni o'chirishda xatolik yuz berdi qayta urunib ko'ring!",
-        );
-      }
-    }
-
-    setShowConfirmation(null);
-    setRemoveLoading(false);
-  }
-
-  // ===== Funtions =====
-  function handleAddSubmit(evt) {
-    evt.preventDefault();
-    const result = {
-      ...getFormData(evt.currentTarget),
-      permissions: new FormData(evt.currentTarget).getAll("permissions"),
-    };
-
-    if (result.fullName.trim() === "") {
-      evt.currentTarget.fullName.focus();
-      toast.info("FISHni kiriting!", { position: "top-center" });
-    } else if (result.email.trim() === "") {
-      evt.currentTarget.email.focus();
-      toast.info("Email kiriting!", { position: "top-center" });
-    } else if (result.password.trim() === "") {
-      evt.currentTarget.password.focus();
-      toast.info("Parol kiriting!", { position: "top-center" });
-    } else if (result.password.trim().length <= 6) {
-      evt.currentTarget.password.focus();
-      toast.info("Parol eng kamida 6 ta belgi bo'lishi kerak!", {
-        position: "top-center",
-      });
-    } else if (result.permissions.length === 0) {
-      toast.info("Ruxsatlarni belgilang!", {
-        position: "top-center",
-      });
-    } else {
-      result.companyId = 1;
-
-      add(result);
-    }
-  }
-
-  function handleAddModal() {
-    setAddModal(!addModal);
-  }
-
-  function handleDelete(id) {
-    remove(id);
-  }
+  const { start, complete } = useLoadingBar({ color: "#5ea500", height: 3 });
 
   useEffect(() => {
-    get();
+    if (getLoading) start();
+    else complete();
+  }, [getLoading, start, complete]);
+
+  const handleAddModal = useCallback(() => setAddModal((v) => !v), []);
+
+  const handleAddSubmit = useCallback(
+    async (evt) => {
+      evt.preventDefault();
+      const form = evt.currentTarget;
+      const result = {
+        ...getFormData(form),
+        permissions: new FormData(form).getAll("permissions"),
+      };
+      if (!validateUserForm(form, result)) return;
+      result.companyId = 1;
+      const ok = await add(result);
+      if (ok) setAddModal(false);
+    },
+    [add]
+  );
+
+  const handleDelete = useCallback(
+    (id) => remove(id).then(() => setShowConfirmation(null)),
+    [remove]
+  );
+
+  const toggleConfirm = useCallback((id) => {
+    setShowConfirmation((prev) => (prev === id ? null : id));
   }, []);
 
-  // ====== Render ======
-  if (getLoading) {
-    return <LogoLoader />;
-  }
-
-  if (error) {
-    return <GeneralError />;
-  }
+  if (getLoading) return <LogoLoader />;
+  if (error) return <GeneralError />;
 
   return (
     <>
       <section className="animate-fade-in relative h-full p-5">
-        {/* Header  */}
         <header className="bg-primary/2 mb-10 flex items-center justify-between rounded border p-3">
           <h2 className="text-2xl font-bold">Roplar</h2>
-
           <Button
             onClick={handleAddModal}
             disabled={getLoading || addLoading}
@@ -241,7 +98,7 @@ export default function Rop() {
             size="sm"
           >
             <Plus />
-            Qo'shish
+            Qo&apos;shish
           </Button>
         </header>
 
@@ -258,62 +115,50 @@ export default function Rop() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {rops.map((rp, index) => {
-                  return (
-                    <TableRow className="group">
-                      <TableCell>{index + 1}</TableCell>
-                      <TableCell className="font-medium">
-                        {rp.fullName}
-                      </TableCell>
-                      <TableCell>{rp.email}</TableCell>
-                      <TableCell>
-                        <div className="flex gap-0.5">
-                          {rp.permission.PROHOME && (
-                            <Badge variant={"outline"}>Prohome</Badge>
-                          )}
-                          {rp.permission.CRM && (
-                            <Badge variant={"outline"}>CRM</Badge>
-                          )}
-                        </div>
-                      </TableCell>
-                      <TableCell>
-                        <div className="flex w-full min-w-37.5 items-center justify-end gap-1">
-                          {showConfirmation === rp.id && (
-                            <Badge
-                              onClick={() => {
-                                handleDelete(rp.id);
-                              }}
-                              className={`animate-fade-in cursor-pointer hover:opacity-80 ${removeLoading ? "pointer-events-none opacity-60" : ""}`}
-                            >
-                              {removeLoading ? (
-                                <>
-                                  <Spinner /> O'chirilmoqda...
-                                </>
-                              ) : (
-                                <>
-                                  <Check /> Tasdiqlang
-                                </>
-                              )}
-                            </Badge>
-                          )}
-                          <Button
-                            onClick={() => {
-                              if (showConfirmation === rp.id) {
-                                setShowConfirmation(null);
-                              } else {
-                                setShowConfirmation(rp.id);
-                              }
-                            }}
-                            variant="ghost"
-                            size="icon-sm"
+                {rops.map((rp, index) => (
+                  <TableRow key={rp.id} className="group">
+                    <TableCell>{index + 1}</TableCell>
+                    <TableCell className="font-medium">{rp.fullName}</TableCell>
+                    <TableCell>{rp.email}</TableCell>
+                    <TableCell>
+                      <div className="flex gap-0.5">
+                        {rp.permission?.PROHOME && (
+                          <Badge variant="outline">Prohome</Badge>
+                        )}
+                        {rp.permission?.CRM && (
+                          <Badge variant="outline">CRM</Badge>
+                        )}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex w-full min-w-37.5 items-center justify-end gap-1">
+                        {showConfirmation === rp.id && (
+                          <Badge
+                            onClick={() => handleDelete(rp.id)}
+                            className={`animate-fade-in cursor-pointer hover:opacity-80 ${removeLoading ? "pointer-events-none opacity-60" : ""}`}
                           >
-                            {showConfirmation === rp.id ? <X /> : <Trash />}
-                          </Button>
-                        </div>
-                      </TableCell>
-                    </TableRow>
-                  );
-                })}
+                            {removeLoading ? (
+                              <>
+                                <Spinner /> O&apos;chirilmoqda...
+                              </>
+                            ) : (
+                              <>
+                                <Check /> Tasdiqlang
+                              </>
+                            )}
+                          </Badge>
+                        )}
+                        <Button
+                          onClick={() => toggleConfirm(rp.id)}
+                          variant="ghost"
+                          size="icon-sm"
+                        >
+                          {showConfirmation === rp.id ? <X /> : <Trash />}
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
               </TableBody>
             </Table>
           ) : (
@@ -322,16 +167,14 @@ export default function Rop() {
         </div>
       </section>
 
-      {/* Add modal  */}
       <Drawer open={addModal} onOpenChange={handleAddModal}>
         <DrawerContent>
           <DrawerHeader>
-            <DrawerTitle>Yangi rop qo'shish.</DrawerTitle>
+            <DrawerTitle>Yangi rop qo&apos;shish.</DrawerTitle>
             <DrawerDescription>
-              Rop qo'shish uchun barcha ma'lumotlarni to'ldiring
+              Rop qo&apos;shish uchun barcha ma&apos;lumotlarni to&apos;ldiring
             </DrawerDescription>
           </DrawerHeader>
-
           <form
             onSubmit={handleAddSubmit}
             className="mx-auto flex w-full max-w-sm flex-col gap-5 p-5"
@@ -365,9 +208,8 @@ export default function Rop() {
                 placeholder="********"
               />
             </div>
-
             <div className="grid w-full items-center gap-3">
-              <Label htmlFor="password">Ruxsatlar*</Label>
+              <Label>Ruxsatlar*</Label>
               <div className="flex gap-5">
                 <FieldLabel>
                   <Field orientation="horizontal">
@@ -395,15 +237,14 @@ export default function Rop() {
                 </FieldLabel>
               </div>
             </div>
-
             <Button disabled={addLoading} type="submit">
               {addLoading ? (
                 <>
-                  <Spinner /> Qo'shilmoqda...
+                  <Spinner /> Qo&apos;shilmoqda...
                 </>
               ) : (
                 <>
-                  <Plus /> Qo'shish
+                  <Plus /> Qo&apos;shish
                 </>
               )}
             </Button>
