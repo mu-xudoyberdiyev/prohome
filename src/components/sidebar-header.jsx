@@ -7,7 +7,7 @@ import { SidebarTrigger, useSidebar } from "./ui/sidebar";
 const fullScreens = ["/crm"];
 
 export default function SidebarHeader() {
-  const { open, toggleSidebar, setOpen } = useSidebar();
+  const { open, setOpen } = useSidebar();
   const { pathname } = useLocation();
   const navigate = useNavigate();
 
@@ -18,7 +18,7 @@ export default function SidebarHeader() {
 
   useEffect(() => {
     if (fullScreens.includes(pathname)) {
-      toggleSidebar();
+      setOpen(false);
     }
   }, [pathname]);
 
@@ -35,12 +35,15 @@ export default function SidebarHeader() {
       ) : (
         <SidebarTrigger className="-ml-1" />
       )}
-      <Link
-        className={buttonVariants({ size: "icon-sm", variant: "ghost" })}
-        to={"/settings"}
-      >
-        <SettingsIcon />
-      </Link>
+
+      {fullScreens.includes(pathname) === false && (
+        <Link
+          className={buttonVariants({ size: "icon-sm", variant: "ghost" })}
+          to={"/settings"}
+        >
+          <SettingsIcon />
+        </Link>
+      )}
     </header>
   );
 }

@@ -190,7 +190,7 @@ export default function HomeDetails() {
                       <PopoverContent align="start">
                         <NoiseBackground
                           className={"rounded p-2"}
-                          gradientColors={["bg-accent"]}
+                          gradientColors={[]}
                           animating={false}
                           noiseIntensity={0.3}
                         >
@@ -287,7 +287,7 @@ export default function HomeDetails() {
             <div className="mb-5 px-2">
               <NoiseBackground
                 className={"rounded p-2"}
-                gradientColors={["bg-accent"]}
+                gradientColors={[]}
                 animating={false}
                 noiseIntensity={0.3}
               >
