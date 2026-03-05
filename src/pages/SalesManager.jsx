@@ -1,3 +1,4 @@
+import { useStableLoadingBar } from "@/shared/hooks/use-loading-bar";
 import { useUserCrud } from "@/shared/hooks/use-user-crud";
 import { getFormData } from "@/shared/lib/utils";
 import { USER_FORM_ERRORS, validateUserForm } from "@/shared/lib/validators";
@@ -16,7 +17,6 @@ import { Field, FieldContent, FieldLabel, FieldTitle } from "@/shared/ui/field";
 import { Input } from "@/shared/ui/input";
 import { Label } from "@/shared/ui/label";
 import { Spinner } from "@/shared/ui/spinner";
-import { useStableLoadingBar } from "@/shared/hooks/use-loading-bar";
 import EmptyData from "@/widgets/EmptyData";
 import GeneralError from "@/widgets/error/GeneralError";
 import LogoLoader from "@/widgets/loading/LogoLoader";
@@ -46,7 +46,10 @@ export default function SalesManager() {
     remove,
   } = useUserCrud("sales-manager");
 
-  const { start, complete } = useStableLoadingBar({ color: "#5ea500", height: 3 });
+  const { start, complete } = useStableLoadingBar({
+    color: "#5ea500",
+    height: 3,
+  });
 
   useEffect(() => {
     if (getLoading) start();
@@ -175,12 +178,12 @@ export default function SalesManager() {
         <DrawerContent className="inset-0 h-screen max-h-screen rounded-none data-[vaul-drawer-direction=bottom]:mt-0 data-[vaul-drawer-direction=bottom]:rounded-none">
           <DrawerHeader className="relative flex flex-col items-center gap-2 text-center">
             <DrawerTitle>Yangi sotuv menejeri qo&apos;shish.</DrawerTitle>
-            <DrawerDescription className="text-sm text-muted-foreground">
+            <DrawerDescription className="text-muted-foreground text-sm">
               Sotuv menejeri qo&apos;shish uchun barcha ma&apos;lumotlarni
               to&apos;ldiring
             </DrawerDescription>
             <DrawerClose
-              className="absolute right-4 top-4 rounded-full border px-2 py-1 text-sm"
+              className="absolute top-4 right-4 rounded-full border px-2 py-1 text-sm"
               aria-label="Yopish"
             >
               ✕
