@@ -1,22 +1,19 @@
-name: Sync test with main
+name: Protect main branch
 
 on:
-  push:
+  pull_request:
     branches:
       - main
 
 jobs:
-  sync:
+  check-source:
+    if: false
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: Sync test branch
+      - name: Check source branch
         run: |
-          git checkout test
-          git merge origin/main
-          git push origin test
+          if [[ "${{ github.head_ref }}" != "test" ]]; then
+            echo "Only test branch can merge into main."
+            exit 1
+          fi
