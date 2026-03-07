@@ -1,3 +1,3 @@
 export default function Home() {
-  return <section className="animate-fade-in h-full p-5">CodeNur</section>;
+  return <section className="animate-fade-in h-full p-5">codenur.uz - deb qidiring!</section>;
 }
