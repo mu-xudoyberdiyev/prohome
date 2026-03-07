@@ -1,0 +1,22 @@
+name: Sync test with main
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Sync test branch
+        run: |
+          git checkout test
+          git merge origin/main
+          git push origin test
